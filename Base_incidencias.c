@@ -10,7 +10,7 @@ int main()
     typedef struct {
         
         
-        char* id_viaje;
+        int id_viaje[6];
         
         int id_usuario; //el usuario CULPABLE
         

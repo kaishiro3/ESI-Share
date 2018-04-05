@@ -4,7 +4,7 @@
 
 int main()
 {
-    int l_incidencias =1 ; // la cantidad de filas de la matriz, modificable. Es uno por ahora
+    int l_Incidencias =1 ; // la cantidad de filas de la matriz, modificable. Es uno por ahora
     
     
     typedef struct {
@@ -23,9 +23,9 @@ int main()
         
       
         
-    }usuarios ; //Esto es una fila de la matriz 
+    }incidencias ; //Esto es una fila de la matriz 
     
-    usuarios* m_usuarios = malloc(sizeof(usuarios)*l_usuarios);
+    incidencias* m_incidencias = malloc(sizeof(incidencias)*l_incidencias);
 
 
     return 0;

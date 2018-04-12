@@ -2,48 +2,34 @@
 #include<math.h>
 #include<string.h>
 #include<stdlib.h>
-#include<vehiculos.h>
 
 typedef struct {
-        
+
         char matricula[7];
         int id_Usuario;
         int plazas;
         char definicion[50];
-        
+
  }vehiculos ;
 
-void borrar_vehiculo(vehiculos *,int *,char *);
+void borrar_vehiculo(vehiculos **,int *,char *);
 void desplazar_vehiculos(vehiculos *,int,int,int);
 void add_vehiculo(vehiculos *,int,int);
 void modificar_vehiculo(vehiculos *,int,int,vehiculos);
-void cargar_fich_vehiculos(vehiculos *,int);
+void cargar_fich_vehiculos(vehiculos **,int *);
 void guardar_fich_vehiculos(vehiculos *,int);
 void mostrar_lista(vehiculos *,int);
 int mostrar_vehiculos_de_usuario(vehiculos *,int,int);
 
 
 void main(){
+    vehiculos *x;
 	FILE *fich;
 	int n,i,id,oper;
-	vehiculos *x;
 	n=0;
-	if ((fich = fopen("Vehiculos.txt", "r")) == NULL) printf("No se puede abrir el fichero.\n");
-	else
-	{
-		n=0;
-		do
-		{
-			i=fgetc(fich);
-			if(i=='\n')
-			n++;
-		}while(i!=EOF);
-		fclose(fich);
-		if((x=(vehiculos *)malloc(n*sizeof(vehiculos)))==NULL) puts("No hay espacio suficiente");
-		else
-		{
-			cargar_fich_vehiculos(x,n);
-			do
+    cargar_fich_vehiculos(&x,&n);
+    mostrar_lista(x,n);
+			/*do
 			{
 				printf("ID de Usuario: ");
 				scanf("%i",&id);
@@ -60,7 +46,7 @@ void main(){
 						add_vehiculo(x,n,id);
 					}
 				}
-			}
+			}*/
 	/*do
 	{
 		printf("Numero de elementos: ");
@@ -89,45 +75,57 @@ else
 	mostrar_lista(x,n);
 	guardar_fich_vehiculos(x,n);
 }*/
-		
-		}
-	}
+
+		//}
+	//}
 }
 
-void cargar_fich_vehiculos(vehiculos *m_vehiculos,int lon)
+void cargar_fich_vehiculos(vehiculos **m_vehiculos,int *lon)
 {
 	FILE *fich;
 	int i,j;
 	char aux;
-if ((fich = fopen("Vehiculos.txt", "r")) == NULL) {
- printf("No se puede abrir el fichero.\n");
-}
-else
-{
-	for(i=0;i<lon;i++)
+	if ((fich = fopen("Vehiculos.txt", "r")) == NULL) printf("No se puede abrir el fichero.\n");
+	else
 	{
-		fgets(m_vehiculos[i].matricula,8,fich);
-		m_vehiculos[i].matricula[7]='\0';
-		fseek(fich,1,SEEK_CUR);
-		m_vehiculos[i].id_Usuario=0;
-		for(j=1000;j>0;j=j/10)
-		{
-			m_vehiculos[i].id_Usuario=m_vehiculos[i].id_Usuario+((fgetc(fich)-48)*j);
-		}
-		fseek(fich,1,SEEK_CUR);
-		m_vehiculos[i].plazas=fgetc(fich)-48;
-		fseek(fich,1,SEEK_CUR);
-		j=0;
+		*lon=0;
+		printf("%i ",*lon);
 		do
 		{
-			aux=fgetc(fich);
-			if(aux!='\n') m_vehiculos[i].definicion[j]=aux;
-			else m_vehiculos[i].definicion[j]='\0';
-			j++;
-		}while(aux!='\0' && aux!='\n' && j<=50);
-	}
+			i=fgetc(fich);
+			if(i=='\n' || i==EOF){*lon=*lon+1; printf("Hola ");}
+		}while(i!=EOF);
+		printf("%i",*lon);
+		rewind(fich);
+		if(((*m_vehiculos)=(vehiculos *)malloc((*lon)*sizeof(vehiculos)))==NULL) puts("No hay espacio suficiente");
+		else
+        {
+            for(i=0;i<*lon;i++)
+            {
+                fgets((*m_vehiculos)[i].matricula,8,fich);
+                (*m_vehiculos)[i].matricula[7]='\0';
+                fseek(fich,1,SEEK_CUR);
+                (*m_vehiculos)[i].id_Usuario=0;
+                for(j=1000;j>0;j=j/10)
+                {
+                    (*m_vehiculos)[i].id_Usuario=(*m_vehiculos)[i].id_Usuario+((fgetc(fich)-48)*j);
+                }
+                fseek(fich,1,SEEK_CUR);
+                (*m_vehiculos)[i].plazas=fgetc(fich)-48;
+                fseek(fich,1,SEEK_CUR);
+                j=0;
+                do
+                {
+                    aux=fgetc(fich);
+                    if(aux!='\n') (*m_vehiculos)[i].definicion[j]=aux;
+                    else (*m_vehiculos)[i].definicion[j]='\0';
+                    j++;
+                }while(aux!='\0' && aux!='\n' && j<=50);
+            }
+        }
+
 	fclose (fich);
-}
+    }
 }
 
 void guardar_fich_vehiculos(vehiculos *m_vehiculos,int lon)
@@ -148,7 +146,7 @@ else
 		}
 		fputc('-',fich);
 		aux=m_vehiculos[i].id_Usuario;
-		
+
 		for(j=1000;j>0;j=j/10)
 		{
 			printf("%i ",aux);
@@ -168,7 +166,7 @@ else
 	}
 	fclose (fich);
 }
-	
+
 }
 
 void mostrar_lista(vehiculos *m_vehiculos,int lon)
@@ -181,9 +179,9 @@ void mostrar_lista(vehiculos *m_vehiculos,int lon)
 		printf("ID de Usuario: %i\n",m_vehiculos[i].id_Usuario);
 		printf("Plazas: %i\n",m_vehiculos[i].plazas);
 		printf("%s\n",m_vehiculos[i].definicion);
-		
+
 	}
-	
+
 }
 
 int mostrar_vehiculos_de_usuario(vehiculos *m_vehiculos,int lon,int id)
@@ -205,7 +203,7 @@ int mostrar_vehiculos_de_usuario(vehiculos *m_vehiculos,int lon,int id)
 			printf("Introduzca operacion: ");
 			scanf("%i",&cursor);
 		}while(cursor<1 || cursor>j+2);
-	
+
 	if(cursor==j+1) cursor=-2;
 	else
 	{
@@ -220,16 +218,16 @@ int mostrar_vehiculos_de_usuario(vehiculos *m_vehiculos,int lon,int id)
 		printf("ID de Usuario: %i\n",m_vehiculos[i].id_Usuario);
 		printf("Plazas: %i\n",m_vehiculos[i].plazas);
 		printf("%s\n",m_vehiculos[i].definicion);
-		
+
 	}*/
-	
+
 }
 
 void add_vehiculo(vehiculos *m_vehiculos,int lon,int id)
 {
 	vehiculos x;
 	int i,aux;
-	
+
 	printf("\nMatricula: ");
 	fflush(stdin);
 	fgets(x.matricula,8,stdin);
@@ -256,7 +254,7 @@ void add_vehiculo(vehiculos *m_vehiculos,int lon,int id)
 		aux--;
 	}
 	modificar_vehiculo(m_vehiculos,lon,i,x);
-	
+
 }
 
 void desplazar_vehiculos(vehiculos *m_vehiculos,int lon,int desplazamiento,int cursor)
@@ -268,25 +266,26 @@ for(i=cursor;i<lon;i++)
 }
 }
 
-void borrar_vehiculo(vehiculos *m_vehiculos,int *lon,char *matricula)
+void borrar_vehiculo(vehiculos **m_vehiculos,int *lon,char *matricula)
 {
     int i,ind_vehiculo;
-    
+
     ind_vehiculo=-1;
     for(i=0;i<*lon;i++)
     {
-     if(ind_vehiculo==-1) //Se cumple la condicion si el indice de la matricula no ha sido asignado   
+     if(ind_vehiculo==-1) //Se cumple la condicion si el indice de la matricula no ha sido asignado
         {
-            if(strcmp(m_vehiculos[i].matricula,matricula)==0)
+            if(strcmp(m_vehiculos[0][i].matricula,matricula)==0)
             ind_vehiculo=i;
-            m_vehiculos[i]=m_vehiculos[i+1]; //reemplaza una estructura con la siguiente en el array
+            *m_vehiculos[i]=*m_vehiculos[i+1]; //reemplaza una estructura con la siguiente en el array
         }
         else
         {
-            m_vehiculos[i]=m_vehiculos[i+1]; //reemplaza una estructura con la siguiente en el array
+            *m_vehiculos[i]=*m_vehiculos[i+1]; //reemplaza una estructura con la siguiente en el array
         }
     }
     *lon=*lon-1;
+    if((*m_vehiculos=(vehiculos *)realloc(*m_vehiculos,*lon*sizeof(*m_vehiculos)))==NULL) puts("Error al borrar vehiculos");
 }
 
 void modificar_vehiculo(vehiculos *m_vehiculos,int lon,int indice,vehiculos modif)

@@ -20,8 +20,8 @@ void guardar_fich_vehiculos(vehiculos *,int);
 void mostrar_lista(vehiculos *,int);
 int mostrar_vehiculos_de_usuario(vehiculos *,int,int);
 
-
-void main(){
+//Main de prueba
+/*void main(){
     vehiculos *x;
 	FILE *fich;
 	int n,i,id,oper;
@@ -41,7 +41,7 @@ void main(){
 			}
 		}
 	guardar_fich_vehiculos(x,n);
-}
+}*/
 
 void cargar_fich_vehiculos(vehiculos **m_vehiculos,int *lon)
 {

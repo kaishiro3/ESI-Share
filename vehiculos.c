@@ -13,8 +13,7 @@ typedef struct {
  }vehiculos ;
 
 void borrar_vehiculo(vehiculos **,int *,char *);
-void desplazar_vehiculos(vehiculos *,int,int,int);
-void add_vehiculo(vehiculos *,int,int);
+void agregar_vehiculo(vehiculos **,int *,int);
 void modificar_vehiculo(vehiculos *,int,int,vehiculos);
 void cargar_fich_vehiculos(vehiculos **,int *);
 void guardar_fich_vehiculos(vehiculos *,int);
@@ -28,56 +27,20 @@ void main(){
 	int n,i,id,oper;
 	n=0;
     cargar_fich_vehiculos(&x,&n);
-    mostrar_lista(x,n);
-			/*do
+		do
+		{
+			printf("ID de Usuario: ");
+			scanf("%i",&id);
+		}while(id<1);
+		oper=mostrar_vehiculos_de_usuario(x,n,id);
+		if(oper!=-1)
+		{
+			if(oper=-2)
 			{
-				printf("ID de Usuario: ");
-				scanf("%i",&id);
-			}while(id<1);
-			oper=mostrar_vehiculos_de_usuario(x,n,id);
-			if(oper!=-1)
-			{
-				if(oper=-2)
-				{
-					n++;
-					if((x=(vehiculos *)realloc(x,n*sizeof(vehiculos)))==NULL) puts("No hay espacio suficiente");
-					else
-					{
-						add_vehiculo(x,n,id);
-					}
-				}
-			}*/
-	/*do
-	{
-		printf("Numero de elementos: ");
-		scanf("%i",&n);
-	}while(n<1);
-	if((x=(vehiculos *)malloc(n*sizeof(vehiculos)))==NULL)
-    puts("No hay espacio suficiente");
-else
-{
-	for(i=0;i<n;i++)
-	{
-		printf("[%i]:\n Matricula: ",i);
-		fflush(stdin);
-		fgets(x[i].matricula,8,stdin);
-		fflush(stdin);
-		printf("ID de Usuario: ");
-		scanf("%i",&x[i].id_Usuario);
-		printf("Plazas: ");
-		scanf("%i",&x[i].plazas);
-		fflush(stdin);
-		printf("Definicion: ");
-		fflush(stdin);
-		fgets(x[i].definicion,51,stdin);
-		fflush(stdin);
-	}
-	mostrar_lista(x,n);
+				agregar_vehiculo(&x,&n,id);
+			}
+		}
 	guardar_fich_vehiculos(x,n);
-}*/
-
-		//}
-	//}
 }
 
 void cargar_fich_vehiculos(vehiculos **m_vehiculos,int *lon)
@@ -89,13 +52,11 @@ void cargar_fich_vehiculos(vehiculos **m_vehiculos,int *lon)
 	else
 	{
 		*lon=0;
-		printf("%i ",*lon);
 		do
 		{
 			i=fgetc(fich);
-			if(i=='\n' || i==EOF){*lon=*lon+1; printf("Hola ");}
+			if(i=='\n' || i==EOF) *lon=*lon+1;
 		}while(i!=EOF);
-		printf("%i",*lon);
 		rewind(fich);
 		if(((*m_vehiculos)=(vehiculos *)malloc((*lon)*sizeof(vehiculos)))==NULL) puts("No hay espacio suficiente");
 		else
@@ -117,13 +78,12 @@ void cargar_fich_vehiculos(vehiculos **m_vehiculos,int *lon)
                 do
                 {
                     aux=fgetc(fich);
-                    if(aux!='\n') (*m_vehiculos)[i].definicion[j]=aux;
+                    if(aux!='\n' && aux!=EOF) (*m_vehiculos)[i].definicion[j]=aux;
                     else (*m_vehiculos)[i].definicion[j]='\0';
                     j++;
-                }while(aux!='\0' && aux!='\n' && j<=50);
+                }while(aux!='\0' && aux!='\n' && aux!=EOF && j<=50);
             }
         }
-
 	fclose (fich);
     }
 }
@@ -133,7 +93,7 @@ void guardar_fich_vehiculos(vehiculos *m_vehiculos,int lon)
 	FILE *fich;
 	int i,j,aux;
 if ((fich = fopen("Vehiculos.txt", "w")) == NULL) {
- printf("No se puede abrir el fichero.\n");
+ printf("No se ha podido guardar el fichero.\n");
 }
 else
 {
@@ -149,7 +109,6 @@ else
 
 		for(j=1000;j>0;j=j/10)
 		{
-			printf("%i ",aux);
 			fputc((aux/j)+48,fich);
 			aux=aux-((aux/j)*j);
 		}
@@ -162,11 +121,10 @@ else
 		fputc(m_vehiculos[i].definicion[j],fich);
 		j++;
 		}
-		fputc('\n',fich);
+		if(i!=lon-1) fputc('\n',fich);
 	}
 	fclose (fich);
 }
-
 }
 
 void mostrar_lista(vehiculos *m_vehiculos,int lon)
@@ -211,59 +169,46 @@ int mostrar_vehiculos_de_usuario(vehiculos *m_vehiculos,int lon,int id)
 		else cursor=i-j+cursor;
 	}
 	return cursor;
-	/*for(i=0;i<lon;i++)
-	{
-		printf("elemento %i:\n",i);
-		printf("Matricula: %s\n",m_vehiculos[i].matricula);
-		printf("ID de Usuario: %i\n",m_vehiculos[i].id_Usuario);
-		printf("Plazas: %i\n",m_vehiculos[i].plazas);
-		printf("%s\n",m_vehiculos[i].definicion);
-
-	}*/
-
 }
 
-void add_vehiculo(vehiculos *m_vehiculos,int lon,int id)
+void agregar_vehiculo(vehiculos **m_vehiculos,int *lon,int id)
 {
 	vehiculos x;
 	int i,aux;
 
-	printf("\nMatricula: ");
-	fflush(stdin);
-	fgets(x.matricula,8,stdin);
-	fflush(stdin);
-	x.id_Usuario=id;
-	do
+	*lon=*lon+1;
+	if(((*m_vehiculos)=(vehiculos *)realloc((*m_vehiculos),(*lon)*sizeof(vehiculos)))==NULL) puts("No hay espacio suficiente");
+	else
 	{
-	printf("Numero de plazas: ");
-	scanf("%i",&aux);
-	}while(aux<2 || aux>8);
-	x.plazas=aux;
-	fflush(stdin);
-	printf("Definicion: ");
-	fflush(stdin);
-	fgets(x.definicion,51,stdin);
-	fflush(stdin);
-	i=0;
-	while(i<lon-1 && m_vehiculos[i].id_Usuario!=id) i++;
-	while(i<lon-1 && m_vehiculos[i].id_Usuario==id) i++;
-	aux=lon-1;
-	while(aux>i)
-	{
-		m_vehiculos[aux]=m_vehiculos[aux-1];
-		aux--;
+		printf("\nMatricula: ");
+		fflush(stdin);
+		fgets(x.matricula,8,stdin);
+		fflush(stdin);
+		x.id_Usuario=id;
+		do
+		{
+			printf("Numero de plazas: ");
+			scanf("%i",&aux);
+		}while(aux<2 || aux>8);
+		x.plazas=aux;
+		fflush(stdin);
+		printf("Definicion: ");
+		fflush(stdin);
+		fgets(x.definicion,51,stdin);
+		fflush(stdin);
+		i=0;
+		while(i<*lon-1 && (*m_vehiculos)[i].id_Usuario!=id) i++;
+		while(i<*lon-1 && (*m_vehiculos)[i].id_Usuario==id) i++;
+		aux=*lon-1;
+		while(aux>i)
+		{
+			(*m_vehiculos)[aux]=(*m_vehiculos)[aux-1];
+			aux--;
+		}
+		modificar_vehiculo((*m_vehiculos),*lon,i,x);
 	}
-	modificar_vehiculo(m_vehiculos,lon,i,x);
 
-}
 
-void desplazar_vehiculos(vehiculos *m_vehiculos,int lon,int desplazamiento,int cursor)
-{
-int i;
-for(i=cursor;i<lon;i++)
-{
-    m_vehiculos[i]=m_vehiculos[i+desplazamiento];
-}
 }
 
 void borrar_vehiculo(vehiculos **m_vehiculos,int *lon,char *matricula)

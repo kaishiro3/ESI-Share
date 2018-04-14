@@ -220,17 +220,17 @@ void borrar_vehiculo(vehiculos **m_vehiculos,int *lon,char *matricula)
     {
      if(ind_vehiculo==-1) //Se cumple la condicion si el indice de la matricula no ha sido asignado
         {
-            if(strcmp(m_vehiculos[0][i].matricula,matricula)==0)
+            if(strcmp((*m_vehiculos)[i].matricula,matricula)==0)
             ind_vehiculo=i;
-            *m_vehiculos[i]=*m_vehiculos[i+1]; //reemplaza una estructura con la siguiente en el array
+            (*m_vehiculos)[i]=(*m_vehiculos)[i+1]; //reemplaza una estructura con la siguiente en el array
         }
         else
         {
-            *m_vehiculos[i]=*m_vehiculos[i+1]; //reemplaza una estructura con la siguiente en el array
+            (*m_vehiculos)[i]=(*m_vehiculos)[i+1]; //reemplaza una estructura con la siguiente en el array
         }
     }
     *lon=*lon-1;
-    if((*m_vehiculos=(vehiculos *)realloc(*m_vehiculos,*lon*sizeof(*m_vehiculos)))==NULL) puts("Error al borrar vehiculos");
+    if(((*m_vehiculos)=(vehiculos *)realloc((*m_vehiculos),*lon*sizeof(m_vehiculos)))==NULL) puts("Error al borrar vehiculos");
 }
 
 void modificar_vehiculo(vehiculos *m_vehiculos,int lon,int indice,vehiculos modif)

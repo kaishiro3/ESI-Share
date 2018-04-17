@@ -1,20 +1,36 @@
 #include <stdio.h>
+#include<math.h>
+#include<string.h>
+#include<stdlib.h>
+
+typedef struct {
+        
+    int id_Usuario;
+    char nombre[20]; 
+    char poblacion[20];
+    int perfil; //si es admin o usuario normal Usuario=0
+    int plazas;
+    char user[5]; 
+    char password[8];
+    int estado; //activo=1 o bloqueado=0
+    
+}usuarios;
 
 int resp;
 
 void login();                   //Procedimiento que Mostrara pantalla de login y comprobara que existe.
 int check_user(char *, char *); //Funcion que comprobara si el usuario existe y devolvera entero.
-int mostrar();                  //Funcion que mostrara el menu de usuario, y devuelve entero con la elección.
+int mostrar();                  //Funcion que mostrara el menu de usuario, y devuelve entero con la elecciÃ³n.
+void modificar_usuario(usuarios *,int,int,usuarios);
 
 
-
-void login(){                   //Funcion que comprueba en usuarios.txt usuario y contraseña
+void login(){                   //Funcion que comprueba en usuarios.txt usuario y contraseÃ±a
 char user[15];
 char password[15];
 do{
     puts("Introduce usuario");
     scanf("%s",&user);
-    puts("Introduce contraseña");
+    puts("Introduce contraseÃ±a");
     scanf("%s",&password);
 }while(check_user(user,password)!=0); //Corregir numero que devuelve check_user
 
@@ -31,4 +47,9 @@ int mostrar_menu_admin(){
     } while (resp<=0 && resp>=5);
 
     return resp;
+}
+
+void modificar_usuario(usuarios *m_usuarios,int lon,int indice,usuarios modif)
+{
+    m_usuarios[indice]=modif;
 }

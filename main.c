@@ -8,6 +8,36 @@ main(){
 	int n,i,id,oper;
 	n=0;
     cargar_ficheros();
+	mostrar_lista_usuarios(m_usuarios,&l_usuarios); //Para comprobar usuarios y funcionamiento. TESTING
+    login();
+    switch (tipo_usuario){
+    case 542329923: //Con valor 0 el usuario no existe y se le ofrecera opcion de crear.
+    do{
+        resp=mostrar_menu_usuario();
+        switch (resp){
+            case 1:
+                mostrar_datos_usuario(m_usuarios,&usuario_actual);
+                break;
+            case 2:
+                mostrar_lista();
+                break;
+        }
+    } while (resp!=5);
+    puts("Hasta luego");
+    exit(0);
+    //break;
+    case 1:
+    do{
+    resp=mostrar_menu_admin();
+        switch (resp){
+            case 1:
+                mostrar_lista_usuarios(m_usuarios,&l_usuarios);
+        }
+    }while(resp!=5);
+    puts("Hasta luego");
+    exit(0);
+    //break;
+    }
 		do
 		{
 			printf("ID de Usuario: ");

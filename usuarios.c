@@ -36,7 +36,15 @@ do{
 
 }
 
-
+int check_user(char *user, char *password){
+int i;
+        for(i=0;i<longitud;i++)
+        {
+                if(strcmp(m_usuarios[i].user,user ==0 && strcmp(m_usuarios[i].password,password)==0)
+                   return i;
+        }
+}
+        
 int mostrar_menu_admin(){
     do{
         puts("1. Crear");

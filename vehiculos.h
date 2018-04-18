@@ -40,4 +40,4 @@ void modificar_vehiculo(vehiculos *m_vehiculos,int lon,int indice,vehiculos modi
 //Busca vehiculo por matricula devuelve su posicion en el vector y -1 si no se encontro
 int buscar_vehiculo(vehiculos *m_vehiculos,int lon,char *matricula);
 
-void menu_admin_vehiculos();
+void menu_admin_vehiculos(int id_Usuario);

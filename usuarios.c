@@ -2,10 +2,9 @@
 
 int resp;
 
-int mostrar_menu_usuario();     //Funcion que mostrara el menu de usuario, y devuelve entero con la elección.
-int mostrar_menu_admin();       //Idem.
+
 void modificar_usuario(usuarios *,int,int,usuarios);
-void mostrar_lista_usuarios(usuarios *,int *);
+
 
 /*int main(){
 
@@ -75,12 +74,12 @@ return -1;
 
 int mostrar_menu_usuario(){
     do{
-        puts("1.Perfil");
+        puts("1. Perfil");
         puts("2. Vehiculos");
         puts("3. Viajes");
         puts("4. Incidencias");
         scanf("%i",&resp);
-    } while (resp<=0 || resp>=5);
+    } while (resp<=0 || resp>=6);
 
     return resp;
 }
@@ -91,7 +90,7 @@ int mostrar_menu_admin(){
         puts("3. Viajes");
         puts("4. Incidencias");
         scanf("%i",&resp);
-    } while (resp<=0 || resp>=5);
+    } while (resp<=0 || resp>=6);
 
     return resp;
 }
@@ -108,3 +107,8 @@ for(i=0;i<*lon;i++){
     printf("Id: %d \n Nombre: %s \n Poblacion: %s \n Perfil: %d \n Usuario: %s \n Contraseña: %s \n Estado: %d",m_usuarios[i].id_Usuario,m_usuarios[i].nombre,m_usuarios[i].poblacion,m_usuarios[i].perfil,m_usuarios[i].user,m_usuarios[i].password,m_usuarios[i].estado);
 }
 }
+
+void mostrar_datos_usuario(usuarios *m_usuarios,int *indice){
+printf("Id: %d \n Nombre: %s \n Poblacion: %s \n Perfil: %d \n Usuario: %s \n Contraseña: %s \n Estado: %d",m_usuarios[*indice].id_Usuario,m_usuarios[*indice].nombre,m_usuarios[*indice].poblacion,m_usuarios[*indice].perfil,m_usuarios[*indice].user,m_usuarios[*indice].password,m_usuarios[*indice].estado);
+}
+

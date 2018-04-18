@@ -10,6 +10,11 @@ void cargar_ficheros()
 	cargar_fich_usuarios(&m_usuarios,&l_usuarios);
 }
 
+void guardar_ficheros()
+{
+	guardar_fich_vehiculos(m_vehiculos,l_vehiculos);
+}
+
 void cargar_fich_vehiculos(vehiculos **m_vehiculos,int *lon)
 {
 	FILE *fich;
@@ -116,6 +121,7 @@ void cargar_fich_usuarios(usuarios **m_usuarios,int *lon)
         {
             for(i=0;i<*lon;i++)
             {
+            	(*m_usuarios)[i].id_Usuario=0;
 				for(j=1000;j>0;j=j/10) //Procedimiento para leer el id de Usuario
           		{
 					(*m_usuarios)[i].id_Usuario=(*m_usuarios)[i].id_Usuario+((fgetc(fich)-48)*j);
@@ -129,9 +135,8 @@ void cargar_fich_usuarios(usuarios **m_usuarios,int *lon)
             	    if(aux!='-') (*m_usuarios)[i].nombre[j]=aux;
             	    else (*m_usuarios)[i].nombre[j]='\0';
             	    j++;
-            	}while(aux!='-' && j<20); 
+            	}while(aux!='-' && j<21); 
             	j=0;
-            	fseek(fich,1,SEEK_CUR); //Omision del guion
             	
             	do //Procedimiento para leer la poblacion
             	{
@@ -139,9 +144,8 @@ void cargar_fich_usuarios(usuarios **m_usuarios,int *lon)
             	    if(aux!='-') (*m_usuarios)[i].poblacion[j]=aux;
             	    else (*m_usuarios)[i].poblacion[j]='\0';
             	    j++;
-            	}while(aux!='-' && j<20);
+            	}while(aux!='-' && j<21);
             	j=0;
-            	fseek(fich,1,SEEK_CUR); //Omision del guion
             	
             	do //Procedimiento para leer el perfil
             	{
@@ -149,11 +153,11 @@ void cargar_fich_usuarios(usuarios **m_usuarios,int *lon)
             	    if(aux!='-') aux2[j]=aux;
             	    else aux2[j]='\0';
             	    j++;
-            	}while(aux!='-' && j<15);
+            	}while(aux!='-' && j<16);
             	if(strcmp(aux2,"usuario")==0)
             	(*m_usuarios)[i].perfil=0;
+            	else (*m_usuarios)[i].perfil=1;
             	j=0;
-            	fseek(fich,1,SEEK_CUR); //Omision del guion
             	
             	do //Procedimiento para leer el user
             	{
@@ -161,9 +165,8 @@ void cargar_fich_usuarios(usuarios **m_usuarios,int *lon)
             	    if(aux!='-') (*m_usuarios)[i].user[j]=aux;
             	    else (*m_usuarios)[i].user[j]='\0';
             	    j++;
-            	}while(aux!='-' && j<5);
+            	}while(aux!='-' && j<6);
             	j=0;
-            	fseek(fich,1,SEEK_CUR); //Omision del guion
             	
             	do //Procedimiento para leer la contraseña
             	{
@@ -171,21 +174,22 @@ void cargar_fich_usuarios(usuarios **m_usuarios,int *lon)
             	    if(aux!='-') (*m_usuarios)[i].password[j]=aux;
             	    else (*m_usuarios)[i].password[j]='\0';
             	    j++;
-            	}while(aux!='-' && j<8);
+            	}while(aux!='-' && j<9);
             	j=0;
-            	fseek(fich,1,SEEK_CUR); //Omision del guion
             	
             	do //Procedimiento para leer el estado
             	{
             	    aux=fgetc(fich);
-            	    if(aux!='\n' && aux!=EOF) aux2[j]=aux;
+            	    if(aux!='\n' && aux!=EOF && aux!='\0') aux2[j]=aux;
             	    else aux2[j]='\0';
             	    j++;
-            	}while(j<15 && aux!='\0' && aux!='\n' && aux!=EOF);
-            	if(strcmp(aux2,"activo")==0)
-            	(*m_usuarios)[i].estado=1;
+            	}while(j<16 && aux!='\0' && aux!='\n' && aux!=EOF);
+            	printf("%i. %s",i,aux2);
+            	if(strcmp(aux2,"activo")==0) (*m_usuarios)[i].estado=1;
+            	else (*m_usuarios)[i].estado=0;
         	}
     	}
 	fclose (fich);
     }
 }
+

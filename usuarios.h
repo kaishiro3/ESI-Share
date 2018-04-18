@@ -5,9 +5,10 @@
 #include<stdlib.h>
 #endif // _USUARIOS_
 
-int tipo_usuario,usuario_actual;               //tipo de usuario 0=usuario, 1=admin.Usuario_actual=indice con datos del usuario.
+int tipo_usuario,usuario_actual;               //Muestra el tipo de usuario que es. 1=usuario, 2=admin.
 void login();                   //Procedimiento que Mostrara pantalla de login y comprobara tipo usuario.
 int check_user(char *, char *,int *); //Funcion que comprobara si el usuario existe.
 int mostrar_menu_usuario();     //Funcion que mostrara el menu de usuario, y devuelve entero con la elección.
 int mostrar_menu_admin();       //Idem.
-
+void mostrar_lista_usuarios(usuarios *,int *);
+void mostrar_datos_usuario(usuarios *,int *);

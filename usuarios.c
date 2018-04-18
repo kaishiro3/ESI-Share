@@ -65,8 +65,12 @@ int i;
         for(i=0;i<*lon;i++)
         {
                 if(strcmp(m_usuarios[i].user,usu)==0 && strcmp(m_usuarios[i].password,pass)==0){
-                tipo_usuario=m_usuarios[i].perfil;
-                return i;
+                    tipo_usuario=m_usuarios[i].perfil;
+                    if(m_usuarios[i].estado==0) {
+                            puts("El usuario esta bloqueado. Contacte con el administrador.");
+                            system("pause");
+                            exit(0);
+                    }else return i;
                 }
         }
 return -1;

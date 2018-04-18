@@ -43,6 +43,7 @@ int i;
                 if(strcmp(m_usuarios[i].user,user ==0 && strcmp(m_usuarios[i].password,password)==0)
                    return i;
         }
+return -1;
 }
         
 int mostrar_menu_admin(){

@@ -1,5 +1,12 @@
+#ifndef _VEHICULOS_
+#define _VEHICULOS_
+
 #include <stdio.h>
-#include <vehiculos.c>
+#include "ficheros.h"
+
+#endif
+
+
 
 /*Descripcion: Lee el fichero "Vehiculos.txt" y devuelve en m_vehiculos
 cada uno de los elementos y en lon la cantidad de elementos*/

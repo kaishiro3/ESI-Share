@@ -4,7 +4,7 @@
 #include"viajes.c"
 
 main(){
-    vehiculos *x;
+ /*   vehiculos *x;
 	FILE *fich;
 	int n,i,id,oper;
 	n=0;
@@ -23,4 +23,4 @@ main(){
 			}
 		}
 	guardar_fich_vehiculos(x,n);
-}
+}*/

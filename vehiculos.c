@@ -127,24 +127,44 @@ int buscar_vehiculo(vehiculos *m_vehiculos,int lon,char *matricula)
 	return -1;
 }
 
-int menu_admin_vehiculos()
+void menu_admin_vehiculos(int id_Usuario)
 {
-	int i,j,cursor;
-	for(i=0;i<l_vehiculos;i++)
-	{
-		printf("%i.- %s\n",j,m_vehiculos[i].definicion);
-	}
-	printf("\n%i.- A%cadir\n%i.- Salir\n\n",i+1,164,i+2);
+	int i,cursor;
+	
 	do
-		{
-			printf("Introduzca operacion: ");
-			scanf("%i",&cursor);
-		}while(cursor<1 || cursor>i+2);
-
-	if(cursor==i+1) cursor=-2;
-	else
 	{
-		if(cursor==i+2) cursor=-1;
-	}
-	return cursor;
+		system("cls");
+		printf("\n\t Lista de Vehiculos\n\n");
+		for(i=0;i<l_vehiculos;i++)
+		{
+			printf("%i.- %s de %s\n",i,m_vehiculos[i].definicion,m_usuarios[i].nombre);
+		}
+		printf("\n%i.- A%cadir\n%i.- Salir\n\n",i+1,164,i+2);
+		do
+			{
+				printf("Introduzca operacion: ");
+				scanf("%i",&cursor);
+			}while(cursor<1 || cursor>i+2);
+
+		if(cursor==i+1) agregar_vehiculo(&m_vehiculos,&l_vehiculos,id_Usuario);
+		else
+		{
+			if(cursor==i+2) cursor=-1;
+			else
+			{
+				i=cursor;
+				system("cls");
+				printf("\n\t %s de %s\n\n",m_vehiculos[i].definicion,m_usuarios[i].nombre);
+				do
+				{
+					printf("\n1.- Modificar\n2.- Lista de Viajes\n3.- Borrar\n4.- Volver\n",164);
+					printf("Introduzca operacion: ");
+					scanf("%i",&cursor);
+				}while(cursor<1 || cursor>4);
+			}
+		}
+		
+	}while(cursor!=-1);
+	
 }
+

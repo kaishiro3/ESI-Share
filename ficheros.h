@@ -9,12 +9,11 @@
 typedef struct {
         
     int id_Usuario;
-    char nombre[20]; 
-    char poblacion[20];
+    char nombre[21]; 
+    char poblacion[21];
     int perfil; //si es admin o usuario normal Usuario=0
-    int plazas;
-    char user[5]; 
-    char password[8];
+    char user[6]; 
+    char password[9];
     int estado; //activo=1 o bloqueado=0
     
 }usuarios;
@@ -68,6 +67,7 @@ int l_incidencias;
 
 //Funciones
 void cargar_ficheros();
+void guardar_ficheros();
 
 void cargar_fich_vehiculos(vehiculos **,int *);
 void guardar_fich_vehiculos(vehiculos *,int);

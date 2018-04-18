@@ -4,16 +4,10 @@
 #include<stdlib.h>
 #include"vehiculos.h"
 
-void borrar_vehiculo(vehiculos **,int *,char *);
-void agregar_vehiculo(vehiculos **,int *,int);
-void modificar_vehiculo(vehiculos *,int,int,vehiculos);
-void mostrar_lista(vehiculos *,int);
-int mostrar_vehiculos_de_usuario(vehiculos *,int,int);
-
-void mostrar_lista(vehiculos *m_vehiculos,int lon)
+void mostrar_lista()
 {
 	int i;
-	for(i=0;i<lon;i++)
+	for(i=0;i<l_vehiculos;i++)
 	{
 		printf("elemento %i:\n",i);
 		printf("Matricula: %s\n",m_vehiculos[i].matricula);
@@ -25,13 +19,13 @@ void mostrar_lista(vehiculos *m_vehiculos,int lon)
 
 }
 
-int mostrar_vehiculos_de_usuario(vehiculos *m_vehiculos,int lon,int id)
+int mostrar_vehiculos_de_usuario(int id)
 {
 	int i,j,cursor;
 	i=j=0;
 	puts("");
-	while(i<lon && m_vehiculos[i].id_Usuario!=id) i++;
-	while(i<lon && m_vehiculos[i].id_Usuario==id)
+	while(i<l_vehiculos && m_vehiculos[i].id_Usuario!=id) i++;
+	while(i<l_vehiculos && m_vehiculos[i].id_Usuario==id)
 	{
 		j++;
 		printf("%i.- %s\n",j,m_vehiculos[i].definicion);
@@ -120,4 +114,37 @@ void modificar_vehiculo(vehiculos *m_vehiculos,int lon,int indice,vehiculos modi
 {
     m_vehiculos[indice]=modif;
     guardar_fich_vehiculos(m_vehiculos,lon);
+}
+
+int buscar_vehiculo(vehiculos *m_vehiculos,int lon,char *matricula)
+{
+	int i;
+	for(i=0;i<lon;i++)
+	{
+		if(strcmp(m_vehiculos[i].matricula,matricula)==0)
+		return i;
+	}
+	return -1;
+}
+
+int menu_admin_vehiculos()
+{
+	int i,j,cursor;
+	for(i=0;i<l_vehiculos;i++)
+	{
+		printf("%i.- %s\n",j,m_vehiculos[i].definicion);
+	}
+	printf("\n%i.- A%cadir\n%i.- Salir\n\n",i+1,164,i+2);
+	do
+		{
+			printf("Introduzca operacion: ");
+			scanf("%i",&cursor);
+		}while(cursor<1 || cursor>i+2);
+
+	if(cursor==i+1) cursor=-2;
+	else
+	{
+		if(cursor==i+2) cursor=-1;
+	}
+	return cursor;
 }

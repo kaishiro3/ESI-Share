@@ -53,9 +53,22 @@ typedef struct {
     
 }incidencias;
 
+usuarios *m_usuarios;
+vehiculos *m_vehiculos;
+viajes *m_viajes;
+incidencias *m_incidencias;
+
+int l_usuarios;
+int l_vehiculos;
+int l_viajes;
+int l_incidencias;
+
+
 #endif
 
 //Funciones
+void cargar_ficheros();
+
 void cargar_fich_vehiculos(vehiculos **,int *);
 void guardar_fich_vehiculos(vehiculos *,int);
 

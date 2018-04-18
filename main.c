@@ -19,7 +19,7 @@ main(){
                 mostrar_datos_usuario(m_usuarios,&usuario_actual);
                 break;
             case 2:
-                mostrar_lista();
+                mostrar_vehiculos_de_usuario(m_usuarios[usuario_actual].id_Usuario);
                 break;
         }
     } while (resp!=5);

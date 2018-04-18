@@ -1,16 +1,13 @@
+#ifndef _USUARIOS_
 #include <stdio.h>
-#include <usuarios.c>
+#include<math.h>
+#include<string.h>
+#include<stdlib.h>
+#endif // _USUARIOS_
 
-void login();                   //Procedimiento que Mostrara pantalla de login y comprobara que existe.
-int check_user(char *, char *); //Funcion que comprobara si el usuario existe y devolvera entero.
-int mostrar();                  //Funcion que mostrara el menu de usuario, y devuelve entero con la elección.
+int tipo_usuario,usuario_actual;               //Muestra el tipo de usuario que es. 1=usuario, 2=admin.
+void login();                   //Procedimiento que Mostrara pantalla de login y comprobara tipo usuario.
+int check_user(char *, char *,int *); //Funcion que comprobara si el usuario existe.
+int mostrar_menu_usuario();     //Funcion que mostrara el menu de usuario, y devuelve entero con la elección.
+int mostrar_menu_admin();       //Idem.
 
-//Precondicion: m_usuarios y modif inicializados, en lon la longitud de m_usuarios y -1<indice<lon
-/*Descripcion: Reemplaza m_usuarios[indice] con modif*/
-void modificar_usuario(usuarios *,int,int,usuarios);
-
-int main(){
-
-return 0;
-
-}

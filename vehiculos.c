@@ -231,7 +231,7 @@ void borrar_vehiculo(vehiculos **m_vehiculos,int *lon,char *matricula)
         }
     }
     *lon=*lon-1;
-    if(((*m_vehiculos)=(vehiculos *)realloc((*m_vehiculos),*lon*sizeof(m_vehiculos)))==NULL) puts("Error al borrar vehiculos");
+    if(((*m_vehiculos)=(vehiculos *)realloc((*m_vehiculos),*lon*sizeof(vehiculos)))==NULL) puts("Error al borrar vehiculos");
 }
 
 void modificar_vehiculo(vehiculos *m_vehiculos,int lon,int indice,vehiculos modif)

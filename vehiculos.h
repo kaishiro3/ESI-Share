@@ -16,14 +16,13 @@ void cargar_fich_vehiculos(vehiculos **m_vehiculos,int *lon);
 //Descripcion: Sobrescribe "Vehiculos.txt" con los datos de m_vehiculos
 void guardar_fich_vehiculos(vehiculos *m_vehiculos,int lon);
 
-//Precondicion: m_vehiculos inicializado y en lon la longitud de vm_vehiculos
 //Descripcion: Imprime en pantalla cada uno de los datos de m_vehiculos
-void mostrar_lista(vehiculos *m_vehiculos,int lon);
+void mostrar_lista();
 
-//Precondicion: m_vehiculos y id inicializados y en lon la longitud del m_vehiculos
+//Precondicion: id inicializado
 /*Descripcion: Imprime en pantalla un menu con los vehiculos pertenecientes a id.
 Devuelve el indice del vehiculo elegido en m_vehiculos, -2 si desea agregar un vehiculo y -1 si desea salir */
-int mostrar_vehiculos_de_usuario(vehiculos *m_vehiculos,int lon,int id);
+int mostrar_vehiculos_de_usuario(int id);
 
 //Precondicion: m_vehiculos y id inicializados y en lon la longitud de m_vehiculos
 /*Descripcion: Imprime en pantalla un formulario para agregar un nuevo vehiculos a m_vehiculos a id.
@@ -37,3 +36,8 @@ void borrar_vehiculo(vehiculos **m_vehiculos,int *lon,char *matricula);
 //Precondicion: m_vehiculos y modif inicializados, en lon la longitud de m_vehiculos e -1<indice<longitud
 /*Descripcion: Reemplaza m_vehiculos[indice] con modif*/
 void modificar_vehiculo(vehiculos *m_vehiculos,int lon,int indice,vehiculos modif);
+
+//Busca vehiculo por matricula devuelve su posicion en el vector y -1 si no se encontro
+int buscar_vehiculo(vehiculos *m_vehiculos,int lon,char *matricula);
+
+int menu_admin_vehiculos();

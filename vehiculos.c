@@ -2,6 +2,7 @@
 #include<math.h>
 #include<string.h>
 #include<stdlib.h>
+#include"vehiculos.h"
 
 typedef struct {
 

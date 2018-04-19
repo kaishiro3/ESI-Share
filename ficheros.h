@@ -68,6 +68,7 @@ int l_incidencias;
 //Funciones
 void cargar_ficheros();
 void guardar_ficheros();
+void proc_leer_string_fich(char *,int ,FILE *);
 
 void cargar_fich_vehiculos(vehiculos **,int *);
 void guardar_fich_vehiculos(vehiculos *,int);

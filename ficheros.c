@@ -4,6 +4,18 @@
 #include<stdlib.h>
 #include"ficheros.h"
 
+void proc_leer_string_fich(char * cadena, int lon, FILE * fich){
+int j=0;
+char aux;
+do{
+
+            	    aux=fgetc(fich);
+            	    if(aux!='-') cadena[j]=aux;
+            	    else cadena[j]='\0';
+            	    j++;
+            	}while(aux!='-' && j<lon);
+}
+
 void cargar_ficheros()
 {
 	cargar_fich_vehiculos(&m_vehiculos,&l_vehiculos);
@@ -128,7 +140,11 @@ void cargar_fich_usuarios(usuarios **m_usuarios,int *lon)
         	    }
             	j=0;
             	fseek(fich,1,SEEK_CUR); //Omision del guion
-            	
+            	proc_leer_string_fich((*m_usuarios)[i].nombre,21,fich);
+                proc_leer_string_fich((*m_usuarios)[i].poblacion,21,fich);
+                proc_leer_string_fich((*m_usuarios)[i].user,6,fich);
+                proc_leer_string_fich((*m_usuarios)[i].password,9,fich);
+		/*    
             	//Procedimiento para leer el nombre
             	do{
             	    aux=fgetc(fich);
@@ -146,7 +162,7 @@ void cargar_fich_usuarios(usuarios **m_usuarios,int *lon)
             	    j++;
             	}while(aux!='-' && j<21);
             	j=0;
-            	
+            	*/
             	do //Procedimiento para leer el perfil
             	{
             	    aux=fgetc(fich);
@@ -158,7 +174,7 @@ void cargar_fich_usuarios(usuarios **m_usuarios,int *lon)
             	(*m_usuarios)[i].perfil=0;
             	else (*m_usuarios)[i].perfil=1;
             	j=0;
-            	
+            	/*
             	do //Procedimiento para leer el user
             	{
             	    aux=fgetc(fich);
@@ -176,7 +192,7 @@ void cargar_fich_usuarios(usuarios **m_usuarios,int *lon)
             	    j++;
             	}while(aux!='-' && j<9);
             	j=0;
-            	
+            	*/
             	do //Procedimiento para leer el estado
             	{
             	    aux=fgetc(fich);

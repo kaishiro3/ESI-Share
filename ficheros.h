@@ -74,3 +74,5 @@ void cargar_fich_vehiculos(vehiculos **,int *);
 void guardar_fich_vehiculos(vehiculos *,int);
 
 void cargar_fich_usuarios(usuarios **,int *);
+
+void cargar_fich_incidencias(incidencias **,int *);

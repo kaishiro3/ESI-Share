@@ -44,11 +44,11 @@ typedef struct {
 
     typedef struct {
         
-    int id_viaje[6];
-    int id_usuario; //el usuario CULPABLE
-    int id_registra; //el usuario que registra el incidente
-    char* definicion[100];
-    int estado; // Abierto, valido, cerrado
+    int id_viaje;
+    int id_us_registra; //el usuario CULPABLE
+    int id_us_incidencia; //el usuario que registra el incidente
+    char* desc_incidencia[101];
+    int est_incidencia; // Abierto, valido, cerrado
     
 }incidencias;
 

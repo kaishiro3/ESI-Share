@@ -142,8 +142,7 @@ void cargar_fich_usuarios(usuarios **m_usuarios,int *lon)
             	fseek(fich,1,SEEK_CUR); //Omision del guion
             	proc_leer_string_fich((*m_usuarios)[i].nombre,21,fich);
                 proc_leer_string_fich((*m_usuarios)[i].poblacion,21,fich);
-                proc_leer_string_fich((*m_usuarios)[i].user,6,fich);
-                proc_leer_string_fich((*m_usuarios)[i].password,9,fich);
+                
 		/*    
             	//Procedimiento para leer el nombre
             	do{
@@ -174,7 +173,9 @@ void cargar_fich_usuarios(usuarios **m_usuarios,int *lon)
             	(*m_usuarios)[i].perfil=0;
             	else (*m_usuarios)[i].perfil=1;
             	j=0;
-            	/*
+            	proc_leer_string_fich((*m_usuarios)[i].user,6,fich);
+                proc_leer_string_fich((*m_usuarios)[i].password,9,fich);
+		    /*
             	do //Procedimiento para leer el user
             	{
             	    aux=fgetc(fich);

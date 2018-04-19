@@ -3,6 +3,7 @@
 #include"vehiculos.c"
 #include"usuarios.c"
 #include"viajes.c"
+#include"incidencias.c"
 
 main(){
 	int n,i,id,oper;

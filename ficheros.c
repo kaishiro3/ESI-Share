@@ -20,6 +20,7 @@ void cargar_ficheros()
 {
 	cargar_fich_vehiculos(&m_vehiculos,&l_vehiculos);
 	cargar_fich_usuarios(&m_usuarios,&l_usuarios);
+	cargar_fich_incidencias(&m_incidencias,&l_incidencias);
 }
 
 void guardar_ficheros()
@@ -276,4 +277,3 @@ void cargar_fich_incidencias(incidencias **m_incidencias,int *lon)
 	fclose (fich);
     }
 }
-

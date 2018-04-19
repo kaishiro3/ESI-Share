@@ -7,15 +7,15 @@
 #include<stdlib.h>
 
 typedef struct {
-        
+
     int id_Usuario;
-    char nombre[21]; 
+    char nombre[21];
     char poblacion[21];
     int perfil; //si es admin o usuario normal Usuario=0
-    char user[6]; 
+    char user[6];
     char password[9];
     int estado; //activo=1 o bloqueado=0
-    
+
 }usuarios;
 
 typedef struct {
@@ -28,9 +28,9 @@ typedef struct {
  }vehiculos;
 
 typedef struct {
-        
+
 	int id_viaje[6];
-    char* matricula; 
+    char* matricula;
     int Fecha_inicio[3];
     int Hora_inicio[2];
 	int Hora_final[2];
@@ -39,17 +39,17 @@ typedef struct {
     int precio;
     int estado; //si es abierto, cerrado, finalizado, cancelado, iniciado;
     //localizacion* pasos[]; //las localizaciones por las que pasa;
-    
+
 }viajes;
 
     typedef struct {
-        
+
     int id_viaje;
     int id_us_registra; //el usuario CULPABLE
     int id_us_incidencia; //el usuario que registra el incidente
-    char* desc_incidencia[101];
+    char desc_incidencia[101];
     int est_incidencia; // Abierto, valido, cerrado
-    
+
 }incidencias;
 
 usuarios *m_usuarios;

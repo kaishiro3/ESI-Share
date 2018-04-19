@@ -11,15 +11,31 @@ main(){
 	mostrar_lista_usuarios(m_usuarios,&l_usuarios); //Para comprobar usuarios y funcionamiento. TESTING
     login();
     switch (tipo_usuario){
-    case 542329923: //Con valor 0 el usuario no existe y se le ofrecera opcion de crear.
+    case 0:
     do{
         resp=mostrar_menu_usuario();
         switch (resp){
-            case 1:
+            case 1:         //Perfil
                 mostrar_datos_usuario(m_usuarios,&usuario_actual);
+                r=0;
+                do{
+                    puts("1. Editar");
+                    puts("2. Volver");
+                    scanf("%d",&r);
+                }while(r!=1 && r!=2);
+                /*if(r==1){             //Editar datos usuario.
+
+                }*/
                 break;
-            case 2:
+            case 2:         //Vehiculos
                 mostrar_vehiculos_de_usuario(m_usuarios[usuario_actual].id_Usuario);
+
+                break;
+            case 3:         //Viajes
+                r=0;
+                break;
+            case 4:         //Incidencias
+                r=0;
                 break;
         }
     } while (resp!=5);
@@ -30,8 +46,28 @@ main(){
     do{
     resp=mostrar_menu_admin();
         switch (resp){
-            case 1:
-                mostrar_lista_usuarios(m_usuarios,&l_usuarios);
+            case 1:             //Usuarios
+                r=0;
+                do{
+                    puts("1. Dar de alta");
+                    puts("2. Dar de baja");
+                    puts("3. Modificar");
+                    puts("4. Listar usuarios");
+                    puts("5. Volver");
+                    scanf("%d",&r);
+                } while(r<=0 || r>=6);
+                    if(r==4) mostrar_lista_usuarios(m_usuarios,&l_usuarios);
+
+                break;
+            case 2:             //Vehiculos
+                    menu_admin_vehiculos(m_usuarios[usuario_actual].id_Usuario);
+                break;
+            case 3:             //Viajes
+
+                break;
+            case 4:             //Incidencias
+
+                break;
         }
     }while(resp!=5);
     puts("Hasta luego");

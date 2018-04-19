@@ -6,7 +6,7 @@
 #include"incidencias.c"
 
 main(){
-	int n,i,id,oper;
+	int n,i,id,oper,r;
 	n=0;
     cargar_ficheros();
 	mostrar_lista_usuarios(m_usuarios,&l_usuarios); //Para comprobar usuarios y funcionamiento. TESTING

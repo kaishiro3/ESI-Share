@@ -32,7 +32,7 @@ void cargar_fich_vehiculos(vehiculos **m_vehiculos,int *lon)
 	FILE *fich;
 	int i,j;
 	char aux;
-	
+
 	if ((fich = fopen("Vehiculos.txt", "r")) == NULL) printf("No se puede abrir Vehiculos.txt\n");
 	else
 	{
@@ -117,7 +117,7 @@ void cargar_fich_usuarios(usuarios **m_usuarios,int *lon)
 	FILE *fich;
 	int i,j;
 	char aux,aux2[15];
-	
+
 	if ((fich = fopen("Usuarios.txt", "r")) == NULL) printf("No se puede abrir Usuarios.txt\n");
 	else
 	{
@@ -142,17 +142,17 @@ void cargar_fich_usuarios(usuarios **m_usuarios,int *lon)
             	fseek(fich,1,SEEK_CUR); //Omision del guion
             	proc_leer_string_fich((*m_usuarios)[i].nombre,21,fich);
                 proc_leer_string_fich((*m_usuarios)[i].poblacion,21,fich);
-                
-		/*    
+
+		/*
             	//Procedimiento para leer el nombre
             	do{
             	    aux=fgetc(fich);
             	    if(aux!='-') (*m_usuarios)[i].nombre[j]=aux;
             	    else (*m_usuarios)[i].nombre[j]='\0';
             	    j++;
-            	}while(aux!='-' && j<21); 
+            	}while(aux!='-' && j<21);
             	j=0;
-            	
+
             	do //Procedimiento para leer la poblacion
             	{
             	    aux=fgetc(fich);
@@ -184,7 +184,7 @@ void cargar_fich_usuarios(usuarios **m_usuarios,int *lon)
             	    j++;
             	}while(aux!='-' && j<6);
             	j=0;
-            	
+
             	do //Procedimiento para leer la contraseña
             	{
             	    aux=fgetc(fich);
@@ -204,6 +204,73 @@ void cargar_fich_usuarios(usuarios **m_usuarios,int *lon)
             	printf("%i. %s",i,aux2);
             	if(strcmp(aux2,"activo")==0) (*m_usuarios)[i].estado=1;
             	else (*m_usuarios)[i].estado=0;
+        	}
+    	}
+	fclose (fich);
+    }
+}
+
+void cargar_fich_incidencias(incidencias **m_incidencias,int *lon)
+{
+	FILE *fich;
+	int i,j;
+	char aux,aux2[15];
+
+	if ((fich = fopen("Incidencias.txt", "r")) == NULL) printf("No se puede abrir Incidencias.txt\n");
+	else
+	{
+		*lon=0;
+		do
+		{
+			i=fgetc(fich);
+			if(i=='\n' || i==EOF) *lon=*lon+1;
+		}while(i!=EOF);
+		rewind(fich);
+		if(((*m_incidencias)=(incidencias *)malloc((*lon)*sizeof(incidencias)))==NULL) puts("No hay espacio suficiente");
+		else
+        {
+            for(i=0;i<*lon;i++)
+            {
+            	(*m_incidencias)[i].id_viaje=0;
+				for(j=100000;j>0;j=j/10) //Procedimiento para leer el id_viaje
+          		{
+					(*m_incidencias)[i].id_viaje=(*m_incidencias)[i].id_viaje+((fgetc(fich)-48)*j);
+        	    }
+            	j=0;
+
+            	for(j=1000;j>0;j=j/10) //Procedimiento para leer el id_us_incidencia
+          		{
+					(*m_incidencias)[i].id_us_incidencia=(*m_incidencias)[i].id_us_incidencia+((fgetc(fich)-48)*j);
+        	    }
+            	j=0;
+            	fseek(fich,1,SEEK_CUR); //Omision del guion
+
+
+
+            	(*m_incidencias)[i].id_us_registra=0;
+				for(j=1000;j>0;j=j/10) //Procedimiento para leer el id_us_registra
+          		{
+					(*m_incidencias)[i].id_us_registra=(*m_incidencias)[i].id_us_registra+((fgetc(fich)-48)*j);
+        	    }
+            	j=0;
+            	fseek(fich,1,SEEK_CUR); //Omision del guion
+
+            	proc_leer_string_fich((*m_incidencias)[i].desc_incidencia,101,fich);
+
+            	do //Procedimiento para leer el perfil
+            	{
+            	    aux=fgetc(fich);
+            	    if(aux!='-') aux2[j]=aux;
+            	    else aux2[j]='\0';
+            	    j++;
+            	}while(aux!='-' && j<16);
+            	if(strcmp(aux2,"Abierta")==0) (*m_incidencias)[i].est_incidencia=0;
+            	else
+                {
+                    if(strcmp(aux2,"Validada")==0) (*m_incidencias)[i].est_incidencia=1;
+                    else (*m_incidencias)[i].est_incidencia=2;
+                }
+            	j=0;
         	}
     	}
 	fclose (fich);

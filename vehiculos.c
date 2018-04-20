@@ -4,7 +4,7 @@
 #include<stdlib.h>
 #include"vehiculos.h"
 
-void mostrar_lista()
+void mostrar_lista_vehiculos()
 {
 	int i;
 	for(i=0;i<l_vehiculos;i++)
@@ -19,33 +19,73 @@ void mostrar_lista()
 
 }
 
-int mostrar_vehiculos_de_usuario(int id)
+void menu_usuario_vehiculos(int id)
 {
-	int i,j,cursor;
-	i=j=0;
-	puts("");
-	while(i<l_vehiculos && m_vehiculos[i].id_Usuario!=id) i++;
-	while(i<l_vehiculos && m_vehiculos[i].id_Usuario==id)
-	{
-		j++;
-		printf("%i.- %s\n",j,m_vehiculos[i].definicion);
-		i++;
-	}
-	if(j==0) puts("No tiene ningun vehiculo disponible");
-	printf("\n%i.- A%cadir\n%i.- Salir\n\n",j+1,164,j+2);
-	do
+	int i,j,cursor,cursor2;
+	char aux;
+	do{
+		i=j=0;
+		system("cls");
+		printf("\n\t Mis Vehiculos\n\n");
+		while(i<l_vehiculos && m_vehiculos[i].id_Usuario!=id) i++;
+		while(i<l_vehiculos && m_vehiculos[i].id_Usuario==id)
+			{
+			j++;
+			printf("%i.- %s\n",j,m_vehiculos[i].definicion);
+			i++;
+		}
+		if(j==0) puts("No tiene ningun vehiculo disponible");
+		printf("\n%i.- A%cadir\n%i.- Volver\n\n",j+1,164,j+2);
+		do
 		{
-			printf("Introduzca operacion: ");
-			scanf("%i",&cursor);
+				printf("Introduzca operacion: ");
+				scanf("%i",&cursor);
 		}while(cursor<1 || cursor>j+2);
 
-	if(cursor==j+1) cursor=-2;
-	else
-	{
-		if(cursor==j+2) cursor=-1;
-		else cursor=i-j+cursor;
-	}
-	return cursor;
+		if(cursor==j+1) agregar_vehiculo(&m_vehiculos,&l_vehiculos,id);
+		else
+		{
+			if(cursor==j+2) cursor=-1;
+			else
+			{
+				cursor=i-j+cursor-1;
+				do
+				{
+					do
+					{
+						system("cls");
+						printf("\n\t %s\n\n",m_vehiculos[cursor].matricula);
+						printf("\n%i.- Definicion: %s\n%i.- Plazas: %i\n%i.- Borrar\n%i.- Volver\n\n",1,m_vehiculos[cursor].definicion,2,m_vehiculos[cursor].plazas,3,4);
+						printf("Introduzca operacion: ");
+						scanf("%i",&cursor2);
+					}while(cursor2<0 || cursor2>4);	
+				
+				switch (cursor2)
+				{
+            	case 1: 			//Definicion
+					system("cls");
+					printf("Nueva Definicion: ");
+					fflush(stdin);
+					fgets(m_vehiculos[cursor].definicion,51,stdin);
+					fflush(stdin);
+            	    break;
+            	case 2:             //Plazas
+            	    system("cls");
+					do
+					{
+						printf("Nuevo Numero de plazas: ");
+						scanf("%i",&aux);
+					}while(aux<2 || aux>8);
+					m_vehiculos[cursor].plazas=aux;
+            	    break;
+            	case 3:
+					borrar_vehiculo(&m_vehiculos,&l_vehiculos,m_vehiculos[cursor].matricula);
+            	    break;
+            		}
+				}while(cursor2!=4 && cursor2!=3);
+			}
+		}
+	}while(cursor!=-1);
 }
 
 void agregar_vehiculo(vehiculos **m_vehiculos,int *lon,int id)
@@ -57,6 +97,8 @@ void agregar_vehiculo(vehiculos **m_vehiculos,int *lon,int id)
 	if(((*m_vehiculos)=(vehiculos *)realloc((*m_vehiculos),(*lon)*sizeof(vehiculos)))==NULL) puts("No hay espacio suficiente");
 	else
 	{
+		system("cls");
+		printf("\n\t Agregar un Vehiculo\n\n");
 		printf("\nMatricula: ");
 		fflush(stdin);
 		fgets(x.matricula,8,stdin);
@@ -113,7 +155,6 @@ void borrar_vehiculo(vehiculos **m_vehiculos,int *lon,char *matricula)
 void modificar_vehiculo(vehiculos *m_vehiculos,int lon,int indice,vehiculos modif)
 {
     m_vehiculos[indice]=modif;
-    guardar_fich_vehiculos(m_vehiculos,lon);
 }
 
 int buscar_vehiculo(vehiculos *m_vehiculos,int lon,char *matricula)
@@ -167,4 +208,3 @@ void menu_admin_vehiculos(int id_Usuario)
 	}while(cursor!=-1);
 	
 }
-

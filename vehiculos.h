@@ -6,23 +6,13 @@
 
 #endif
 
-
-
-/*Descripcion: Lee el fichero "Vehiculos.txt" y devuelve en m_vehiculos
-cada uno de los elementos y en lon la cantidad de elementos*/
-void cargar_fich_vehiculos(vehiculos **m_vehiculos,int *lon);
-
-//Precondicion: m_vehiculos inicializado y en lon la longitud de vm_vehiculos
-//Descripcion: Sobrescribe "Vehiculos.txt" con los datos de m_vehiculos
-void guardar_fich_vehiculos(vehiculos *m_vehiculos,int lon);
-
 //Descripcion: Imprime en pantalla cada uno de los datos de m_vehiculos
-void mostrar_lista();
+void mostrar_lista_vehiculos();
 
 //Precondicion: id inicializado
 /*Descripcion: Imprime en pantalla un menu con los vehiculos pertenecientes a id.
 Devuelve el indice del vehiculo elegido en m_vehiculos, -2 si desea agregar un vehiculo y -1 si desea salir */
-int mostrar_vehiculos_de_usuario(int id);
+void menu_usuario_vehiculos(int id);
 
 //Precondicion: m_vehiculos y id inicializados y en lon la longitud de m_vehiculos
 /*Descripcion: Imprime en pantalla un formulario para agregar un nuevo vehiculos a m_vehiculos a id.

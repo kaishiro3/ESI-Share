@@ -10,5 +10,6 @@ void login();                   //Procedimiento que Mostrara pantalla de login y
 int check_user(char *, char *,int *); //Funcion que comprobara si el usuario existe.
 int mostrar_menu_usuario();     //Funcion que mostrara el menu de usuario, y devuelve entero con la elección.
 int mostrar_menu_admin();       //Idem.
+void registrar_usuario();
 void mostrar_lista_usuarios(usuarios *,int *);
 void mostrar_datos_usuario(usuarios *,int *);

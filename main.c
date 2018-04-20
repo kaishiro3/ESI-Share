@@ -5,11 +5,11 @@
 #include"viajes.c"
 #include"incidencias.c"
 
-main(){
+void main(){
 	int n,i,id,oper,r;
 	n=0;
     cargar_ficheros();
-	mostrar_lista_usuarios(m_usuarios,&l_usuarios); //Para comprobar usuarios y funcionamiento. TESTING
+	//mostrar_lista_usuarios(m_usuarios,&l_usuarios); //Para comprobar usuarios y funcionamiento. TESTING
     login();
     switch (tipo_usuario){
     case 0:
@@ -24,12 +24,13 @@ main(){
                     puts("2. Volver");
                     scanf("%d",&r);
                 }while(r!=1 && r!=2);
-                /*if(r==1){             //Editar datos usuario.
+                if(r==1){             //Editar datos usuario.
 
-                }*/
+                }
                 break;
             case 2:         //Vehiculos
-                mostrar_vehiculos_de_usuario(m_usuarios[usuario_actual].id_Usuario);
+            	printf("este es: %i",m_usuarios[usuario_actual].id_Usuario);
+                menu_usuario_vehiculos(m_usuarios[usuario_actual].id_Usuario);
 
                 break;
             case 3:         //Viajes
@@ -75,23 +76,4 @@ main(){
     exit(0);
     //break;
     }
-		do
-		{
-			printf("ID de Usuario: ");
-			scanf("%i",&id);
-		}while(id<1);
-		for(i=0;i<l_usuarios;i++)
-		{
-			//if(m_usuarios[i].id_Usuario==id)
-			printf("%s ",m_usuarios[i].nombre);
-		}
-		oper=mostrar_vehiculos_de_usuario(id);
-		if(oper!=-1)
-		{
-			if(oper=-2)
-			{
-				agregar_vehiculo(&m_vehiculos,&l_vehiculos,id);
-			}
-		}
-	guardar_fich_vehiculos(m_vehiculos,l_vehiculos);
 }

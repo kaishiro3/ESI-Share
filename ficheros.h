@@ -20,27 +20,33 @@ typedef struct {
 
 typedef struct {
 
-    char matricula[7];
+    char matricula[8];
     int id_Usuario;
     int plazas;
-    char definicion[50];
+    char definicion[51];
 
  }vehiculos;
 
 typedef struct {
 
-	int id_viaje[6];
-    char* matricula;
+	int id_viaje;
+    char matricula[8];
     int Fecha_inicio[3];
     int Hora_inicio[2];
 	int Hora_final[2];
     int Plazas_libres;
-    int ida_vuelta; //booleano de si es ida o vuelta
+    int ida_vuelta; //booleano de si es ida=1 o vuelta=0
     int precio;
-    int estado; //si es abierto, cerrado, finalizado, cancelado, iniciado;
-    //localizacion* pasos[]; //las localizaciones por las que pasa;
+    int estado; //si es abierto=0, cerrado=1, finalizado=2, cancelado=3, iniciado=4;
 
 }viajes;
+
+	typedef struct {
+
+	int id_viaje;
+    char poblacion[21];
+
+}pasos;
 
     typedef struct {
 
@@ -55,11 +61,13 @@ typedef struct {
 usuarios *m_usuarios;
 vehiculos *m_vehiculos;
 viajes *m_viajes;
+pasos *m_pasos;
 incidencias *m_incidencias;
 
 int l_usuarios;
 int l_vehiculos;
 int l_viajes;
+int l_pasos;
 int l_incidencias;
 
 
@@ -68,11 +76,24 @@ int l_incidencias;
 //Funciones
 void cargar_ficheros();
 void guardar_ficheros();
-void proc_leer_string_fich(char *,int ,FILE *);
 
+/*Descripcion: Lee el fichero "Vehiculos.txt" y devuelve en m_vehiculos
+cada uno de los elementos y en lon la cantidad de elementos*/
 void cargar_fich_vehiculos(vehiculos **,int *);
+
+//Precondicion: m_vehiculos inicializado y en lon la longitud de vm_vehiculos
+//Descripcion: Sobrescribe "Vehiculos.txt" con los datos de m_vehiculos
 void guardar_fich_vehiculos(vehiculos *,int);
 
 void cargar_fich_usuarios(usuarios **,int *);
 
 void cargar_fich_incidencias(incidencias **,int *);
+
+/*Descripcion: lee el fichero "viajes.txt" y devuelve en m_viajes cada uno de los elementos
+y en l_viajes la cantidad de elementos*/
+//Precondicion: m_viajes inicializado y en lon>1
+//Postcondicion: sobreescribe el actual m_viajes con el archivo en txt
+//en caso de no haber un archivo llamado "viajes.txt" lo crearÃ¡ con el actual m_viajes actualizado
+void cargar_fich_viajes(viajes **m_viajes, int *lon);
+
+void cargar_fich_pasos(pasos **m_pasos,int *lon);

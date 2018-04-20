@@ -2,72 +2,52 @@
 
 int resp;
 
-
 void modificar_usuario(usuarios *,int,int,usuarios);
 
-
-/*int main(){
-mostrar_lista_usuarios(&d_usuarios,&longitud);
-//login;
-switch (tipo_usuario){
-    case 0:
-    resp=mostrar_menu_usuario();
-    break;
-    case 1:
-    resp=mostrar_menu_admin();
-    break;
-    }
-switch (resp){  //Switch que comprobara la seleccion del menu y que comprueba tipo de usuario para diferenciar entre una seleccion y otra.
-case 1:
-    //if (tipo_usuario==1) mostrar_datos_usuarios; //Muestra datos de su perfil.
-    //if (tipo_usuario==2) mostrar_lista_usuarios; //Muestra lista de todos usuarios.
-    break;
-case 2:
-    break;
-case 3:
-    break;
-case 4:
-    break;
-}
-return 0;
-}*/
-
-
 void login(){                   //Funcion que comprueba en usuarios.txt usuario y contraseña
-int admin;
-
+int r;
 char usuario[15];
 char pass[15];
-	system("cls");
-	printf("\n\t Inicio de sesion\n\n");
+	puts("\n\t Inicio de sesion.");
     puts("Introduce usuario");
     scanf("%s",&usuario);
     puts("Introduce contraseña");
     scanf("%s",&pass);
-if (check_user(usuario,pass,&admin)==-1) { //Comprueba si existe usuario y devuelve un entero con el indice de los datos del usuario o -1 si no existe.
+usuario_actual=check_user(usuario,pass,&l_usuarios); //Comprueba si existe usuario y devuelve un entero con el indice de los datos del usuario o -1 si no existe.
+if (usuario_actual==-1) {
 do{
     system("cls");
-    printf("\n\t Inicio de sesion\n\n");
-	puts("No existe usuario. Intentelo de nuevo.\n");
-    puts("Introduce usuario");
+    r=0;
+    puts("No existe usuario.");
+    puts("1. Intentar de nuevo.");
+    puts("2. Registrarse");
+    scanf("%d",&r);
+}while(r<1 || r>2);
+if (r==1){
+ do{   puts("Introduce usuario");
     scanf("%s",&usuario);
     puts("Introduce contraseña");
     scanf("%s",&pass);
-}while(check_user(usuario,pass,&admin)==-1);
+    usuario_actual=check_user(usuario,pass,&l_usuarios);
+}while(usuario_actual==-1);
 }
-if(admin==0) puts("Usuario normal");
-else puts("Administrador");
+if(r==2){
+    registrar_usuario();
+}
+}
 }
 
-int check_user(char *usu,char *pass, int *admin){
+int check_user(char *usu,char *pass, int * lon){
 int i;
-*admin=0;
-        for(i=0;i<l_usuarios;i++)
+        for(i=0;i<*lon;i++)
         {
                 if(strcmp(m_usuarios[i].user,usu)==0 && strcmp(m_usuarios[i].password,pass)==0){
-                tipo_usuario=m_usuarios[i].perfil;
-                *admin=m_usuarios[i].perfil;
-                return i;
+                    tipo_usuario=m_usuarios[i].perfil;
+                    if(m_usuarios[i].estado==0) {
+                            puts("El usuario esta bloqueado. Contacte con el administrador.");
+                            system("pause");
+                            exit(0);
+                    }else return i;
                 }
         }
 return -1;
@@ -110,5 +90,58 @@ for(i=0;i<*lon;i++){
 }
 
 void mostrar_datos_usuario(usuarios *m_usuarios,int *indice){
-printf("Id: %d \n Nombre: %s \n Poblacion: %s \n Perfil: %d \n Usuario: %s \n Contraseña: %s \n Estado: %d",m_usuarios[*indice].id_Usuario,m_usuarios[*indice].nombre,m_usuarios[*indice].poblacion,m_usuarios[*indice].perfil,m_usuarios[*indice].user,m_usuarios[*indice].password,m_usuarios[*indice].estado);
+printf("Id: %d \n Nombre: %s \n Poblacion: %s \n Perfil: %d \n Usuario: %s \n Contraseña: %s \n Estado: %d \n",m_usuarios[*indice].id_Usuario,m_usuarios[*indice].nombre,m_usuarios[*indice].poblacion,m_usuarios[*indice].perfil,m_usuarios[*indice].user,m_usuarios[*indice].password,m_usuarios[*indice].estado);
+}
+
+
+//Arreglar comprobacion tamaño cadena.
+void registrar_usuario(){
+int len;
+char *nombre;
+char *poblacion;
+char *usuario;
+char *password;
+puts("Introduce nombre:");
+fflush(stdin);
+fgets(nombre,20,stdin);
+len=strlen(nombre);
+if(len>20){
+    do{
+        puts("Introduce como maximo 20 caracteres");
+        fflush(stdin);
+        fgets(nombre,20,stdin);
+    } while(len>20);
+}
+puts("Introduce poblacion");
+fflush(stdin);
+fgets(poblacion,20,stdin);
+if(strlen(poblacion)>20){
+    do{
+        puts("Introduce como maximo 20 caracteres");
+        fflush(stdin);
+        fgets(poblacion,20,stdin);
+    } while(strlen(poblacion)>20);
+}
+puts("Introduce usuario");
+fflush(stdin);
+fgets(usuario,5,stdin);
+if((strlen(usuario))>5){
+    do{
+        puts("Introduce como maximo 5 caracteres");
+        fflush(stdin);
+        fgets(usuario,5,stdin);
+    } while((strlen(usuario))>5);
+}
+puts("Introduce contraseña");
+fflush(stdin);
+fgets(password,8,stdin);
+if(strlen(password)>8){
+    do{
+        puts("Introduce como maximo 8 caracteres");
+        fflush(stdin);
+        fgets(password,8,stdin);
+    } while(strlen(password)>8);
+}
+printf("Nombre: %s Poblacion: %s Usuario: %s Contraseña: %s",nombre,poblacion,usuario,password);
+system("pause");
 }

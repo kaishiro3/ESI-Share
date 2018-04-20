@@ -39,15 +39,10 @@ int leer_int_fich(int digitos,FILE * fich)
 void cargar_ficheros()
 {
 	cargar_fich_usuarios(&m_usuarios,&l_usuarios);
-	puts("usuarios");
 	cargar_fich_vehiculos(&m_vehiculos,&l_vehiculos);
-	puts("vehiculos");
 	cargar_fich_viajes(&m_viajes,&l_viajes);
-	puts("viajes");
 	cargar_fich_pasos(&m_pasos,&l_pasos);
-	puts("pasos");
 	cargar_fich_incidencias(&m_incidencias,&l_incidencias);
-	puts("inci");
 }
 
 void guardar_ficheros()

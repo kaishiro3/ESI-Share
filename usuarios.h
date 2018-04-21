@@ -13,3 +13,4 @@ int mostrar_menu_admin();       //Idem.
 void registrar_usuario();
 void mostrar_lista_usuarios(usuarios *,int *);
 void mostrar_datos_usuario(usuarios *,int *);
+int buscar_usuario_id(int id);

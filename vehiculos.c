@@ -55,7 +55,7 @@ void menu_usuario_vehiculos(int id)
 					{
 						system("cls");
 						printf("\n\t %s\n\n",m_vehiculos[cursor].matricula);
-						printf("\n%i.- Definicion: %s\n%i.- Plazas: %i\n%i.- Borrar\n%i.- Volver\n\n",1,m_vehiculos[cursor].definicion,2,m_vehiculos[cursor].plazas,3,4);
+						printf("\n1.- Definicion: %s\n2.- Plazas: %i\n3.- Borrar\n4.- Volver\n\n",m_vehiculos[cursor].definicion,m_vehiculos[cursor].plazas);
 						printf("Introduzca operacion: ");
 						scanf("%i",&cursor2);
 					}while(cursor2<0 || cursor2>4);	
@@ -79,7 +79,7 @@ void menu_usuario_vehiculos(int id)
 					m_vehiculos[cursor].plazas=aux;
             	    break;
             	case 3:
-					borrar_vehiculo(&m_vehiculos,&l_vehiculos,m_vehiculos[cursor].matricula);
+					borrar_vehiculo(&m_vehiculos,&l_vehiculos,cursor);
             	    break;
             		}
 				}while(cursor2!=4 && cursor2!=3);
@@ -130,23 +130,13 @@ void agregar_vehiculo(vehiculos **m_vehiculos,int *lon,int id)
 
 }
 
-void borrar_vehiculo(vehiculos **m_vehiculos,int *lon,char *matricula)
+void borrar_vehiculo(vehiculos **m_vehiculos,int *lon,int indice)
 {
-    int i,ind_vehiculo;
+    int i;
 
-    ind_vehiculo=-1;
-    for(i=0;i<*lon;i++)
+    for(i=indice;i<*lon;i++)
     {
-     if(ind_vehiculo==-1) //Se cumple la condicion si el indice de la matricula no ha sido asignado
-        {
-            if(strcmp((*m_vehiculos)[i].matricula,matricula)==0)
-            ind_vehiculo=i;
-            (*m_vehiculos)[i]=(*m_vehiculos)[i+1]; //reemplaza una estructura con la siguiente en el array
-        }
-        else
-        {
-            (*m_vehiculos)[i]=(*m_vehiculos)[i+1]; //reemplaza una estructura con la siguiente en el array
-        }
+        (*m_vehiculos)[i]=(*m_vehiculos)[i+1]; //reemplaza una estructura con la siguiente en el array
     }
     *lon=*lon-1;
     if(((*m_vehiculos)=(vehiculos *)realloc((*m_vehiculos),*lon*sizeof(vehiculos)))==NULL) puts("Error al borrar vehiculos");
@@ -170,7 +160,7 @@ int buscar_vehiculo(vehiculos *m_vehiculos,int lon,char *matricula)
 
 void menu_admin_vehiculos(int id_Usuario)
 {
-	int i,cursor;
+	int i,cursor,cursor2,aux;
 	
 	do
 	{
@@ -178,7 +168,9 @@ void menu_admin_vehiculos(int id_Usuario)
 		printf("\n\t Lista de Vehiculos\n\n");
 		for(i=0;i<l_vehiculos;i++)
 		{
-			printf("%i.- %s de %s\n",i,m_vehiculos[i].definicion,m_usuarios[i].nombre);
+			aux=buscar_usuario_id(m_vehiculos[i].id_Usuario);
+			if(aux!=-1) printf("%i.- %s de %s\n",i,m_vehiculos[i].definicion,m_usuarios[aux].user);
+			else printf("%i.- %s\n",i,m_vehiculos[i].definicion);
 		}
 		printf("\n%i.- A%cadir\n%i.- Salir\n\n",i+1,164,i+2);
 		do
@@ -193,18 +185,44 @@ void menu_admin_vehiculos(int id_Usuario)
 			if(cursor==i+2) cursor=-1;
 			else
 			{
-				i=cursor;
-				system("cls");
-				printf("\n\t %s de %s\n\n",m_vehiculos[i].definicion,m_usuarios[i].nombre);
 				do
 				{
-					printf("\n1.- Modificar\n2.- Lista de Viajes\n3.- Borrar\n4.- Volver\n",164);
-					printf("Introduzca operacion: ");
-					scanf("%i",&cursor);
-				}while(cursor<1 || cursor>4);
+					do
+					{
+						system("cls");
+						printf("\n\t %s\n\n",m_vehiculos[cursor].matricula);
+						printf("\n1.- Definicion: %s\n2.- Plazas: %i\n3.- Lista de Viajes\n4.- Borrar\n5.- Volver\n\n",m_vehiculos[cursor].definicion,m_vehiculos[cursor].plazas);
+						printf("Introduzca operacion: ");
+						scanf("%i",&cursor2);
+					}while(cursor2<0 || cursor2>5);	
+				
+				switch (cursor2)
+				{
+            	case 1: 			//Definicion
+					system("cls");
+					printf("Nueva Definicion: ");
+					fflush(stdin);
+					fgets(m_vehiculos[cursor].definicion,51,stdin);
+					fflush(stdin);
+            	    break;
+            	case 2:             //Plazas
+            	    system("cls");
+					do
+					{
+						printf("Nuevo Numero de plazas: ");
+						scanf("%i",&aux);
+					}while(aux<2 || aux>8);
+					m_vehiculos[cursor].plazas=aux;
+            	    break;
+            	case 3: //Lista de Viajes
+            		break;
+            	case 4:
+					borrar_vehiculo(&m_vehiculos,&l_vehiculos,cursor);
+            	    break;
+            		}
+				}while(cursor2!=4 && cursor2!=3 && cursor2!=5);
 			}
 		}
 		
 	}while(cursor!=-1);
-	
 }

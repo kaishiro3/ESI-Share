@@ -1,5 +1,6 @@
 #include "usuarios.h"
 
+
 int resp;
 
 void modificar_usuario(usuarios *,int,int,usuarios);
@@ -144,4 +145,17 @@ if(strlen(password)>8){
 }
 printf("Nombre: %s Poblacion: %s Usuario: %s Contraseña: %s",nombre,poblacion,usuario,password);
 system("pause");
+}
+
+int buscar_usuario_id(int id)
+{
+	int i;
+	for(i=0;i<l_usuarios;i++)
+	{
+		if(m_usuarios[i].id_Usuario==id) 
+		{
+			return i;
+		}
+	}
+	return -1;
 }

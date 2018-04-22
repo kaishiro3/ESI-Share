@@ -36,6 +36,17 @@ int leer_int_fich(int digitos,FILE * fich)
     return aux;
 }
 
+void fix_string(char *cadena,int lon)
+{
+	int i=0;
+	while(cadena[i]!='\n' && cadena[i]!='\0' && i<lon-1)
+	{
+		if(cadena[i]=='-') cadena[i]=' ';
+		i++;
+	}
+	cadena[i]='\0';
+}
+
 void cargar_ficheros()
 {
 	cargar_fich_usuarios(&m_usuarios,&l_usuarios);

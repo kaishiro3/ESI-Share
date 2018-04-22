@@ -74,6 +74,9 @@ int l_incidencias;
 #endif
 
 //Funciones
+
+//Precondicion: cadena inicializada y que lon contenga su longitud
+//Postcondicion: reemplaza '-' con ' ' y '\n' con '\0'
 void fix_string(char *cadena,int lon);
 
 void cargar_ficheros();

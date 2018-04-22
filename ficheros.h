@@ -74,6 +74,8 @@ int l_incidencias;
 #endif
 
 //Funciones
+void fix_string(char *cadena,int lon);
+
 void cargar_ficheros();
 void guardar_ficheros();
 

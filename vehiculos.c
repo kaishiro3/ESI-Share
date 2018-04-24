@@ -67,6 +67,7 @@ void menu_usuario_vehiculos(int id)
 					printf("Nueva Definicion: ");
 					fflush(stdin);
 					fgets(m_vehiculos[cursor].definicion,51,stdin);
+					fix_string(m_vehiculos[cursor].definicion,51);
 					fflush(stdin);
             	    break;
             	case 2:             //Plazas
@@ -203,6 +204,7 @@ void menu_admin_vehiculos(int id_Usuario)
 					printf("Nueva Definicion: ");
 					fflush(stdin);
 					fgets(m_vehiculos[cursor].definicion,51,stdin);
+					fix_string(m_vehiculos[cursor].definicion,51);
 					fflush(stdin);
             	    break;
             	case 2:             //Plazas

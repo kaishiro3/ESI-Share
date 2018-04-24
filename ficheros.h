@@ -54,7 +54,7 @@ typedef struct {
     int id_us_registra; //el usuario CULPABLE
     int id_us_incidencia; //el usuario que registra el incidente
     char desc_incidencia[101];
-    int est_incidencia; // Abierto, valido, cerrado
+    int est_incidencia; // Abierta = 0, Validada = 1, Cerrada = 2
 
 }incidencias;
 
@@ -88,11 +88,15 @@ void cargar_fich_vehiculos(vehiculos **,int *);
 
 //Precondicion: m_vehiculos inicializado y en lon la longitud de vm_vehiculos
 //Descripcion: Sobrescribe "Vehiculos.txt" con los datos de m_vehiculos
-void guardar_fich_vehiculos(vehiculos *,int);
+void guardar_fich_vehiculos();
 
 void cargar_fich_usuarios(usuarios **,int *);
 
+void guardar_fich_usuarios();
+
 void cargar_fich_incidencias(incidencias **,int *);
+
+void guardar_fich_incidencias();
 
 /*Descripcion: lee el fichero "viajes.txt" y devuelve en m_viajes cada uno de los elementos
 y en l_viajes la cantidad de elementos*/
@@ -101,4 +105,8 @@ y en l_viajes la cantidad de elementos*/
 //en caso de no haber un archivo llamado "viajes.txt" lo crearÃ¡ con el actual m_viajes actualizado
 void cargar_fich_viajes(viajes **m_viajes, int *lon);
 
+void guardar_fich_viajes();
+
 void cargar_fich_pasos(pasos **m_pasos,int *lon);
+
+void guardar_fich_pasos();

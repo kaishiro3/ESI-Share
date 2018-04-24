@@ -75,6 +75,7 @@ void list_inciden(int *lon){
         printf("Id del viaje: %d \n Id del usuario que registra: %d \n Id del usuario sobre el que recae: %d \n Descripcion: %s \n Estado: %s \n",m_incidencias[i].id_viaje,m_incidencias[i].id_us_registra,m_incidencias[i].id_us_incidencia,m_incidencias[i].desc_incidencia,m_incidencias[i].est_incidencia);
 }
 
+
 void consult_inciden(int id){
      int i,j,cursor;
      i=j=0;

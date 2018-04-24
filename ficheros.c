@@ -9,9 +9,12 @@
 //y en lon la longitudad maxima que acepta cadena
 //	Postcondicion: lee la desde la posicion del puntero fich en el fichero hasta que encuentra un guion
 //hasta que encuentra un guion y guarda la cadena sin el guion en la raiable cadena
-static void leer_string_fich(char * cadena, int lon, FILE * fich);
 
+static void leer_string_fich(char * cadena, int lon, FILE * fich);
 static int leer_int_fich(int digitos,FILE * fich);
+
+static void escribir_string_fich(char * cadena, int lon, FILE * fich);
+static void escribir_int_fich(int numero,int digitos,FILE * fich);
 
 void leer_string_fich(char * cadena, int lon,FILE * fich)
 {
@@ -36,6 +39,26 @@ int leer_int_fich(int digitos,FILE * fich)
     return aux;
 }
 
+void escribir_string_fich(char * cadena, int lon, FILE * fich)
+{
+	int i;	
+	while(cadena[i]!='\0' && cadena[i]!='\n' && i<lon)
+	{
+		if(cadena[i]!='-') fputc(cadena[i],fich);
+		i++;
+	}
+}
+
+void escribir_int_fich(int numero,int digitos,FILE * fich)
+{
+	int i,aux=0;
+	for(i=pow(10,digitos-1);i>0;i=i/10) //Procedimiento para leer cada uno de los digitos de mayor a menor importancia
+    {
+    	fputc((numero/i)+48,fich);
+		numero=numero-((numero/i)*i);
+    }
+}
+
 void fix_string(char *cadena,int lon)
 {
 	int i=0;
@@ -58,62 +81,59 @@ void cargar_ficheros()
 
 void guardar_ficheros()
 {
-	guardar_fich_vehiculos(m_vehiculos,l_vehiculos);
+	guardar_fich_usuarios();
+	guardar_fich_vehiculos();
+	guardar_fich_viajes();
+	guardar_fich_pasos();
+	guardar_fich_incidencias();
 }
 
-void cargar_fich_vehiculos(vehiculos **m_vehiculos,int *lon)
+void guardar_fich_usuarios()
 {
 	FILE *fich;
-	int i,j;
-	char aux;
-
-	if ((fich = fopen("Vehiculos.txt", "r")) == NULL) printf("No se puede abrir Vehiculos.txt\n");
-	else
-	{
-		*lon=0;
-		do
-		{
-			i=fgetc(fich);
-			if(i=='\n' || i==EOF) *lon=*lon+1;
-		}while(i!=EOF);
-		rewind(fich);
-		if(((*m_vehiculos)=(vehiculos *)malloc((*lon)*sizeof(vehiculos)))==NULL) puts("No hay espacio suficiente");
-		else
-        {
-            for(i=0;i<*lon;i++)
-            {
-                leer_string_fich((*m_vehiculos)[i].matricula,8,fich);; //Lee la matricula
-                
-                (*m_vehiculos)[i].id_Usuario=leer_int_fich(4,fich);
-                fseek(fich,1,SEEK_CUR);
-                
-                (*m_vehiculos)[i].plazas=fgetc(fich)-48; //Lee el numero de plazas que es un solo digito
-                fseek(fich,1,SEEK_CUR);
-                
-                j=0;
-                do //Procedimiento para leer la definicion
-                {
-                    aux=fgetc(fich);
-                    if(aux!='\n' && aux!=EOF) (*m_vehiculos)[i].definicion[j]=aux;
-                    else (*m_vehiculos)[i].definicion[j]='\0';
-                    j++;
-                }while(aux!='\0' && aux!='\n' && aux!=EOF && j<=50);
-            }
-        }
-	fclose (fich);
-    }
-}
-
-void guardar_fich_vehiculos(vehiculos *m_vehiculos,int lon)
-{
-	FILE *fich;
-	int i,j,aux;
-if ((fich = fopen("Vehiculos.txt", "w")) == NULL) {
- printf("No se ha podido guardar el fichero.\n");
+	int i;
+if ((fich = fopen("Usuarios.txt", "w")) == NULL) {
+ printf("No se ha podido guardar Usuarios.txt.\n");
 }
 else
 {
-	for(i=0;i<lon;i++)
+	for(i=0;i<l_usuarios;i++)
+	{
+		escribir_int_fich(m_usuarios[i].id_Usuario,4,fich);
+		fputc('-',fich);
+		escribir_string_fich(m_usuarios[i].nombre,21,fich);
+		fputc('-',fich);
+		escribir_string_fich(m_usuarios[i].poblacion,21,fich);
+		fputc('-',fich);
+		
+		if(m_usuarios[i].perfil==0) escribir_string_fich("usuario",7,fich);
+		else escribir_string_fich("administrador",13,fich);
+		fputc('-',fich);
+		
+		escribir_string_fich(m_usuarios[i].user,6,fich);
+		fputc('-',fich);
+		escribir_string_fich(m_usuarios[i].password,9,fich);
+		fputc('-',fich);
+		
+		if(m_usuarios[i].estado==0) escribir_string_fich("bloqueado",9,fich);
+		else escribir_string_fich("activo",6,fich);
+		
+		if(i!=l_usuarios-1) fputc('\n',fich);
+	}
+	fclose (fich);
+}
+}
+
+void guardar_fich_vehiculos()
+{
+	FILE *fich;
+	int i,j;
+if ((fich = fopen("Vehiculos.txt", "w")) == NULL) {
+ printf("No se ha podido guardar Vehiculos.txt.\n");
+}
+else
+{
+	for(i=0;i<l_vehiculos;i++)
 	{
 		for(j=0;j<7;j++)
 		{
@@ -121,23 +141,143 @@ else
 			else fputc(m_vehiculos[i].matricula[j],fich);
 		}
 		fputc('-',fich);
-		aux=m_vehiculos[i].id_Usuario;
-
-		for(j=1000;j>0;j=j/10)
-		{
-			fputc((aux/j)+48,fich);
-			aux=aux-((aux/j)*j);
-		}
+		escribir_int_fich(m_vehiculos[i].id_Usuario,4,fich);
 		fputc('-',fich);
 		fputc(m_vehiculos[i].plazas+48,fich);
 		fputc('-',fich);
 		j=0;
-		while(m_vehiculos[i].definicion[j]!='\0' && m_vehiculos[i].definicion[j]!='\n' && j<=50)
+		escribir_string_fich(m_vehiculos[i].definicion,51,fich);
+		if(i!=l_vehiculos-1) fputc('\n',fich);
+	}
+	fclose (fich);
+}
+}
+
+void guardar_fich_viajes()
+{
+	FILE *fich;
+	int i,j;
+if ((fich = fopen("Viajes.txt", "w")) == NULL) {
+ printf("No se ha podido guardar Viajes.txt.\n");
+}
+else
+{
+	for(i=0;i<l_viajes;i++)
+	{
+		escribir_int_fich(m_viajes[i].id_viaje,6,fich);
+		fputc('-',fich);
+		
+		for(j=0;j<7;j++)
 		{
-		fputc(m_vehiculos[i].definicion[j],fich);
-		j++;
+			if(m_viajes[i].matricula[j]=='\0' || m_viajes[i].matricula[j]=='\n') fputc(' ',fich);
+			else fputc(m_viajes[i].matricula[j],fich);
 		}
-		if(i!=lon-1) fputc('\n',fich);
+		fputc('-',fich);
+		
+		escribir_int_fich(m_viajes[i].Fecha_inicio[0],2,fich);
+		fputc('/',fich);
+		escribir_int_fich(m_viajes[i].Fecha_inicio[1],2,fich);
+		fputc('/',fich);
+		escribir_int_fich(m_viajes[i].Fecha_inicio[2],4,fich);
+		fputc('-',fich);
+		
+		escribir_int_fich(m_viajes[i].Hora_inicio[0],2,fich);
+		fputc(':',fich);
+		escribir_int_fich(m_viajes[i].Hora_inicio[1],2,fich);
+		fputc('-',fich);
+		
+		escribir_int_fich(m_viajes[i].Hora_final[0],2,fich);
+		fputc(':',fich);
+		escribir_int_fich(m_viajes[i].Hora_final[1],2,fich);
+		fputc('-',fich);
+		
+		if(m_viajes[i].ida_vuelta==0) escribir_string_fich("vuelta",6,fich);
+		else escribir_string_fich("ida",3,fich);
+		fputc('-',fich);
+		
+		escribir_int_fich(m_viajes[i].precio,2,fich);
+		fputc('€',fich);
+		fputc('-',fich);
+		
+		switch (m_viajes[i].estado)
+		{
+            case 0:
+            	escribir_string_fich("abierto",7,fich);
+                break;
+            case 1:
+            	escribir_string_fich("cerrado",7,fich);
+                break;
+            case 2:
+            	escribir_string_fich("finalizado",10,fich);
+                break;
+            case 3:
+                escribir_string_fich("cancelado",9,fich);
+                break;
+            case 4:
+                escribir_string_fich("iniciado",8,fich);
+                break;
+        }
+		
+		if(i!=l_viajes-1) fputc('\n',fich);
+	}
+	fclose (fich);
+}
+}
+
+void guardar_fich_pasos()
+{
+	FILE *fich;
+	int i,j;
+if ((fich = fopen("Pasos.txt", "w")) == NULL) {
+ printf("No se ha podido guardar Pasos.txt.\n");
+}
+else
+{
+	for(i=0;i<l_pasos;i++)
+	{
+		escribir_int_fich(m_pasos[i].id_viaje,6,fich);
+		fputc('-',fich);
+		escribir_string_fich(m_pasos[i].poblacion,21,fich);
+		if(i!=l_pasos-1) fputc('\n',fich);
+	}
+	fclose (fich);
+}
+}
+
+void guardar_fich_incidencias()
+{
+	FILE *fich;
+	int i,j;
+if ((fich = fopen("Incidencias.txt", "w")) == NULL) {
+ printf("No se ha podido guardar Incidencias.txt.\n");
+}
+else
+{
+	for(i=0;i<l_incidencias;i++)
+	{
+		escribir_int_fich(m_incidencias[i].id_viaje,6,fich);
+		fputc('-',fich);
+		escribir_int_fich(m_incidencias[i].id_us_registra,4,fich);
+		fputc('-',fich);
+		escribir_int_fich(m_incidencias[i].id_us_incidencia,4,fich);
+		fputc('-',fich);
+		escribir_string_fich(m_incidencias[i].desc_incidencia,101,fich);
+		fputc('-',fich);
+		
+		switch (m_incidencias[i].est_incidencia)
+		{
+            case 0:
+            	escribir_string_fich("Abierta",7,fich);
+                break;
+            case 1:
+            	escribir_string_fich("Validada",7,fich);
+                break;
+            case 2:
+            	escribir_string_fich("Cerrada ",10,fich);
+                break;
+        }
+		
+		if(i!=l_incidencias-1) fputc('\n',fich);
 	}
 	fclose (fich);
 }
@@ -195,6 +335,49 @@ void cargar_fich_usuarios(usuarios **m_usuarios,int *lon)
             	else (*m_usuarios)[i].estado=0;
         	}
     	}
+	fclose (fich);
+    }
+}
+
+void cargar_fich_vehiculos(vehiculos **m_vehiculos,int *lon)
+{
+	FILE *fich;
+	int i,j;
+	char aux;
+
+	if ((fich = fopen("Vehiculos.txt", "r")) == NULL) printf("No se puede abrir Vehiculos.txt\n");
+	else
+	{
+		*lon=0;
+		do
+		{
+			i=fgetc(fich);
+			if(i=='\n' || i==EOF) *lon=*lon+1;
+		}while(i!=EOF);
+		rewind(fich);
+		if(((*m_vehiculos)=(vehiculos *)malloc((*lon)*sizeof(vehiculos)))==NULL) puts("No hay espacio suficiente");
+		else
+        {
+            for(i=0;i<*lon;i++)
+            {
+                leer_string_fich((*m_vehiculos)[i].matricula,8,fich);; //Lee la matricula
+                
+                (*m_vehiculos)[i].id_Usuario=leer_int_fich(4,fich);
+                fseek(fich,1,SEEK_CUR);
+                
+                (*m_vehiculos)[i].plazas=fgetc(fich)-48; //Lee el numero de plazas que es un solo digito
+                fseek(fich,1,SEEK_CUR);
+                
+                j=0;
+                do //Procedimiento para leer la definicion
+                {
+                    aux=fgetc(fich);
+                    if(aux!='\n' && aux!=EOF) (*m_vehiculos)[i].definicion[j]=aux;
+                    else (*m_vehiculos)[i].definicion[j]='\0';
+                    j++;
+                }while(aux!='\0' && aux!='\n' && aux!=EOF && j<=50);
+            }
+        }
 	fclose (fich);
     }
 }

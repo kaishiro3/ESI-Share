@@ -95,3 +95,4 @@ void elimin_inciden(incidencias **m_incidencias, int *lon, int indice){
     if(((*m_incidencias)=(incidencias *)realloc((*m_incidencias),*lon*sizeof(incidencias)))==NULL) puts("Error al borrar la incidencia");
 }
 
+ 

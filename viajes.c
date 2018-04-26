@@ -4,13 +4,15 @@
 #include<stdlib.h>
 #include"viajes.h"
 
+static void mostrar_pasos(int id);
+
 void mostrar_lista_viajes(int mod)
 {
 	int id;
 	for(id=0;id<l_viajes;id++)
 	{
 		if(mod==1){
-			printf("\n\tIdentificador de usuario %i\n",m_viajes[id].id_usuario);		
+			printf("\n\tIdentificador de usuario %i\n",m_viajes[id].id_usuario);
 		}
 		printf("Identificacion %i:\n",id);
 		mostrar_pasos(m_viajes[id].id_viaje);
@@ -41,28 +43,29 @@ void mostrar_lista_viajes(int mod)
 			case 4:
 				printf("Iniciado\n");
 				break;
-		}	
+		}
 	}
 }
 
-static void mostrar_pasos(int id)
+void mostrar_pasos(int id)
 {
-	
+
 	int cursor=0;
-	printf("Pasos: ")
-	for(cursor=0,cursor<l_pasos,cursor++){
-		
-		if(m_pasos[cursor].id_viaje == id) 
+	printf("Pasos: ");
+	for(cursor=0;cursor<l_pasos;cursor++){
+
+		if(m_pasos[cursor].id_viaje == id)
 		printf("%s",m_pasos[cursor].poblacion);
 	}
 }
 
-void menu_usuario_viajes(int id, int lon, viajes **m_viajes)
+void menu_usuario_viajes(int id, int lon, viajes *m_viajes)
 {
-	int caso=0
+	int caso=0;
 	int id_v=00;
-	int encontrado=0
-	
+	int encontrado=0;
+    int counter=0;
+
 	printf("\nQue desea hacer:\n1-mostrar viajes\n2-crear viaje\n3-entrar a un viaje\n4-editar un viaje suyo\n5-mostrar sus viajes");
 	scanf("%i",&caso);
 	switch (caso){
@@ -70,50 +73,52 @@ void menu_usuario_viajes(int id, int lon, viajes **m_viajes)
 			mostrar_lista_viajes(0);
 			break;
 		case 2:
-			crear_viaje(**m_viajes, l_viajes);
+			crear_viaje(&m_viajes, &l_viajes,id);
 			break;
 		case 3:
-			
+
 			printf("indique la id del viaje");
 			scanf("%i",&id_v);
-			for (counter=0,counter<=lon,counter++){
+			for (counter=0;counter<=lon;counter++){
 				if(id_v==m_viajes[counter].id_viaje);
 				encontrado=1;
 				break;
 			}
 			if(encontrado==0)printf("viaje no encontrado");
-			else{			
-				add_viajero(**m_viajes, id_v,id);
+			else{
+				add_viajero(m_viajes, id_v,id);
 			}
 			break;
 		case 4:
 			printf("indique la id del viaje");
 			scanf("%i",&id_v);
-			for (counter=0,counter<=lon,counter++){
+			for (counter=0;counter<=lon;counter++){
 				if(id_v==m_viajes[counter].id_viaje){
 				encontrado=1;
 				break;
 				}
 			}
 			if(encontrado==0)printf("viaje no encontrado");
-			else{		
-				if(m_viajes[counter].id_usuario==id)	
-				editar_viaje(**m_viajes, *lon, id_v);
-				encontrado=0;
+			else{
+				if(m_viajes[counter].id_usuario==id)
+				{
+				    editar_viaje(m_viajes,lon, id_v);
+                    encontrado=0;
+				}
 				else{
 					printf("Este viaje no es suyo");
 				}
 			}
 		case 5:
-			for (counter=0,counter<=lon,counter++){
+			for (counter=0;counter<=lon;counter++){
 				if(id==m_viajes[counter].id_usuario){
 							id_v==m_viajes[counter].id_viaje;
-				
+
 							printf("Identificacion %i:\n",id_v);
 							mostrar_pasos(m_viajes[id_v].id_viaje);
 							printf("Matricula: %s\n",m_viajes[id_v].matricula);
 							printf("Fecha de inicio: %i\n",m_viajes[id_v].Fecha_inicio);
-							printf("Hora de inicio: %i \n",m_viajes[id_V].Hora_inicio);
+							printf("Hora de inicio: %i \n",m_viajes[id_v].Hora_inicio);
 							printf("Hora de llegada: %i \n",m_viajes[id_v].Hora_final);
 							printf("Plazas libres: %i \n",m_viajes[id_v].Plazas_libres);
 							if(m_viajes[id].ida_vuelta==0) printf("Viaje de vuelta \n");
@@ -138,12 +143,12 @@ void menu_usuario_viajes(int id, int lon, viajes **m_viajes)
 								case 4:
 									printf("Iniciado\n");
 									break;
-							}	
+							}
 						}
 			}
 			break;
 
-	}		
+	}
 }
 
 void crear_viaje(viajes **m_viajes,int *lon,int id)
@@ -155,7 +160,7 @@ void crear_viaje(viajes **m_viajes,int *lon,int id)
 	if(((*m_viajes) = (viajes *)realloc((*m_viajes),(*lon)*sizeof(viajes)))==NULL) puts("No hay espacio suficiente");
 	else
 	{
-		
+
 		system("cls");
 		printf("\n\t Crear un Viaje\n\n");
 		printf("\nMatricula del vehiculo: ");
@@ -175,10 +180,10 @@ void crear_viaje(viajes **m_viajes,int *lon,int id)
 		printf("\nIda - 1\nVuelta - 0");
 		scanf("%i",&x.ida_vuelta);
 		x.estado=0;
-		
-		x.id_usuario=m_vehiculos[buscar_vehiculo(x.matricula)].id_usuario;
-		if(x.id_usuario!=-1) **m_viajes[*lon]=x;
-		
+
+		x.id_usuario=m_vehiculos[buscar_vehiculo(x.matricula)].id_Usuario;
+		if(x.id_usuario!=-1) (*m_viajes)[*lon]=x;
+
 	}
 }
 
@@ -186,29 +191,29 @@ static void borrar_viaje (viajes **m_viajes,int *l,int indice)
 {
     int i;
     for(i=indice;i<*l;i++){
-        (*m_viajes)[i]=(*m_viajes)[i+1]; 
+        (*m_viajes)[i]=(*m_viajes)[i+1];
     }
     *l=*l--;
     if(((*m_viajes)=(viajes *)realloc((*m_viajes),*l*sizeof(viajes)))==NULL) puts("Error al eliminar el viaje");
 }
 
-void add_viajero (viajes **m_viajes, int id_viaje, int lon)
+void add_viajero (viajes *m_viajes, int id, int lon)
 {
-	
-	
+
+
 	int i=0;
-	for(i=0,i<lon,i++){
-		if(*m_viajes[i].id_viaje=id&&m_viajes[i].Plazas_libres>0) {
+	for(i=0;i<lon;i++){
+		if(m_viajes[i].id_viaje==id&&m_viajes[i].Plazas_libres>0) {
 		m_viajes[i].Plazas_libres= m_viajes[i].Plazas_libres-1;
 		if(m_viajes[i].Plazas_libres=0) m_viajes[i].estado=2;
 		}
 		else{printf("\nerror al añadir usuario\n");
 		}
 	}
-	
+
 }
 
-void editar_viaje(viajes **m_viajes,int *lon, int id)
+void editar_viaje(viajes *m_viajes,int lon, int id)
 {
 	int i=0;
 	char answer = 'n';
@@ -216,9 +221,9 @@ void editar_viaje(viajes **m_viajes,int *lon, int id)
 	printf("\n\tQue desea cambiar?:\n");
 	printf("\n1-Matricula\n2-Fecha de Inicio\n3-Hora de Inicio\n4-Hora de llegada\n5-Plazas\n6-Precio\n7-Cancelar viaje\n");
 	scanf("%i",&i);
-	
+
 	switch (i){
-		
+
 		case 1:
 			printf("Introduzca la matricula");
 			fflush(stdin);
@@ -231,7 +236,7 @@ void editar_viaje(viajes **m_viajes,int *lon, int id)
 			break;
 		case 3:
 			printf("\nHora de Inicio");
-			scanf("%i",&m_viajes[jd].Hora_inicio);
+			scanf("%i",&m_viajes[id].Hora_inicio);
 			break;
 		case 4:
 			printf("\nHora de Llegada");
@@ -246,25 +251,26 @@ void editar_viaje(viajes **m_viajes,int *lon, int id)
 			scanf("%i",&m_viajes[id].precio);
 			break;
 		case 7:
-			*m_viajes[id].estado=3;
+			m_viajes[id].estado=3;
 			break;
 		}
-		
+
 		printf("Desea cambiar algo más del viaje? \nSi - s       \nNo - cualquier otra tecla");
-		scanf("%c",)
-				
+		scanf("%c",&answer);
+
 	}while(answer=='s');
-		
-	
-	
+
+
+
 }
 
-void menu_admin_viajes(int id, int lon, viajes **m_viajes)
+void menu_admin_viajes(int id, int lon, viajes *m_viajes)
 {
-	int caso=0
-	int id_v=00;
-	int encontrado=0
-	
+	int caso=0;
+	int id_v=0;
+	int encontrado=0;
+	int counter=0;
+
 	printf("\nQue desea hacer:\n1-mostrar viajes\n2-crear viaje\n3-entrar a un viaje\n4-editar un viaje\n5-mostrar sus viajes\n6-borrar un viaje");
 	scanf("%i",&caso);
 	switch (caso){
@@ -272,48 +278,48 @@ void menu_admin_viajes(int id, int lon, viajes **m_viajes)
 			mostrar_lista_viajes(1);
 			break;
 		case 2:
-			crear_viaje(**m_viajes, l_viajes);
+			crear_viaje(&m_viajes,&l_viajes,id);
 			break;
 		case 3:
-			
+
 			printf("indique la id del viaje");
 			scanf("%i",&id_v);
-			for (counter=0,counter<=lon,counter++){
+			for (counter=0;counter<=lon;counter++){
 				if(id_v==m_viajes[counter].id_viaje);
 				encontrado=1;
 				break;
 			}
 			if(encontrado==0)printf("viaje no encontrado");
-			else{			
-				add_viajero(**m_viajes, id_v,id);
+			else{
+				add_viajero(m_viajes, id_v,id);
 			}
 			break;
 		case 4:
 			printf("indique la id del viaje");
 			scanf("%i",&id_v);
-			for (counter=0,counter<=lon,counter++){
+			for (counter=0;counter<=lon;counter++){
 				if(id_v==m_viajes[counter].id_viaje){
 				encontrado=1;
 				break;
 				}
 			}
 			if(encontrado==0)printf("viaje no encontrado");
-			else{	
-				editar_viaje(**m_viajes, *lon, id_v);
+			else{
+				editar_viaje(m_viajes,lon, id_v);
 				encontrado=0;
 
 				}
-			
+
 		case 5:
-			for (counter=0,counter<=lon,counter++){
+			for (counter=0;counter<=lon;counter++){
 				if(id==m_viajes[counter].id_usuario){
 							id_v==m_viajes[counter].id_viaje;
-				
+
 							printf("Identificacion %i:\n",id_v);
 							mostrar_pasos(m_viajes[id_v].id_viaje);
 							printf("Matricula: %s\n",m_viajes[id_v].matricula);
 							printf("Fecha de inicio: %i\n",m_viajes[id_v].Fecha_inicio);
-							printf("Hora de inicio: %i \n",m_viajes[id_V].Hora_inicio);
+							printf("Hora de inicio: %i \n",m_viajes[id_v].Hora_inicio);
 							printf("Hora de llegada: %i \n",m_viajes[id_v].Hora_final);
 							printf("Plazas libres: %i \n",m_viajes[id_v].Plazas_libres);
 							if(m_viajes[id].ida_vuelta==0) printf("Viaje de vuelta \n");
@@ -338,26 +344,26 @@ void menu_admin_viajes(int id, int lon, viajes **m_viajes)
 								case 4:
 									printf("Iniciado\n");
 									break;
-							}	
+							}
 						}
 			}
 			break;
 		case 6:
 			printf("indique la id del viaje");
 			scanf("%i",&id_v);
-			for (counter=0,counter<=lon,counter++){
+			for (counter=0;counter<=lon;counter++){
 				if(id_v==m_viajes[counter].id_viaje){
 				encontrado=1;
 				break;
 				}
 			}
 			if(encontrado==0)printf("viaje no encontrado");
-			else{	
-				borrar_viaje(**m_viajes, *lon, id_v);
+			else{
+				borrar_viaje(&m_viajes, &lon, id_v);
 				encontrado=0;
 
 				}
-			        
+
 			  }
 
-	}	
+	}

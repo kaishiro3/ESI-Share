@@ -175,7 +175,8 @@ void crear_viaje(viajes **m_viajes,int *lon,int id)
 		printf("\nIda - 1\nVuelta - 0");
 		scanf("%i",&x.ida_vuelta);
 		x.estado=0;
-		x.id_usuario=obtener_usuario_mat();
+		
+		x.id_usuario=m_vehiculos[buscar_vehiculo(x.matricula)].id_usuario;
 		**m_viajes[*lon]=x;
 		
 	}

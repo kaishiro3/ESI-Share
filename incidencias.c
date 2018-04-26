@@ -110,5 +110,15 @@ void crear_inciden(incidencias **m_incidencias, viajes **m_viajes, int *lon, int
 		fflush(stdin);
 		fgets(x.id_viaje,7,stdin);
 		fflush(stdin);
-		if (y.estado=!"Finalizado" && x.id_viaje==y.id_viaje && ){
-			
+		if (y.estado!="Finalizado" && x.id_viaje==y.id_viaje && ){
+			x.id_us_registra=id;
+			printf("Introduce el usuario sobre el que recae la incidencia: ");
+			fflush(stdin);
+			fgets(x.id_us_incidencia, 5, stdin);
+			fflush(stdin);
+			printf("Descripción: ");
+			fflush(stdin);
+			fgets(x.desc_incidencia, 101, stdin);
+			fflush(stdin);
+			x.est_incidencia="Abierta";
+			print		

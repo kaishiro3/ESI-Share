@@ -34,6 +34,7 @@ typedef struct {
     int Fecha_inicio[3];
     int Hora_inicio[2];
 	int Hora_final[2];
+	int id_usuario;
     int Plazas_libres;
     int ida_vuelta; //booleano de si es ida=1 o vuelta=0
     int precio;
@@ -110,4 +111,6 @@ void guardar_fich_viajes();
 void cargar_fich_pasos(pasos **m_pasos,int *lon);
 
 void guardar_fich_pasos();
+
+
 

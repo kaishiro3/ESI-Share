@@ -82,11 +82,12 @@ void cargar_ficheros()
 
 void guardar_ficheros()
 {
-	//guardar_fich_usuarios();
-	//guardar_fich_vehiculos(m_vehiculos,l_vehiculos);
+	guardar_fich_usuarios();
+	guardar_fich_vehiculos(m_vehiculos,l_vehiculos);
 	guardar_fich_viajes();
 	guardar_fich_pasos();
 	guardar_fich_incidencias();
+	printf("Fuego al hampa");
 }
 void guardar_fich_usuarios()
 {
@@ -100,21 +101,13 @@ else
 	for(i=0;i<l_usuarios;i++)
 	{
 		escribir_int_fich(m_usuarios[i].id_Usuario,4,fich);
-		fputc('-',fich);
-		//fprintf(fich,"%s",m_usuarios[i].nombre);//strlen(m_usuarios[i].nombre)
-		escribir_string_fich(m_usuarios[i].nombre,21,fich);
-		fputc('-',fich);
-		escribir_string_fich(m_usuarios[i].poblacion,21,fich);
+		fprintf(fich,"-%s-%s-",m_usuarios[i].nombre,m_usuarios[i].poblacion);
+
+		if(m_usuarios[i].perfil==0) fprintf(fich,"usuario");
+		else fprintf(fich,"administrador");
 		fputc('-',fich);
 
-		if(m_usuarios[i].perfil==0) escribir_string_fich("usuario",7,fich);
-		else escribir_string_fich("administrador",13,fich);
-		fputc('-',fich);
-
-		escribir_string_fich(m_usuarios[i].user,6,fich);
-		fputc('-',fich);
-		escribir_string_fich(m_usuarios[i].password,9,fich);
-		fputc('-',fich);
+        fprintf(fich,"-%s-%s-",m_usuarios[i].user,m_usuarios[i].password);
 
 		if(m_usuarios[i].estado==0) escribir_string_fich("bloqueado",9,fich);
 		else escribir_string_fich("activo",6,fich);
@@ -199,8 +192,7 @@ else
 		fputc('-',fich);
 
 		escribir_int_fich(m_viajes[i].precio,2,fich);
-		fputc('€',fich);
-		fputc('-',fich);
+		fprintf(fich,"€-");
 
 		switch (m_viajes[i].estado)
 		{

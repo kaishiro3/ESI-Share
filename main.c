@@ -1,7 +1,7 @@
 #include"ficheros.c"
 #include"usuarios.c"
 #include"vehiculos.c"
-
+#include"viajes.c"
 #include"incidencias.c"
 
 void main(){

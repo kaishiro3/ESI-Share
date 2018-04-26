@@ -177,7 +177,7 @@ void crear_viaje(viajes **m_viajes,int *lon,int id)
 		x.estado=0;
 		
 		x.id_usuario=m_vehiculos[buscar_vehiculo(x.matricula)].id_usuario;
-		**m_viajes[*lon]=x;
+		if(x.id_usuario!=-1) **m_viajes[*lon]=x;
 		
 	}
 }

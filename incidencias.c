@@ -121,4 +121,16 @@ void crear_inciden(incidencias **m_incidencias, viajes **m_viajes, int *lon, int
 			fgets(x.desc_incidencia, 101, stdin);
 			fflush(stdin);
 			x.est_incidencia="Abierta";
-			print		
+			i=0;
+			while(i<*lon-1 && (*m_incidencias)[i].id_us_registra!=id) i++;
+			while(i<*lon-1 && (*m_incidencias)[i].id_us_registra==id) i++;
+			aux=*lon-1;
+			while(aux>i)
+			{
+				(*m_incidencias)[aux]=(*m_incidencias)[aux-1];
+				aux--;
+			}
+			modif_inciden((*m_incidencias),*lon,i,x);
+		}
+	}
+}

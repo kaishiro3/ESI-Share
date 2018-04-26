@@ -95,4 +95,20 @@ void elimin_inciden(incidencias **m_incidencias, int *lon, int indice){
     if(((*m_incidencias)=(incidencias *)realloc((*m_incidencias),*lon*sizeof(incidencias)))==NULL) puts("Error al borrar la incidencia");
 }
 
- 
+void crear_inciden(incidencias **m_incidencias, viajes **m_viajes, int *lon, int id){
+	
+	incidencias x;
+	viajes y;
+	int i, aux;
+	
+	*lon++;
+	if(((*m_incidencias)=(incidencias *)realloc((*m_incidencias),(*lon)*sizeof(incidencias)))==NULL) puts("No hay espacio suficiente");
+	else{
+		system("cls");
+		printf("\n\t Crear incidencia\n\n");
+		printf("\nId del viaje: ");
+		fflush(stdin);
+		fgets(x.id_viaje,7,stdin);
+		fflush(stdin);
+		if (y.estado=!"Finalizado" && ){
+			

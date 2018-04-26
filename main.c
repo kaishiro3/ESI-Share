@@ -1,7 +1,7 @@
 #include"ficheros.c"
 #include"usuarios.c"
 #include"vehiculos.c"
-#include"viajes.c"
+
 #include"incidencias.c"
 
 void main(){
@@ -14,6 +14,7 @@ void main(){
     case 0:
     do{
         resp=mostrar_menu_usuario();
+        system("cls");
         switch (resp){
             case 1:         //Perfil
                 mostrar_datos_usuario(m_usuarios,&usuario_actual);
@@ -24,7 +25,7 @@ void main(){
                     scanf("%d",&r);
                 }while(r!=1 && r!=2);
                 if(r==1){             //Editar datos usuario.
-
+                    modificar_usuario(usuario_actual);
                 }
                 break;
             case 2:         //Vehiculos
@@ -40,12 +41,14 @@ void main(){
                 break;
         }
     } while (resp!=5);
+    guardar_fich_usuarios();
     puts("Hasta luego");
     exit(0);
     //break;
     case 1:
     do{
     resp=mostrar_menu_admin();
+    system("cls");
         switch (resp){
             case 1:             //Usuarios
                 r=0;
@@ -71,6 +74,8 @@ void main(){
                 break;
         }
     }while(resp!=5);
+    guardar_fich_usuarios();
+    system("cls");
     puts("Hasta luego");
     exit(0);
     //break;

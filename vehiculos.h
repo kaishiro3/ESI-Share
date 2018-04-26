@@ -27,7 +27,7 @@ void borrar_vehiculo(vehiculos **m_vehiculos,int *lon,char *matricula);
 /*Descripcion: Reemplaza m_vehiculos[indice] con modif*/
 void modificar_vehiculo(vehiculos *m_vehiculos,int lon,int indice,vehiculos modif);
 
-//Busca vehiculo por matricula devuelve su posicion en el vector y -1 si no se encontro
-int buscar_vehiculo(vehiculos *m_vehiculos,int lon,char *matricula);
+//Busca vehiculo por matricula devuelve su posicion en m_vehiculos y -1 si no se encontro
+int buscar_vehiculo(char *matricula);
 
 void menu_admin_vehiculos(int id_Usuario);

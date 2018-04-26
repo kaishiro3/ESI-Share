@@ -125,7 +125,8 @@ void agregar_vehiculo(vehiculos **m_vehiculos,int *lon,int id)
 			(*m_vehiculos)[aux]=(*m_vehiculos)[aux-1];
 			aux--;
 		}
-		modificar_vehiculo((*m_vehiculos),*lon,i,x);
+		//modificar_vehiculo((*m_vehiculos),*lon,i,x);
+		m_vehiculos[i]=x;
 	}
 
 
@@ -228,7 +229,7 @@ void menu_admin_vehiculos(int id_Usuario)
 		
 	}while(cursor!=-1);
 }
-Miguelangel Valderrama:
+//Miguelangel Valderrama:
 /*mostrar_viajes_por_vehiculo(char *matricula)
 {
  int i;

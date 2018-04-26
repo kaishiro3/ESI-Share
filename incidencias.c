@@ -11,16 +11,16 @@ void menu_inciusu(){
  do{
     printf("1. Crear incidencia: \n");
     printf("2. Consultar incidencia: \n");
-    printf("3. Volver.")
+    printf("3. Volver.");
     printf("Introduce un numero para elegir una opcion: \n");
     scanf("%i", &resp);
  }while(resp<1 || resp>3);
 if (resp==1){
-    crear_inciden();
+//    crear_inciden();
 
 }
 if (resp==2){
-    consult_inciden();
+  //  consult_inciden();
 }
 
 }
@@ -34,28 +34,28 @@ void menu_inciadmin(){
     printf("4. Listar incidencias: \n");
     printf("5. Validar incidencias: \n");
     printf("6. Bloquear usuarios: \n");
-    printf("7. Volver.\n")
+    printf("7. Volver.\n");
     printf("Introduce un numero para elegir una opcion: \n");
     scanf("%i", &resp);
  }while(resp<1 || resp>7);
 switch(resp){
 case 1:
-    crear_inciden();
+    //crear_inciden();
     break;
 case 2:
-    elimin_inciden();
+    //elimin_inciden();
     break;
 case 3:
-    modif_inciden();
+    //modif_inciden();
     break;
 case 4:
     list_inciden(&l_incidencias);
     break;
 case 5:
-    valid_inciden();
+    //valid_inciden();
     break;
 case 6:
-    bloquear_usu();
+    //bloquear_usu();
     break;
 }
 
@@ -80,9 +80,9 @@ void consult_inciden(incidencias *m_incidencias,int lon,int id){
 	int i;
 	for(i=0;i<lon;i++)
 	{
-		if(strcmp(m_incidencias[i].id_us_registra,id)==0 || strcmp(m_incidencias[i].id_us_incidencia,id)==0)
+		if(m_incidencias[i].id_us_registra==id || m_incidencias[i].id_us_incidencia==id)
 		        printf("Id del viaje: %d \n Id del usuario que registra: %d \n Id del usuario sobre el que recae: %d \n Descripcion: %s \n Estado: %s \n",m_incidencias[i].id_viaje,m_incidencias[i].id_us_registra,m_incidencias[i].id_us_incidencia,m_incidencias[i].desc_incidencia,m_incidencias[i].est_incidencia);
-	}
+}
 }
 void elimin_inciden(incidencias **m_incidencias, int *lon, int indice){
  int i;
@@ -96,11 +96,11 @@ void elimin_inciden(incidencias **m_incidencias, int *lon, int indice){
 }
 
 void crear_inciden(incidencias **m_incidencias, viajes **m_viajes, int *lon, int id){
-	
+
 	incidencias x;
 	viajes y;
 	int i, aux;
-	
+
 	*lon++;
 	if(((*m_incidencias)=(incidencias *)realloc((*m_incidencias),(*lon)*sizeof(incidencias)))==NULL) puts("No hay espacio suficiente");
 	else{
@@ -108,16 +108,16 @@ void crear_inciden(incidencias **m_incidencias, viajes **m_viajes, int *lon, int
 		printf("\n\t Crear incidencia\n\n");
 		printf("\nId del viaje: ");
 		fflush(stdin);
-		fgets(x.id_viaje,7,stdin);
+		scanf("%i",x.id_viaje);
 		fflush(stdin);
-		if (y.estado!="Finalizado" && x.id_viaje==y.id_viaje && ){
+		/*if (strcmp((*m_viajes[].estado,'Finalizado')!=0 && x.id_viaje==y.id_viaje){ //Agregar && una hora mas, seguir arreglando strcmp.
 			x.id_us_registra=id;
 			x.id_us_incidencia=m_usuarios[buscar_vehiculo(y.id_mat)].id_Usuario;
 			printf("Descripción: ");
 			fflush(stdin);
 			fgets(x.desc_incidencia, 101, stdin);
 			fflush(stdin);
-			x.est_incidencia="Abierta";
+			x.est_incidencia='Abierta';
 			i=0;
 			while(i<*lon-1 && (*m_incidencias)[i].id_us_registra!=id) i++;
 			while(i<*lon-1 && (*m_incidencias)[i].id_us_registra==id) i++;
@@ -128,8 +128,6 @@ void crear_inciden(incidencias **m_incidencias, viajes **m_viajes, int *lon, int
 				aux--;
 			}
 			modif_inciden((*m_incidencias),*lon,i,x);
-		}
+		}*/
 	}
 }
-
-

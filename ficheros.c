@@ -41,12 +41,13 @@ int leer_int_fich(int digitos,FILE * fich)
 
 void escribir_string_fich(char * cadena, int lon, FILE * fich)
 {
-	int i;	
-	while(cadena[i]!='\0' && cadena[i]!='\n' && i<lon)
+	int i;
+	fprintf(fich,"%s",cadena);
+	/*while(cadena[i]!='\0' && cadena[i]!='\n' && i<lon)
 	{
 		if(cadena[i]!='-') fputc(cadena[i],fich);
 		i++;
-	}
+	}*/
 }
 
 void escribir_int_fich(int numero,int digitos,FILE * fich)
@@ -81,13 +82,12 @@ void cargar_ficheros()
 
 void guardar_ficheros()
 {
-	guardar_fich_usuarios();
-	guardar_fich_vehiculos();
+	//guardar_fich_usuarios();
+	//guardar_fich_vehiculos(m_vehiculos,l_vehiculos);
 	guardar_fich_viajes();
 	guardar_fich_pasos();
 	guardar_fich_incidencias();
 }
-
 void guardar_fich_usuarios()
 {
 	FILE *fich;
@@ -101,38 +101,41 @@ else
 	{
 		escribir_int_fich(m_usuarios[i].id_Usuario,4,fich);
 		fputc('-',fich);
+		//fprintf(fich,"%s",m_usuarios[i].nombre);//strlen(m_usuarios[i].nombre)
 		escribir_string_fich(m_usuarios[i].nombre,21,fich);
 		fputc('-',fich);
 		escribir_string_fich(m_usuarios[i].poblacion,21,fich);
 		fputc('-',fich);
-		
+
 		if(m_usuarios[i].perfil==0) escribir_string_fich("usuario",7,fich);
 		else escribir_string_fich("administrador",13,fich);
 		fputc('-',fich);
-		
+
 		escribir_string_fich(m_usuarios[i].user,6,fich);
 		fputc('-',fich);
 		escribir_string_fich(m_usuarios[i].password,9,fich);
 		fputc('-',fich);
-		
+
 		if(m_usuarios[i].estado==0) escribir_string_fich("bloqueado",9,fich);
 		else escribir_string_fich("activo",6,fich);
-		
 		if(i!=l_usuarios-1) fputc('\n',fich);
 	}
 	fclose (fich);
 }
 }
 
-void guardar_fich_vehiculos()
+
+void guardar_fich_vehiculos(vehiculos *m_vehiculos,int l_vehiculos)
 {
 	FILE *fich;
 	int i,j;
+
 if ((fich = fopen("Vehiculos.txt", "w")) == NULL) {
  printf("No se ha podido guardar Vehiculos.txt.\n");
 }
 else
 {
+
 	for(i=0;i<l_vehiculos;i++)
 	{
 		for(j=0;j<7;j++)
@@ -166,39 +169,39 @@ else
 	{
 		escribir_int_fich(m_viajes[i].id_viaje,6,fich);
 		fputc('-',fich);
-		
+
 		for(j=0;j<7;j++)
 		{
 			if(m_viajes[i].matricula[j]=='\0' || m_viajes[i].matricula[j]=='\n') fputc(' ',fich);
 			else fputc(m_viajes[i].matricula[j],fich);
 		}
 		fputc('-',fich);
-		
+
 		escribir_int_fich(m_viajes[i].Fecha_inicio[0],2,fich);
 		fputc('/',fich);
 		escribir_int_fich(m_viajes[i].Fecha_inicio[1],2,fich);
 		fputc('/',fich);
 		escribir_int_fich(m_viajes[i].Fecha_inicio[2],4,fich);
 		fputc('-',fich);
-		
+
 		escribir_int_fich(m_viajes[i].Hora_inicio[0],2,fich);
 		fputc(':',fich);
 		escribir_int_fich(m_viajes[i].Hora_inicio[1],2,fich);
 		fputc('-',fich);
-		
+
 		escribir_int_fich(m_viajes[i].Hora_final[0],2,fich);
 		fputc(':',fich);
 		escribir_int_fich(m_viajes[i].Hora_final[1],2,fich);
 		fputc('-',fich);
-		
+
 		if(m_viajes[i].ida_vuelta==0) escribir_string_fich("vuelta",6,fich);
 		else escribir_string_fich("ida",3,fich);
 		fputc('-',fich);
-		
+
 		escribir_int_fich(m_viajes[i].precio,2,fich);
 		fputc('€',fich);
 		fputc('-',fich);
-		
+
 		switch (m_viajes[i].estado)
 		{
             case 0:
@@ -217,7 +220,7 @@ else
                 escribir_string_fich("iniciado",8,fich);
                 break;
         }
-		
+
 		if(i!=l_viajes-1) fputc('\n',fich);
 	}
 	fclose (fich);
@@ -263,7 +266,7 @@ else
 		fputc('-',fich);
 		escribir_string_fich(m_incidencias[i].desc_incidencia,101,fich);
 		fputc('-',fich);
-		
+
 		switch (m_incidencias[i].est_incidencia)
 		{
             case 0:
@@ -276,7 +279,7 @@ else
             	escribir_string_fich("Cerrada ",10,fich);
                 break;
         }
-		
+
 		if(i!=l_incidencias-1) fputc('\n',fich);
 	}
 	fclose (fich);
@@ -361,13 +364,13 @@ void cargar_fich_vehiculos(vehiculos **m_vehiculos,int *lon)
             for(i=0;i<*lon;i++)
             {
                 leer_string_fich((*m_vehiculos)[i].matricula,8,fich);; //Lee la matricula
-                
+
                 (*m_vehiculos)[i].id_Usuario=leer_int_fich(4,fich);
                 fseek(fich,1,SEEK_CUR);
-                
+
                 (*m_vehiculos)[i].plazas=fgetc(fich)-48; //Lee el numero de plazas que es un solo digito
                 fseek(fich,1,SEEK_CUR);
-                
+
                 j=0;
                 do //Procedimiento para leer la definicion
                 {
@@ -405,16 +408,16 @@ void cargar_fich_viajes(viajes **m_viajes,int *lon)
             {
 				(*m_viajes)[i].id_viaje=leer_int_fich(6,fich);
 				fseek(fich,1,SEEK_CUR); //Omision del guion
-				
+
 				leer_string_fich((*m_viajes)[i].matricula,8,fich);; //Lee la matricula
-				
+
             	(*m_viajes)[i].Fecha_inicio[0]=leer_int_fich(2,fich);
             	fseek(fich,1,SEEK_CUR);
             	(*m_viajes)[i].Fecha_inicio[1]=leer_int_fich(2,fich);
             	fseek(fich,1,SEEK_CUR);
             	(*m_viajes)[i].Fecha_inicio[2]=leer_int_fich(4,fich);
             	fseek(fich,1,SEEK_CUR);
-            	
+
             	(*m_viajes)[i].Hora_inicio[0]=leer_int_fich(2,fich);
             	fseek(fich,1,SEEK_CUR);
             	(*m_viajes)[i].Hora_inicio[1]=leer_int_fich(2,fich);
@@ -423,10 +426,10 @@ void cargar_fich_viajes(viajes **m_viajes,int *lon)
             	fseek(fich,1,SEEK_CUR);
             	(*m_viajes)[i].Hora_final[1]=leer_int_fich(2,fich);
             	fseek(fich,1,SEEK_CUR);
-				
+
 				(*m_viajes)[i].Plazas_libres=fgetc(fich)-48; //Lee el numero de plazas que es un solo digito
 				fseek(fich,1,SEEK_CUR);
-				
+
 				j=0;
             	do //Procedimiento para leer si es ida o vuelta
             	{
@@ -437,10 +440,10 @@ void cargar_fich_viajes(viajes **m_viajes,int *lon)
             	}while(aux!='-' && j<7);
             	if(strcmp(aux2,"ida")==0) (*m_viajes)[i].ida_vuelta=1;
             	else (*m_viajes)[i].ida_vuelta=0;
-            	
+
             	(*m_viajes)[i].precio=fgetc(fich)-48; //Lee el precio que es un solo digito
             	fseek(fich,2,SEEK_CUR); //Omision del Guion y el simbolo del Euro
-            	
+
 				j=0;
 				do{
             	    aux=fgetc(fich);
@@ -491,7 +494,7 @@ void cargar_fich_pasos(pasos **m_pasos,int *lon)
             {
                 (*m_pasos)[i].id_viaje=leer_int_fich(4,fich);
                 fseek(fich,1,SEEK_CUR);
-                
+
                 j=0;
                 do //Procedimiento para leer la definicion
                 {
@@ -529,10 +532,10 @@ void cargar_fich_incidencias(incidencias **m_incidencias,int *lon)
             {
             	(*m_incidencias)[i].id_viaje=leer_int_fich(6,fich);
 				fseek(fich,1,SEEK_CUR); //Omision del guion
-            	
+
 				(*m_incidencias)[i].id_us_registra=leer_int_fich(4,fich);
             	fseek(fich,1,SEEK_CUR); //Omision del guion
-            	
+
             	(*m_incidencias)[i].id_us_incidencia=leer_int_fich(4,fich);
             	fseek(fich,1,SEEK_CUR); //Omision del guion
 

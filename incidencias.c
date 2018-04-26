@@ -112,10 +112,7 @@ void crear_inciden(incidencias **m_incidencias, viajes **m_viajes, int *lon, int
 		fflush(stdin);
 		if (y.estado!="Finalizado" && x.id_viaje==y.id_viaje && ){
 			x.id_us_registra=id;
-			printf("Introduce el usuario sobre el que recae la incidencia: ");
-			fflush(stdin);
-			fgets(x.id_us_incidencia, 5, stdin);
-			fflush(stdin);
+			x.id_us_incidencia=m_usuarios[buscar_vehiculo(y.id_mat)].id_Usuario;
 			printf("Descripción: ");
 			fflush(stdin);
 			fgets(x.desc_incidencia, 101, stdin);
@@ -134,3 +131,5 @@ void crear_inciden(incidencias **m_incidencias, viajes **m_viajes, int *lon, int
 		}
 	}
 }
+
+

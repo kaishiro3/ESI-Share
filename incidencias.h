@@ -3,9 +3,9 @@
 #include <stdio.h>
 #endif // _INCIDENCIAS_
 
-void crear_inciden(incidencias **m_incidencias, int *lon, int id);
-void consult_inciden(int id_us_incidencia);
-void elimin_inciden(incidencias **m_incidencias, int *lon, int *viaje);
+void crear_inciden(incidencias **,viajes **,int *, int);
+void consult_inciden(incidencias *,int,int);
+void elimin_inciden(incidencias **, int *, int);
 void modif_inciden(incidencias *m_incidencias, int lon, int i, incidencias modif);
 void list_inciden(int *lon);
 void valid_inciden(incidencias *);

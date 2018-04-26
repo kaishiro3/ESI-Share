@@ -228,3 +228,19 @@ void menu_admin_vehiculos(int id_Usuario)
 		
 	}while(cursor!=-1);
 }
+Miguelangel Valderrama:
+/*mostrar_viajes_por_vehiculo(char *matricula)
+{
+ int i;
+ for(i=0;i<l_viajes;i++)
+ {
+  if(strcmp(m_viajes[i].matricula,matricula)==0)
+  {
+   if(m_viajes[i].ida_vuelta==0) printf("vuelta");
+   else printf("ida");
+   
+   printf("\n%i/%i/%i\t",m_viajes[i].Fecha_inicio[0],m_viajes[i].Fecha_inicio[1],m_viajes[i].Fecha_inicio[2]);
+   printf("de %i:%i hasta %i:%i",m_viajes[i].Hora_inicio[0],m_viajes[i].Hora_inicio[1],m_viajes[i].Hora_final[0],m_viajes[i].Hora_final[1]);
+  }
+ }
+}*/

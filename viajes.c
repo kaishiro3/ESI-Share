@@ -264,7 +264,7 @@ void menu_admin_viajes(int id, int lon, viajes **m_viajes)
 	int id_v=00;
 	int encontrado=0
 	
-	printf("\nQue desea hacer:\n1-mostrar viajes\n2-crear viaje\n3-entrar a un viaje\n4-editar un viaje\n5-mostrar sus viajes");
+	printf("\nQue desea hacer:\n1-mostrar viajes\n2-crear viaje\n3-entrar a un viaje\n4-editar un viaje\n5-mostrar sus viajes\n6-borrar un viaje");
 	scanf("%i",&caso);
 	switch (caso){
 		case 1:
@@ -341,6 +341,21 @@ void menu_admin_viajes(int id, int lon, viajes **m_viajes)
 						}
 			}
 			break;
+		case 6:
+			printf("indique la id del viaje");
+			scanf("%i",&id_v);
+			for (counter=0,counter<=lon,counter++){
+				if(id_v==m_viajes[counter].id_viaje){
+				encontrado=1;
+				break;
+				}
+			}
+			if(encontrado==0)printf("viaje no encontrado");
+			else{	
+				borrar_viaje(**m_viajes, *lon, id_v);
+				encontrado=0;
+
+				}
 			        
 			  }
 

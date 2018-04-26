@@ -148,10 +148,10 @@ void modificar_vehiculo(vehiculos *m_vehiculos,int lon,int indice,vehiculos modi
     m_vehiculos[indice]=modif;
 }
 
-int buscar_vehiculo(vehiculos *m_vehiculos,int lon,char *matricula)
+int buscar_vehiculo(char *matricula)
 {
 	int i;
-	for(i=0;i<lon;i++)
+	for(i=0;i<l_vehiculos;i++)
 	{
 		if(strcmp(m_vehiculos[i].matricula,matricula)==0)
 		return i;

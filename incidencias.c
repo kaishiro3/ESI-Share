@@ -110,5 +110,5 @@ void crear_inciden(incidencias **m_incidencias, viajes **m_viajes, int *lon, int
 		fflush(stdin);
 		fgets(x.id_viaje,7,stdin);
 		fflush(stdin);
-		if (y.estado=!"Finalizado" && ){
+		if (y.estado=!"Finalizado" && x.id_viaje==y.id_viaje && ){
 			

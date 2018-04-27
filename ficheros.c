@@ -12,8 +12,6 @@
 
 static void leer_string_fich(char * cadena, int lon, FILE * fich);
 static int leer_int_fich(int digitos,FILE * fich);
-
-static void escribir_string_fich(char * cadena, int lon, FILE * fich);
 static void escribir_int_fich(int numero,int digitos,FILE * fich);
 
 void leer_string_fich(char * cadena, int lon,FILE * fich)
@@ -37,17 +35,6 @@ int leer_int_fich(int digitos,FILE * fich)
     	aux=aux+((fgetc(fich)-48)*i);
     }
     return aux;
-}
-
-void escribir_string_fich(char * cadena, int lon, FILE * fich)
-{
-	int i;
-	fprintf(fich,"%s",cadena);
-	/*while(cadena[i]!='\0' && cadena[i]!='\n' && i<lon)
-	{
-		if(cadena[i]!='-') fputc(cadena[i],fich);
-		i++;
-	}*/
 }
 
 void escribir_int_fich(int numero,int digitos,FILE * fich)
@@ -83,7 +70,7 @@ void cargar_ficheros()
 void guardar_ficheros()
 {
 	guardar_fich_usuarios();
-	guardar_fich_vehiculos(m_vehiculos,l_vehiculos);
+	guardar_fich_vehiculos();
 	guardar_fich_viajes();
 	guardar_fich_pasos();
 	guardar_fich_incidencias();
@@ -105,12 +92,11 @@ else
 
 		if(m_usuarios[i].perfil==0) fprintf(fich,"usuario");
 		else fprintf(fich,"administrador");
-		fputc('-',fich);
-
+		
         fprintf(fich,"-%s-%s-",m_usuarios[i].user,m_usuarios[i].password);
 
-		if(m_usuarios[i].estado==0) escribir_string_fich("bloqueado",9,fich);
-		else escribir_string_fich("activo",6,fich);
+		if(m_usuarios[i].estado==0) fprintf(fich,"bloqueado");
+		else fprintf(fich,"activo");
 		if(i!=l_usuarios-1) fputc('\n',fich);
 	}
 	fclose (fich);
@@ -118,7 +104,7 @@ else
 }
 
 
-void guardar_fich_vehiculos(vehiculos *m_vehiculos,int l_vehiculos)
+void guardar_fich_vehiculos()
 {
 	FILE *fich;
 	int i,j;
@@ -140,9 +126,7 @@ else
 		escribir_int_fich(m_vehiculos[i].id_Usuario,4,fich);
 		fputc('-',fich);
 		fputc(m_vehiculos[i].plazas+48,fich);
-		fputc('-',fich);
-		j=0;
-		escribir_string_fich(m_vehiculos[i].definicion,51,fich);
+		fprintf(fich,"-%s",m_vehiculos[i].definicion);
 		if(i!=l_vehiculos-1) fputc('\n',fich);
 	}
 	fclose (fich);
@@ -187,29 +171,29 @@ else
 		escribir_int_fich(m_viajes[i].Hora_final[1],2,fich);
 		fputc('-',fich);
 
-		if(m_viajes[i].ida_vuelta==0) escribir_string_fich("vuelta",6,fich);
-		else escribir_string_fich("ida",3,fich);
+		if(m_viajes[i].ida_vuelta==0) fprintf(fich,"vuelta");
+		else fprintf(fich,"ida");
 		fputc('-',fich);
 
-		escribir_int_fich(m_viajes[i].precio,2,fich);
+		escribir_int_fich(m_viajes[i].precio,1,fich);
 		fprintf(fich,"€-");
 
 		switch (m_viajes[i].estado)
 		{
             case 0:
-            	escribir_string_fich("abierto",7,fich);
+            	fprintf(fich,"abierto");
                 break;
             case 1:
-            	escribir_string_fich("cerrado",7,fich);
+            	fprintf(fich,"cerrado");
                 break;
             case 2:
-            	escribir_string_fich("finalizado",10,fich);
+            	fprintf(fich,"finalizado");
                 break;
             case 3:
-                escribir_string_fich("cancelado",9,fich);
+            	fprintf(fich,"cancelado");
                 break;
             case 4:
-                escribir_string_fich("iniciado",8,fich);
+            	fprintf(fich,"iniciado");
                 break;
         }
 
@@ -231,8 +215,7 @@ else
 	for(i=0;i<l_pasos;i++)
 	{
 		escribir_int_fich(m_pasos[i].id_viaje,6,fich);
-		fputc('-',fich);
-		escribir_string_fich(m_pasos[i].poblacion,21,fich);
+		fprintf(fich,"-%s",m_pasos[i].poblacion);
 		if(i!=l_pasos-1) fputc('\n',fich);
 	}
 	fclose (fich);
@@ -255,20 +238,17 @@ else
 		escribir_int_fich(m_incidencias[i].id_us_registra,4,fich);
 		fputc('-',fich);
 		escribir_int_fich(m_incidencias[i].id_us_incidencia,4,fich);
-		fputc('-',fich);
-		escribir_string_fich(m_incidencias[i].desc_incidencia,101,fich);
-		fputc('-',fich);
-
+		fprintf(fich,"-%s-",m_incidencias[i].desc_incidencia);
 		switch (m_incidencias[i].est_incidencia)
 		{
             case 0:
-            	escribir_string_fich("Abierta",7,fich);
+            	fprintf(fich,"Abierta");
                 break;
             case 1:
-            	escribir_string_fich("Validada",7,fich);
+            	fprintf(fich,"Validada");
                 break;
             case 2:
-            	escribir_string_fich("Cerrada ",10,fich);
+            	fprintf(fich,"Cerrada");
                 break;
         }
 
@@ -484,7 +464,7 @@ void cargar_fich_pasos(pasos **m_pasos,int *lon)
         {
             for(i=0;i<*lon;i++)
             {
-                (*m_pasos)[i].id_viaje=leer_int_fich(4,fich);
+                (*m_pasos)[i].id_viaje=leer_int_fich(6,fich);
                 fseek(fich,1,SEEK_CUR);
 
                 j=0;

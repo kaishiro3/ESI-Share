@@ -89,7 +89,7 @@ void cargar_fich_vehiculos(vehiculos **,int *);
 
 //Precondicion: m_vehiculos inicializado y en lon la longitud de vm_vehiculos
 //Descripcion: Sobrescribe "Vehiculos.txt" con los datos de m_vehiculos
-void guardar_fich_vehiculos(vehiculos *m_vehiculos,int l_vehiculos);
+void guardar_fich_vehiculos();
 
 void cargar_fich_usuarios(usuarios **,int *);
 
@@ -103,7 +103,7 @@ void guardar_fich_incidencias();
 y en l_viajes la cantidad de elementos*/
 //Precondicion: m_viajes inicializado y en lon>1
 //Postcondicion: sobreescribe el actual m_viajes con el archivo en txt
-//en caso de no haber un archivo llamado "viajes.txt" lo creará con el actual m_viajes actualizado
+//en caso de no haber un archivo llamado "viajes.txt" lo crearÃ¡ con el actual m_viajes actualizado
 void cargar_fich_viajes(viajes **m_viajes, int *lon);
 
 void guardar_fich_viajes();
@@ -111,6 +111,5 @@ void guardar_fich_viajes();
 void cargar_fich_pasos(pasos **m_pasos,int *lon);
 
 void guardar_fich_pasos();
-
 
 

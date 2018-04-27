@@ -41,7 +41,7 @@ void main(){
                 break;
         }
     } while (resp!=5);
-    guardar_fich_usuarios();
+    guardar_ficheros();
     puts("Hasta luego");
     exit(0);
     //break;
@@ -74,7 +74,7 @@ void main(){
                 break;
         }
     }while(resp!=5);
-    guardar_fich_usuarios();
+    guardar_ficheros();
     system("cls");
     puts("Hasta luego");
     exit(0);

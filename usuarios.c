@@ -2,7 +2,7 @@
 
 int resp;
 
-void login(){                   //Funcion que comprueba en usuarios.txt usuario y contraseña
+void login(){                   //Funcion que comprueba en usuarios.txt usuario y contraseÃ±a
 int r;
 char usuario[15];
 char pass[15];
@@ -10,7 +10,7 @@ char pass[15];
     puts("\n\t ESI-SHARE. BIENVENIDO\n");
     puts("Introduce usuario");
     scanf("%s",&usuario);
-    puts("Introduce contraseña");
+    puts("Introduce contraseÃ±a");
     scanf("%s",&pass);
 
     usuario_actual=check_user(usuario,pass,&l_usuarios); //Comprueba si existe usuario y devuelve un entero con el indice de los datos del usuario o -1 si no existe.
@@ -19,7 +19,7 @@ if (usuario_actual==-1) {
 do{
     system("cls");
     r=0;
-    puts("No existe usuario o la contraseña es incorrecta.");
+    puts("No existe usuario o la contraseÃ±a es incorrecta.");
     puts("1. Intentar de nuevo.");
     puts("2. Registrarse");
     scanf("%d",&r);
@@ -29,7 +29,7 @@ if (r==1){
     system("cls");
     puts("Introduce usuario");
     scanf("%s",&usuario);
-    puts("Introduce contraseña");
+    puts("Introduce contraseÃ±a");
     scanf("%s",&pass);
     usuario_actual=check_user(usuario,pass,&l_usuarios);
 }while(usuario_actual==-1);
@@ -98,10 +98,10 @@ char poblacion[21];
 char password[9];
 do{
         system("cls");
-        puts("¿Qué datos quiere modificar?");
+        puts("Â¿QuÃ© datos quiere modificar?");
         puts("1. Nombre.");
         puts("2. Poblacion");
-        puts("3. Contraseña");
+        puts("3. ContraseÃ±a");
         puts("4. Volver");
         scanf("%i",&r);
 }while(r<1 && r>4);
@@ -123,7 +123,7 @@ if(r==2){
 }
 if(r==3){
 
-    puts("Introduce contraseña");
+    puts("Introduce contraseÃ±a");
     fflush(stdin);
     fgets(m_usuarios[indice].password,9,stdin);
     fix_string(m_usuarios[indice].password,9);
@@ -135,12 +135,12 @@ void mostrar_lista_usuarios(usuarios *m_usuarios,int *lon){
 int i;
 
 for(i=0;i<*lon;i++){
-    printf("Id: %d \n Nombre: %s \n Poblacion: %s \n Perfil: %d \n Usuario: %s \n Contraseña: %s \n Estado: %d\n",m_usuarios[i].id_Usuario,m_usuarios[i].nombre,m_usuarios[i].poblacion,m_usuarios[i].perfil,m_usuarios[i].user,m_usuarios[i].password,m_usuarios[i].estado);
+    printf("Id: %d \n Nombre: %s \n Poblacion: %s \n Perfil: %d \n Usuario: %s \n ContraseÃ±a: %s \n Estado: %d\n",m_usuarios[i].id_Usuario,m_usuarios[i].nombre,m_usuarios[i].poblacion,m_usuarios[i].perfil,m_usuarios[i].user,m_usuarios[i].password,m_usuarios[i].estado);
 }
 }
 
 void mostrar_datos_usuario(usuarios *m_usuarios,int *indice){
-printf("Id: %d \n Nombre: %s \n Poblacion: %s \n Perfil: %d \n Usuario: %s \n Contraseña: %s \n Estado: %d \n",m_usuarios[*indice].id_Usuario,m_usuarios[*indice].nombre,m_usuarios[*indice].poblacion,m_usuarios[*indice].perfil,m_usuarios[*indice].user,m_usuarios[*indice].password,m_usuarios[*indice].estado);
+printf("Id: %d \n Nombre: %s \n Poblacion: %s \n Perfil: %d \n Usuario: %s \n ContraseÃ±a: %s \n Estado: %d \n",m_usuarios[*indice].id_Usuario,m_usuarios[*indice].nombre,m_usuarios[*indice].poblacion,m_usuarios[*indice].perfil,m_usuarios[*indice].user,m_usuarios[*indice].password,m_usuarios[*indice].estado);
 }
 
 int registrar_usuario(usuarios ** m_usuarios,int * lon){
@@ -166,7 +166,7 @@ int len,aux=-1;
             aux=buscar_usuario_user(u.user);
             }while(aux!=-1);
 
-            puts("Introduce contraseña");
+            puts("Introduce contraseÃ±a");
             fflush(stdin);
             fgets(u.password,9,stdin);
             fix_string(u.password,21);
@@ -208,4 +208,3 @@ int buscar_usuario_id(int id)
 	}
 	return -1;
 }
-

@@ -383,6 +383,14 @@ void cargar_fich_viajes(viajes **m_viajes,int *lon)
 
 				leer_string_fich((*m_viajes)[i].matricula,8,fich);; //Lee la matricula
 
+				(*m_viajes)[i].id_usuario=-1;
+				j=0;
+				while(j<l_vehiculos && (*m_viajes)[i].id_usuario==-1)
+				{
+				if(strcmp(m_vehiculos[j].matricula,(*m_viajes)[i].matricula)==0) (*m_viajes)[i].id_usuario=j;
+				j++;
+				}
+	
             	(*m_viajes)[i].Fecha_inicio[0]=leer_int_fich(2,fich);
             	fseek(fich,1,SEEK_CUR);
             	(*m_viajes)[i].Fecha_inicio[1]=leer_int_fich(2,fich);

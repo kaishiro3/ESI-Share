@@ -5,7 +5,7 @@
 #include"incidencias.c"
 
 void main(){
-	int n,i,id,oper,r;
+	int n,i,id,oper,r,comp,aux; //comp=comprobacion de alta de usuario.;
 	n=0;
     cargar_ficheros();
 	//mostrar_lista_usuarios(m_usuarios,&l_usuarios); //Para comprobar usuarios y funcionamiento. TESTING
@@ -60,8 +60,26 @@ void main(){
                     puts("5. Volver");
                     scanf("%d",&r);
                 } while(r<=0 || r>=6);
-                    if(r==4) mostrar_lista_usuarios(m_usuarios,&l_usuarios);
-
+                    if(r==1){
+                        comp=registrar_usuario(&m_usuarios,&l_usuarios);
+                        if(comp==-1) puts("El usuario no se ha podido dar de alta");
+                        else {
+                            puts("Usuario creado con exito");
+                            guardar_fich_usuarios();
+                        }
+                        system("pause");
+                    }
+                    if(r==3){
+                        mostrar_lista_usuarios(m_usuarios,&l_usuarios);
+                        puts("Seleccione id del usuario");
+                        scanf("%i",&aux);
+                        modificar_usuario_admin(aux-1);
+                        system("pause");
+                    }
+                    if(r==4) {
+                        mostrar_lista_usuarios(m_usuarios,&l_usuarios);
+                        system("pause");
+                    }
                 break;
             case 2:             //Vehiculos
                     menu_admin_vehiculos(m_usuarios[usuario_actual].id_Usuario);

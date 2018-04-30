@@ -6,6 +6,7 @@
 #endif // _USUARIOS_
 
 void modificar_usuario(int);
+void modificar_usuario_admin(int);
 int tipo_usuario,usuario_actual;               //Muestra el tipo de usuario que es. 1=usuario, 2=admin.
 void login();                   //Procedimiento que Mostrara pantalla de login y comprobara tipo usuario.
 int check_user(char *, char *,int *); //Funcion que comprobara si el usuario existe.

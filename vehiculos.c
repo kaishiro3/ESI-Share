@@ -7,7 +7,7 @@
 void mostrar_lista_vehiculos()
 {
 	int i;
-	for(i=0;i<l_vehiculos;i++) //Ciclo que imprime por pantalla cada uno de los atributos de los elementos de m_vehiculos
+	for(i=0;i<l_vehiculos;i++) //Bucle que imprime por pantalla cada uno de los atributos de los elementos de m_vehiculos
 	{
 		printf("elemento %i:\n",i);
 		printf("Matricula: %s\n",m_vehiculos[i].matricula);
@@ -16,7 +16,6 @@ void mostrar_lista_vehiculos()
 		printf("%s\n",m_vehiculos[i].definicion);
 
 	}
-
 }
 
 void menu_usuario_vehiculos(int id_Usuario)
@@ -25,8 +24,8 @@ void menu_usuario_vehiculos(int id_Usuario)
 	char aux;
 	do{
 		i=j=0;
-		system("cls");
-		printf("\n\t Mis Vehiculos\n\n");
+		system("cls"); // Limpia la pantalla
+		printf("\n\t Mis Vehiculos\n\n"); //Titulo del menú
 		while(i<l_vehiculos && m_vehiculos[i].id_Usuario!=id_Usuario) i++;
 		while(i<l_vehiculos && m_vehiculos[i].id_Usuario==id_Usuario)
 			{

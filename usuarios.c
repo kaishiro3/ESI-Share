@@ -89,22 +89,20 @@ int mostrar_menu_admin(){
 
     return resp;
 }
-
-void modificar_usuario(int indice)
-{
+void modificar_usuario_admin(int indice){
 int r;
-char nombre[21];
-char poblacion[21];
-char password[9];
 do{
+
         system("cls");
-        puts("Â¿QuÃ© datos quiere modificar?");
+        mostrar_datos_usuario(m_usuarios,&indice);
+        puts("¿Que datos quiere modificar?");
         puts("1. Nombre.");
         puts("2. Poblacion");
-        puts("3. ContraseÃ±a");
-        puts("4. Volver");
+        puts("3. Perfil");
+        puts("4. ContraseÃ±a");
+        puts("5. Estado");
+        puts("6. Volver");
         scanf("%i",&r);
-}while(r<1 && r>4);
 if(r==1){
 
     puts("Introduce nombre:");
@@ -122,6 +120,13 @@ if(r==2){
     //m_usuarios[indice].poblacion=poblacion;
 }
 if(r==3){
+    puts("\n Modifique el perfil");
+    puts("0. Usuario");
+    puts("1. Administrador");
+    fflush(stdin);
+    scanf("%i",&m_usuarios[indice].perfil);
+}
+if(r==4){
 
     puts("Introduce contraseÃ±a");
     fflush(stdin);
@@ -129,11 +134,53 @@ if(r==3){
     fix_string(m_usuarios[indice].password,9);
     //m_usuarios[indice].password=password;
 }
+if(r==5){
+    puts("Introduce estado");
+    puts("0. Bloqueado");
+    puts("1. Activo");
+    scanf("%i",&m_usuarios[indice].estado);
+}
+}while(r<1 && r>6);
+}
+
+void modificar_usuario(int indice)
+{
+int r;
+do{
+        system("cls");
+        puts("\nQue datos quiere modificar?\n");
+        puts("1. Nombre.");
+        puts("2. Poblacion");
+        puts("3. ContraseÃ±a");
+        puts("4. Volver");
+        scanf("%i",&r);
+}while(r<1 && r>4);
+if(r==1){
+
+    puts("Introduce nombre:");
+    fflush(stdin);
+    fgets(m_usuarios[indice].nombre,21,stdin);
+    fix_string(m_usuarios[indice].nombre,21);
+}
+if(r==2){
+
+    puts("Introduce poblacion");
+    fflush(stdin);
+    fgets(m_usuarios[indice].poblacion,21,stdin);
+    fix_string(m_usuarios[indice].poblacion,21);
+}
+if(r==3){
+
+    puts("Introduce contraseÃ±a");
+    fflush(stdin);
+    fgets(m_usuarios[indice].password,9,stdin);
+    fix_string(m_usuarios[indice].password,9);
+}
 }
 
 void mostrar_lista_usuarios(usuarios *m_usuarios,int *lon){
 int i;
-
+puts("\n \t Lista de usuarios");
 for(i=0;i<*lon;i++){
     printf("Id: %d \n Nombre: %s \n Poblacion: %s \n Perfil: %d \n Usuario: %s \n ContraseÃ±a: %s \n Estado: %d\n",m_usuarios[i].id_Usuario,m_usuarios[i].nombre,m_usuarios[i].poblacion,m_usuarios[i].perfil,m_usuarios[i].user,m_usuarios[i].password,m_usuarios[i].estado);
 }

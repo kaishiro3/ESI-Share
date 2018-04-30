@@ -19,7 +19,7 @@ void mostrar_lista_vehiculos()
 
 }
 
-void menu_usuario_vehiculos(int id)
+void menu_usuario_vehiculos(int id_Usuario)
 {
 	int i,j,cursor,cursor2;
 	char aux;
@@ -27,8 +27,8 @@ void menu_usuario_vehiculos(int id)
 		i=j=0;
 		system("cls");
 		printf("\n\t Mis Vehiculos\n\n");
-		while(i<l_vehiculos && m_vehiculos[i].id_Usuario!=id) i++;
-		while(i<l_vehiculos && m_vehiculos[i].id_Usuario==id)
+		while(i<l_vehiculos && m_vehiculos[i].id_Usuario!=id_Usuario) i++;
+		while(i<l_vehiculos && m_vehiculos[i].id_Usuario==id_Usuario)
 			{
 			j++;
 			printf("%i.- %s\n",j,m_vehiculos[i].definicion);
@@ -42,7 +42,7 @@ void menu_usuario_vehiculos(int id)
 				scanf("%i",&cursor);
 		}while(cursor<1 || cursor>j+2);
 
-		if(cursor==j+1) agregar_vehiculo(&m_vehiculos,&l_vehiculos,id);
+		if(cursor==j+1) agregar_vehiculo(&m_vehiculos,&l_vehiculos,id_Usuario);
 		else
 		{
 			if(cursor==j+2) cursor=-1;
@@ -116,6 +116,7 @@ void agregar_vehiculo(vehiculos **m_vehiculos,int *lon,int id)
 		fflush(stdin);
 		fgets(x.definicion,51,stdin);
 		fflush(stdin);
+		fix_string(x.definicion,51);
 		i=0;
 		while(i<*lon-1 && (*m_vehiculos)[i].id_Usuario!=id) i++;
 		while(i<*lon-1 && (*m_vehiculos)[i].id_Usuario==id) i++;
@@ -125,8 +126,7 @@ void agregar_vehiculo(vehiculos **m_vehiculos,int *lon,int id)
 			(*m_vehiculos)[aux]=(*m_vehiculos)[aux-1];
 			aux--;
 		}
-		//modificar_vehiculo((*m_vehiculos),*lon,i,x);
-		m_vehiculos[i]=x;
+		(*m_vehiculos)[i]=x;
 	}
 
 
@@ -142,11 +142,6 @@ void borrar_vehiculo(vehiculos **m_vehiculos,int *lon,int indice)
     }
     *lon=*lon-1;
     if(((*m_vehiculos)=(vehiculos *)realloc((*m_vehiculos),*lon*sizeof(vehiculos)))==NULL) puts("Error al borrar vehiculos");
-}
-
-void modificar_vehiculo(vehiculos *m_vehiculos,int lon,int indice,vehiculos modif)
-{
-    m_vehiculos[indice]=modif;
 }
 
 int buscar_vehiculo(char *matricula)
@@ -171,7 +166,7 @@ void menu_admin_vehiculos(int id_Usuario)
 		for(i=0;i<l_vehiculos;i++)
 		{
 			aux=buscar_usuario_id(m_vehiculos[i].id_Usuario);
-			if(aux!=-1) printf("%i.- %s de %s\n",i,m_vehiculos[i].definicion,m_usuarios[aux].user);
+			if(aux!=-1) printf("%i.- %s de %s\n",i+1,m_vehiculos[i].definicion,m_usuarios[aux].user);
 			else printf("%i.- %s\n",i,m_vehiculos[i].definicion);
 		}
 		printf("\n%i.- A%cadir\n%i.- Salir\n\n",i+1,164,i+2);
@@ -187,12 +182,13 @@ void menu_admin_vehiculos(int id_Usuario)
 			if(cursor==i+2) cursor=-1;
 			else
 			{
+				cursor--;
 				do
 				{
 					do
 					{
 						system("cls");
-						printf("\n\t %s\n\n",m_vehiculos[cursor].matricula);
+						printf("\n\t %s\n",m_vehiculos[cursor].matricula);
 						printf("\n1.- Definicion: %s\n2.- Plazas: %i\n3.- Lista de Viajes\n4.- Borrar\n5.- Volver\n\n",m_vehiculos[cursor].definicion,m_vehiculos[cursor].plazas);
 						printf("Introduzca operacion: ");
 						scanf("%i",&cursor2);
@@ -218,6 +214,7 @@ void menu_admin_vehiculos(int id_Usuario)
 					m_vehiculos[cursor].plazas=aux;
             	    break;
             	case 3: //Lista de Viajes
+            		mostrar_viajes_por_vehiculo(m_vehiculos[cursor].matricula);
             		break;
             	case 4:
 					borrar_vehiculo(&m_vehiculos,&l_vehiculos,cursor);
@@ -229,19 +226,28 @@ void menu_admin_vehiculos(int id_Usuario)
 		
 	}while(cursor!=-1);
 }
-//Miguelangel Valderrama:
-/*mostrar_viajes_por_vehiculo(char *matricula)
+
+mostrar_viajes_por_vehiculo(char *matricula)
 {
- int i;
- for(i=0;i<l_viajes;i++)
- {
-  if(strcmp(m_viajes[i].matricula,matricula)==0)
-  {
-   if(m_viajes[i].ida_vuelta==0) printf("vuelta");
-   else printf("ida");
+	int i,j;
+	system("cls");
+	printf("\n\t Viajes de %s\n\n",matricula);
+	for(i=0;i<l_viajes;i++)
+	{
+		if(strcmp(m_viajes[i].matricula,matricula)==0)
+  		{
+   			if(m_viajes[i].ida_vuelta==0) printf("vuelta");
+   			else printf("ida");
    
-   printf("\n%i/%i/%i\t",m_viajes[i].Fecha_inicio[0],m_viajes[i].Fecha_inicio[1],m_viajes[i].Fecha_inicio[2]);
-   printf("de %i:%i hasta %i:%i",m_viajes[i].Hora_inicio[0],m_viajes[i].Hora_inicio[1],m_viajes[i].Hora_final[0],m_viajes[i].Hora_final[1]);
-  }
- }
-}*/
+  			printf("\n%i/%i/%i\t",m_viajes[i].Fecha_inicio[0],m_viajes[i].Fecha_inicio[1],m_viajes[i].Fecha_inicio[2]);
+  			printf("de %i:%i hasta %i:%i\n",m_viajes[i].Hora_inicio[0],m_viajes[i].Hora_inicio[1],m_viajes[i].Hora_final[0],m_viajes[i].Hora_final[1]);
+  			for(j=0;j<l_pasos;j++)
+  			{
+  				if(m_viajes[i].id_viaje==m_pasos[j].id_viaje) printf("%s\n",m_pasos[j].poblacion);
+			}
+			printf("\n");
+		}
+	}
+ 	printf("Escriba un caracter para Volver: ");
+ 	scanf("%i",&j);
+}

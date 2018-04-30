@@ -7,7 +7,7 @@
 void mostrar_lista_vehiculos()
 {
 	int i;
-	for(i=0;i<l_vehiculos;i++)
+	for(i=0;i<l_vehiculos;i++) //Ciclo que imprime por pantalla cada uno de los atributos de los elementos de m_vehiculos
 	{
 		printf("elemento %i:\n",i);
 		printf("Matricula: %s\n",m_vehiculos[i].matricula);

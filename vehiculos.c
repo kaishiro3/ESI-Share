@@ -26,7 +26,8 @@ void menu_usuario_vehiculos(int id_Usuario)
 		i=j=0;
 		system("cls"); // Limpia la pantalla
 		printf("\n\t Mis Vehiculos\n\n"); //Titulo del menú
-		while(i<l_vehiculos && m_vehiculos[i].id_Usuario!=id_Usuario) i++;
+		
+		while(i<l_vehiculos && m_vehiculos[i].id_Usuario!=id_Usuario) i++; //Ciclo que guarda en i la posición del primer elemento de id_Usuario si existe, si marca la ultima posición del bucle
 		while(i<l_vehiculos && m_vehiculos[i].id_Usuario==id_Usuario)
 			{
 			j++;

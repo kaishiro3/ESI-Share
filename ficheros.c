@@ -74,7 +74,6 @@ void guardar_ficheros()
 	guardar_fich_viajes();
 	guardar_fich_pasos();
 	guardar_fich_incidencias();
-	printf("Fuego al hampa");
 }
 void guardar_fich_usuarios()
 {
@@ -176,7 +175,7 @@ else
 		fputc('-',fich);
 
 		escribir_int_fich(m_viajes[i].precio,1,fich);
-		fprintf(fich,"€-");
+		fprintf(fich,"�-");
 
 		switch (m_viajes[i].estado)
 		{

@@ -109,7 +109,6 @@ if(r==1){
     fflush(stdin);
     fgets(m_usuarios[indice].nombre,21,stdin);
     fix_string(m_usuarios[indice].nombre,21);
-    //m_usuarios[indice].nombre=nombre;
 }
 if(r==2){
 
@@ -117,7 +116,6 @@ if(r==2){
     fflush(stdin);
     fgets(m_usuarios[indice].poblacion,21,stdin);
     fix_string(m_usuarios[indice].poblacion,21);
-    //m_usuarios[indice].poblacion=poblacion;
 }
 if(r==3){
     puts("\n Modifique el perfil");
@@ -132,7 +130,6 @@ if(r==4){
     fflush(stdin);
     fgets(m_usuarios[indice].password,9,stdin);
     fix_string(m_usuarios[indice].password,9);
-    //m_usuarios[indice].password=password;
 }
 if(r==5){
     puts("Introduce estado");

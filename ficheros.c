@@ -4,14 +4,20 @@
 #include<stdlib.h>
 #include"ficheros.h"
 
-//	Descripcion: lee la siguiente palabra en el fichero
-//	Precondicion: fichero ya abierto en la palabre que quiere ser leida
+//Precondicion: fichero ya abierto en la palabre que quiere ser leida
 //y en lon la longitudad maxima que acepta cadena
-//	Postcondicion: lee la desde la posicion del puntero fich en el fichero hasta que encuentra un guion
-//hasta que encuentra un guion y guarda la cadena sin el guion en la raiable cadena
-
+//Postcondicion: lee la desde la posicion del puntero fich en el fichero hasta que
+//encuentra un guion guarda la cadena sin el guion en la variable cadena
 static void leer_string_fich(char * cadena, int lon, FILE * fich);
+
+//Precondicion: fichero ya abierto en el numero que quiere ser leido
+//y en digitos la cantidad de digitos que tiene el numero en el fichero
+//Postcondicion: Transforma de ASCII a entero un numero con una cantidad de digitos predefinida
 static int leer_int_fich(int digitos,FILE * fich);
+
+//Precondicion: fichero ya abierto en la posicion que se va escribir, numero inicializado
+//y en digitos la cantidad de digitos con la que se va a escribir (mayor o igual)
+//Postcondicion: Guarda en el fichero, transformando de entero a ASCII, un numero con una cantidad de digitos predefinida
 static void escribir_int_fich(int numero,int digitos,FILE * fich);
 
 void leer_string_fich(char * cadena, int lon,FILE * fich)
@@ -21,28 +27,36 @@ void leer_string_fich(char * cadena, int lon,FILE * fich)
 	do
 	{
             aux=fgetc(fich);
-            if(aux!='-') cadena[j]=aux;
+            if(aux!='-') cadena[j]=aux; //Sentencia if que reemplaza un guion con '\0'
             else cadena[j]='\0';
             j++;
-    }while(aux!='-' && j<lon);
+    }while(aux!='-' && j<lon); //El bucle se repetira hasta que se encuentre un guion o se supere la cantidad de caracteres maxima
 }
 
 int leer_int_fich(int digitos,FILE * fich)
 {
-	int i,aux=0;
-	for(i=pow(10,digitos-1);i>0;i=i/10) //Procedimiento para leer el id de Usuario
+	int i,numero=0;
+	//Bucle que inicaliza la potencia de base 10 del orden del digito mas significativo, la cual se divide
+	//para obtener la de los digitos consecutivos hasta que se han leido todos
+	for(i=pow(10,digitos-1);i>0;i=i/10) 
     {
-    	aux=aux+((fgetc(fich)-48)*i);
+    	//Transformacion de ASCII a entero caracter por caracter
+    	//sumando cada digito multiplicado por su posicion que es una potencia de base 10 (pow(10,digitos-1))
+    	numero=numero+((fgetc(fich)-48)*i); 
     }
-    return aux;
+    return numero;
 }
 
 void escribir_int_fich(int numero,int digitos,FILE * fich)
 {
 	int i,aux=0;
-	for(i=pow(10,digitos-1);i>0;i=i/10) //Procedimiento para leer cada uno de los digitos de mayor a menor importancia
+	//Bucle que inicaliza la potencia de base 10 del orden del digito mas significativo, la cual se divide
+	//para obtener la de los digitos consecutivos hasta que se han leido todos
+	for(i=pow(10,digitos-1);i>0;i=i/10)
     {
-    	fputc((numero/i)+48,fich);
+    	//Transformacion de entero a ASCII digito por digito
+    	//restando al numero inicial cada digito multiplicado por su posicion que es una potencia de base 10 (pow(10,digitos-1))
+		fputc((numero/i)+48,fich);
 		numero=numero-((numero/i)*i);
     }
 }
@@ -50,9 +64,10 @@ void escribir_int_fich(int numero,int digitos,FILE * fich)
 void fix_string(char *cadena,int lon)
 {
 	int i=0;
+	//Se repite el bucle hasta llegar al caracter final o a la posicion maxima permitida
 	while(cadena[i]!='\n' && cadena[i]!='\0' && i<lon-1)
 	{
-		if(cadena[i]=='-') cadena[i]=' ';
+		if(cadena[i]=='-') cadena[i]=' '; //Se reemplazan los guiones con espacios para que el programa no falle al cargar los ficheros
 		i++;
 	}
 	cadena[i]='\0';
@@ -84,7 +99,7 @@ if ((fich = fopen("Usuarios.txt", "w")) == NULL) {
 }
 else
 {
-	for(i=0;i<l_usuarios;i++)
+	for(i=0;i<l_usuarios;i++) //Bucle que guarda en el fichero, cada elemento del vector consecutivamente
 	{
 		escribir_int_fich(m_usuarios[i].id_Usuario,4,fich);
 		fprintf(fich,"-%s-%s-",m_usuarios[i].nombre,m_usuarios[i].poblacion);
@@ -103,7 +118,7 @@ else
 }
 
 
-void guardar_fich_vehiculos()
+void guardar_fich_vehiculos() 
 {
 	FILE *fich;
 	int i,j;
@@ -114,7 +129,7 @@ if ((fich = fopen("Vehiculos.txt", "w")) == NULL) {
 else
 {
 
-	for(i=0;i<l_vehiculos;i++)
+	for(i=0;i<l_vehiculos;i++) //Bucle que guarda en el fichero, cada elemento del vector consecutivamente
 	{
 		for(j=0;j<7;j++)
 		{
@@ -141,7 +156,7 @@ if ((fich = fopen("Viajes.txt", "w")) == NULL) {
 }
 else
 {
-	for(i=0;i<l_viajes;i++)
+	for(i=0;i<l_viajes;i++) //Bucle que guarda en el fichero, cada elemento del vector consecutivamente
 	{
 		escribir_int_fich(m_viajes[i].id_viaje,6,fich);
 		fputc('-',fich);
@@ -175,7 +190,7 @@ else
 		fputc('-',fich);
 
 		escribir_int_fich(m_viajes[i].precio,1,fich);
-		fprintf(fich,"�-");
+		fprintf(fich,"€-");
 
 		switch (m_viajes[i].estado)
 		{
@@ -211,7 +226,7 @@ if ((fich = fopen("Pasos.txt", "w")) == NULL) {
 }
 else
 {
-	for(i=0;i<l_pasos;i++)
+	for(i=0;i<l_pasos;i++) //Bucle que guarda en el fichero, cada elemento del vector consecutivamente
 	{
 		escribir_int_fich(m_pasos[i].id_viaje,6,fich);
 		fprintf(fich,"-%s",m_pasos[i].poblacion);
@@ -230,7 +245,7 @@ if ((fich = fopen("Incidencias.txt", "w")) == NULL) {
 }
 else
 {
-	for(i=0;i<l_incidencias;i++)
+	for(i=0;i<l_incidencias;i++) //Bucle que guarda en el fichero, cada elemento del vector consecutivamente
 	{
 		escribir_int_fich(m_incidencias[i].id_viaje,6,fich);
 		fputc('-',fich);
@@ -267,48 +282,60 @@ void cargar_fich_usuarios(usuarios **m_usuarios,int *lon)
 	else
 	{
 		*lon=0;
-		do
+		i=fgetc(fich);
+		printf("%c",i);
+		if(i!=EOF) //Sentencia If que chequea si el fichero esta vacio
 		{
-			i=fgetc(fich);
-			if(i=='\n' || i==EOF) *lon=*lon+1;
-		}while(i!=EOF);
-		rewind(fich);
-		if(((*m_usuarios)=(usuarios *)malloc((*lon)*sizeof(usuarios)))==NULL) puts("No hay espacio suficiente");
+			do
+			{
+				i=fgetc(fich);
+				if(i=='\n' || i==EOF) *lon=*lon+1;
+			}while(i!=EOF);
+			rewind(fich);
+			//Redistribucion de la memoria del vector
+			if(((*m_usuarios)=(usuarios *)malloc((*lon)*sizeof(usuarios)))==NULL) puts("No hay espacio suficiente");
+			else
+    	    {
+     	       	for(i=0;i<*lon;i++) //Bucle que carga del fichero, cada elemento del vector consecutivamente
+				{
+					(*m_usuarios)[i].id_Usuario=leer_int_fich(4,fich);
+            		fseek(fich,1,SEEK_CUR); //Omision del guion
+            		leer_string_fich((*m_usuarios)[i].nombre,21,fich);
+             	   leer_string_fich((*m_usuarios)[i].poblacion,21,fich);
+
+					j=0;
+            		do //Procedimiento para leer el perfil
+            		{
+            		    aux=fgetc(fich);
+            		    if(aux!='-') aux2[j]=aux;
+            		    else aux2[j]='\0';
+            		    j++;
+            		}while(aux!='-' && j<16);
+            		if(strcmp(aux2,"usuario")==0)
+            		(*m_usuarios)[i].perfil=0;
+            		else (*m_usuarios)[i].perfil=1;
+            		j=0;
+            		leer_string_fich((*m_usuarios)[i].user,6,fich);
+            	    leer_string_fich((*m_usuarios)[i].password,9,fich);
+
+            		do //Procedimiento para leer el estado
+            		{
+            		    aux=fgetc(fich);
+            		    if(aux!='\n' && aux!=EOF && aux!='\0') aux2[j]=aux;
+            		    else aux2[j]='\0';
+            		    j++;
+            		}while(j<16 && aux!='\0' && aux!='\n' && aux!=EOF);
+            		if(strcmp(aux2,"activo")==0) (*m_usuarios)[i].estado=1;
+            		else (*m_usuarios)[i].estado=0;
+        		}
+    		}
+		}
 		else
-        {
-            for(i=0;i<*lon;i++)
-            {
-				(*m_usuarios)[i].id_Usuario=leer_int_fich(4,fich);
-            	fseek(fich,1,SEEK_CUR); //Omision del guion
-            	leer_string_fich((*m_usuarios)[i].nombre,21,fich);
-                leer_string_fich((*m_usuarios)[i].poblacion,21,fich);
-
-				j=0;
-            	do //Procedimiento para leer el perfil
-            	{
-            	    aux=fgetc(fich);
-            	    if(aux!='-') aux2[j]=aux;
-            	    else aux2[j]='\0';
-            	    j++;
-            	}while(aux!='-' && j<16);
-            	if(strcmp(aux2,"usuario")==0)
-            	(*m_usuarios)[i].perfil=0;
-            	else (*m_usuarios)[i].perfil=1;
-            	j=0;
-            	leer_string_fich((*m_usuarios)[i].user,6,fich);
-                leer_string_fich((*m_usuarios)[i].password,9,fich);
-
-            	do //Procedimiento para leer el estado
-            	{
-            	    aux=fgetc(fich);
-            	    if(aux!='\n' && aux!=EOF && aux!='\0') aux2[j]=aux;
-            	    else aux2[j]='\0';
-            	    j++;
-            	}while(j<16 && aux!='\0' && aux!='\n' && aux!=EOF);
-            	if(strcmp(aux2,"activo")==0) (*m_usuarios)[i].estado=1;
-            	else (*m_usuarios)[i].estado=0;
-        	}
-    	}
+		{
+			(*m_usuarios)=(usuarios *)malloc(1*sizeof(usuarios));
+			puts("No hay usuarios");
+		}
+		
 	fclose (fich);
     }
 }
@@ -323,35 +350,44 @@ void cargar_fich_vehiculos(vehiculos **m_vehiculos,int *lon)
 	else
 	{
 		*lon=0;
-		do
+		i=fgetc(fich);
+		if(i!=EOF) //Sentencia If que chequea si el fichero esta vacio
 		{
-			i=fgetc(fich);
-			if(i=='\n' || i==EOF) *lon=*lon+1;
-		}while(i!=EOF);
-		rewind(fich);
-		if(((*m_vehiculos)=(vehiculos *)malloc((*lon)*sizeof(vehiculos)))==NULL) puts("No hay espacio suficiente");
+			do
+			{
+				i=fgetc(fich);
+				if(i=='\n' || i==EOF) *lon=*lon+1;
+			}while(i!=EOF);
+			rewind(fich);
+			//Redistribucion de la memoria del vector
+			if(((*m_vehiculos)=(vehiculos *)malloc((*lon)*sizeof(vehiculos)))==NULL) puts("No hay espacio suficiente");
+			else
+        	{
+         	   for(i=0;i<*lon;i++) //Bucle que carga del fichero, cada elemento del vector consecutivamente
+         	   {
+					leer_string_fich((*m_vehiculos)[i].matricula,8,fich);; //Lee la matricula
+	
+            		(*m_vehiculos)[i].id_Usuario=leer_int_fich(4,fich);
+              	  fseek(fich,1,SEEK_CUR);
+
+            	    (*m_vehiculos)[i].plazas=fgetc(fich)-48; //Lee el numero de plazas que es un solo digito
+            	    fseek(fich,1,SEEK_CUR);
+
+            	    j=0;
+            	    do //Procedimiento para leer la definicion
+            	    {
+            	        aux=fgetc(fich);
+                	    if(aux!='\n' && aux!=EOF) (*m_vehiculos)[i].definicion[j]=aux;
+                	    else (*m_vehiculos)[i].definicion[j]='\0';
+                	    j++;
+                	}while(aux!='\0' && aux!='\n' && aux!=EOF && j<=50);
+            	}
+        	}
+		}
 		else
-        {
-            for(i=0;i<*lon;i++)
-            {
-                leer_string_fich((*m_vehiculos)[i].matricula,8,fich);; //Lee la matricula
-
-                (*m_vehiculos)[i].id_Usuario=leer_int_fich(4,fich);
-                fseek(fich,1,SEEK_CUR);
-
-                (*m_vehiculos)[i].plazas=fgetc(fich)-48; //Lee el numero de plazas que es un solo digito
-                fseek(fich,1,SEEK_CUR);
-
-                j=0;
-                do //Procedimiento para leer la definicion
-                {
-                    aux=fgetc(fich);
-                    if(aux!='\n' && aux!=EOF) (*m_vehiculos)[i].definicion[j]=aux;
-                    else (*m_vehiculos)[i].definicion[j]='\0';
-                    j++;
-                }while(aux!='\0' && aux!='\n' && aux!=EOF && j<=50);
-            }
-        }
+		{
+			(*m_vehiculos)=(vehiculos *)malloc(1*sizeof(vehiculos));
+		}
 	fclose (fich);
     }
 }
@@ -366,86 +402,95 @@ void cargar_fich_viajes(viajes **m_viajes,int *lon)
 	else
 	{
 		*lon=0;
-		do
+		i=fgetc(fich);
+		if(i!=EOF) //Sentencia If que chequea si el fichero esta vacio
 		{
-			i=fgetc(fich);
-			if(i=='\n' || i==EOF) *lon=*lon+1;
-		}while(i!=EOF);
-		rewind(fich);
-		if(((*m_viajes)=(viajes *)malloc((*lon)*sizeof(viajes)))==NULL) puts("No hay espacio suficiente");
-		else
-        {
-            for(i=0;i<*lon;i++)
-            {
-				(*m_viajes)[i].id_viaje=leer_int_fich(6,fich);
-				fseek(fich,1,SEEK_CUR); //Omision del guion
+			do
+			{
+				i=fgetc(fich);
+				if(i=='\n' || i==EOF) *lon=*lon+1;
+			}while(i!=EOF);
+			rewind(fich);
+			//Redistribucion de la memoria del vector
+			if(((*m_viajes)=(viajes *)malloc((*lon)*sizeof(viajes)))==NULL) puts("No hay espacio suficiente");
+			else
+        	{
+        	    for(i=0;i<*lon;i++) //Bucle que carga del fichero, cada elemento del vector consecutivamente
+        	    {
+					(*m_viajes)[i].id_viaje=leer_int_fich(6,fich);
+					fseek(fich,1,SEEK_CUR); //Omision del guion
 
-				leer_string_fich((*m_viajes)[i].matricula,8,fich);; //Lee la matricula
+					leer_string_fich((*m_viajes)[i].matricula,8,fich);; //Lee la matricula
 
-				(*m_viajes)[i].id_usuario=-1;
-				j=0;
-				while(j<l_vehiculos && (*m_viajes)[i].id_usuario==-1)
-				{
-				if(strcmp(m_vehiculos[j].matricula,(*m_viajes)[i].matricula)==0) (*m_viajes)[i].id_usuario=j;
-				j++;
-				}
-	
-            	(*m_viajes)[i].Fecha_inicio[0]=leer_int_fich(2,fich);
-            	fseek(fich,1,SEEK_CUR);
-            	(*m_viajes)[i].Fecha_inicio[1]=leer_int_fich(2,fich);
-            	fseek(fich,1,SEEK_CUR);
-            	(*m_viajes)[i].Fecha_inicio[2]=leer_int_fich(4,fich);
-            	fseek(fich,1,SEEK_CUR);
-
-            	(*m_viajes)[i].Hora_inicio[0]=leer_int_fich(2,fich);
-            	fseek(fich,1,SEEK_CUR);
-            	(*m_viajes)[i].Hora_inicio[1]=leer_int_fich(2,fich);
-            	fseek(fich,1,SEEK_CUR);
-            	(*m_viajes)[i].Hora_final[0]=leer_int_fich(2,fich);
-            	fseek(fich,1,SEEK_CUR);
-            	(*m_viajes)[i].Hora_final[1]=leer_int_fich(2,fich);
-            	fseek(fich,1,SEEK_CUR);
-
-				(*m_viajes)[i].Plazas_libres=fgetc(fich)-48; //Lee el numero de plazas que es un solo digito
-				fseek(fich,1,SEEK_CUR);
-
-				j=0;
-            	do //Procedimiento para leer si es ida o vuelta
-            	{
-            	    aux=fgetc(fich);
-            	    if(aux!='-') aux2[j]=aux;
-            	    else aux2[j]='\0';
-            	    j++;
-            	}while(aux!='-' && j<7);
-            	if(strcmp(aux2,"ida")==0) (*m_viajes)[i].ida_vuelta=1;
-            	else (*m_viajes)[i].ida_vuelta=0;
-
-            	(*m_viajes)[i].precio=fgetc(fich)-48; //Lee el precio que es un solo digito
-            	fseek(fich,2,SEEK_CUR); //Omision del Guion y el simbolo del Euro
-
-				j=0;
-				do{
-            	    aux=fgetc(fich);
-            	    if(aux!='\n' && aux!=EOF) aux2[j]=aux;
-            	    else aux2[j]='\0';
-            	    j++;
-            	}while(j<16 && aux!='\0' && aux!='\n' && aux!=EOF);
-            	if(strcmp(aux2,"abierto")==0) (*m_viajes)[i].estado=0;
-            	else
-                {
-                    if(strcmp(aux2,"cerrado")==0) (*m_viajes)[i].estado=1;
-                    else
-                    {
-                    	if(strcmp(aux2,"finalizado")==0) (*m_viajes)[i].estado=2;
-                    	else
-						{
-                    		if(strcmp(aux2,"cancelado")==0) (*m_viajes)[i].estado=3;
-                    		else (*m_viajes)[i].estado=4;
-						}
+					(*m_viajes)[i].id_usuario=-1;
+					j=0;
+					while(j<l_vehiculos && (*m_viajes)[i].id_usuario==-1)
+					{
+					if(strcmp(m_vehiculos[j].matricula,(*m_viajes)[i].matricula)==0) (*m_viajes)[i].id_usuario=j;
+					j++;
 					}
-                }
-        	}
-    	}
+	
+            		(*m_viajes)[i].Fecha_inicio[0]=leer_int_fich(2,fich);
+            		fseek(fich,1,SEEK_CUR);
+            		(*m_viajes)[i].Fecha_inicio[1]=leer_int_fich(2,fich);
+            		fseek(fich,1,SEEK_CUR);
+            		(*m_viajes)[i].Fecha_inicio[2]=leer_int_fich(4,fich);
+            		fseek(fich,1,SEEK_CUR);
+
+            		(*m_viajes)[i].Hora_inicio[0]=leer_int_fich(2,fich);
+            		fseek(fich,1,SEEK_CUR);
+            		(*m_viajes)[i].Hora_inicio[1]=leer_int_fich(2,fich);
+            		fseek(fich,1,SEEK_CUR);
+            		(*m_viajes)[i].Hora_final[0]=leer_int_fich(2,fich);
+            		fseek(fich,1,SEEK_CUR);
+            		(*m_viajes)[i].Hora_final[1]=leer_int_fich(2,fich);
+            		fseek(fich,1,SEEK_CUR);
+
+					(*m_viajes)[i].Plazas_libres=fgetc(fich)-48; //Lee el numero de plazas que es un solo digito
+					fseek(fich,1,SEEK_CUR);
+
+					j=0;
+            		do //Procedimiento para leer si es ida o vuelta
+            		{
+            		    aux=fgetc(fich);
+            		    if(aux!='-') aux2[j]=aux;
+            		    else aux2[j]='\0';
+            		    j++;
+            		}while(aux!='-' && j<7);
+            		if(strcmp(aux2,"ida")==0) (*m_viajes)[i].ida_vuelta=1;
+            		else (*m_viajes)[i].ida_vuelta=0;
+
+            		(*m_viajes)[i].precio=fgetc(fich)-48; //Lee el precio que es un solo digito
+            		fseek(fich,2,SEEK_CUR); //Omision del Guion y el simbolo del Euro
+
+					j=0;
+					do{
+            		    aux=fgetc(fich);
+            		    if(aux!='\n' && aux!=EOF) aux2[j]=aux;
+            		    else aux2[j]='\0';
+            		    j++;
+            		}while(j<16 && aux!='\0' && aux!='\n' && aux!=EOF);
+            		if(strcmp(aux2,"abierto")==0) (*m_viajes)[i].estado=0;
+            		else
+            	    {
+            	        if(strcmp(aux2,"cerrado")==0) (*m_viajes)[i].estado=1;
+            	        else
+						{
+							if(strcmp(aux2,"finalizado")==0) (*m_viajes)[i].estado=2;
+                    		else
+							{
+                    			if(strcmp(aux2,"cancelado")==0) (*m_viajes)[i].estado=3;
+                    			else (*m_viajes)[i].estado=4;
+							}
+						}
+                	}
+        		}
+    		}
+		}
+		else
+		{
+			(*m_viajes)=(viajes *)malloc(1*sizeof(viajes));
+		}
 	fclose (fich);
     }
 }
@@ -460,30 +505,39 @@ void cargar_fich_pasos(pasos **m_pasos,int *lon)
 	else
 	{
 		*lon=0;
-		do
+		i=fgetc(fich);
+		if(i!=EOF) //Sentencia If que chequea si el fichero esta vacio
 		{
-			i=fgetc(fich);
-			if(i=='\n' || i==EOF) *lon=*lon+1;
-		}while(i!=EOF);
-		rewind(fich);
-		if(((*m_pasos)=(pasos *)malloc((*lon)*sizeof(pasos)))==NULL) puts("No hay espacio suficiente");
-		else
-        {
-            for(i=0;i<*lon;i++)
-            {
-                (*m_pasos)[i].id_viaje=leer_int_fich(6,fich);
-                fseek(fich,1,SEEK_CUR);
+			do
+			{
+				i=fgetc(fich);
+				if(i=='\n' || i==EOF) *lon=*lon+1;
+			}while(i!=EOF);
+			rewind(fich);
+			//Redistribucion de la memoria del vector
+			if(((*m_pasos)=(pasos *)malloc((*lon)*sizeof(pasos)))==NULL) puts("No hay espacio suficiente");
+			else
+        	{
+        	    for(i=0;i<*lon;i++) //Bucle que carga del fichero, cada elemento del vector consecutivamente
+        	    {
+					(*m_pasos)[i].id_viaje=leer_int_fich(6,fich);
+                	fseek(fich,1,SEEK_CUR);
 
-                j=0;
-                do //Procedimiento para leer la definicion
-                {
-                    aux=fgetc(fich);
-                    if(aux!='\n' && aux!=EOF) (*m_pasos)[i].poblacion[j]=aux;
-                    else (*m_pasos)[i].poblacion[j]='\0';
-                    j++;
-                }while(aux!='\0' && aux!='\n' && aux!=EOF && j<21);
-            }
-        }
+                	j=0;
+                	do //Procedimiento para leer la definicion
+                	{
+                	    aux=fgetc(fich);
+                	    if(aux!='\n' && aux!=EOF) (*m_pasos)[i].poblacion[j]=aux;
+                 	   	else (*m_pasos)[i].poblacion[j]='\0';
+						j++;
+                	}while(aux!='\0' && aux!='\n' && aux!=EOF && j<21);
+            	}
+        	}
+		}
+		else
+		{
+			(*m_pasos)=(pasos *)malloc(1*sizeof(pasos));
+		}
 	fclose (fich);
     }
 }
@@ -498,45 +552,53 @@ void cargar_fich_incidencias(incidencias **m_incidencias,int *lon)
 	else
 	{
 		*lon=0;
-		do
+		i=fgetc(fich);
+		if(i!=EOF) //Sentencia If que chequea si el fichero esta vacio
 		{
-			i=fgetc(fich);
-			if(i=='\n' || i==EOF) *lon=*lon+1;
-		}while(i!=EOF);
-		rewind(fich);
-		if(((*m_incidencias)=(incidencias *)malloc((*lon)*sizeof(incidencias)))==NULL) puts("No hay espacio suficiente");
+			do
+			{
+				i=fgetc(fich);
+				if(i=='\n' || i==EOF) *lon=*lon+1;
+			}while(i!=EOF);
+			rewind(fich);
+			//Redistribucion de la memoria del vector
+			if(((*m_incidencias)=(incidencias *)malloc((*lon)*sizeof(incidencias)))==NULL) puts("No hay espacio suficiente");
+			else
+        	{
+        	    for(i=0;i<*lon;i++) //Bucle que carga del fichero, cada elemento del vector consecutivamente
+        	    {
+            		(*m_incidencias)[i].id_viaje=leer_int_fich(6,fich);
+					fseek(fich,1,SEEK_CUR); //Omision del guion
+
+					(*m_incidencias)[i].id_us_registra=leer_int_fich(4,fich);
+            		fseek(fich,1,SEEK_CUR); //Omision del guion
+
+            		(*m_incidencias)[i].id_us_incidencia=leer_int_fich(4,fich);
+            		fseek(fich,1,SEEK_CUR); //Omision del guion
+
+            		leer_string_fich((*m_incidencias)[i].desc_incidencia,101,fich);
+
+					j=0;
+            		do //Procedimiento para leer el perfil
+            		{
+            		    aux=fgetc(fich);
+            		    if(aux!='\n' && aux!=EOF && aux!='\0') aux2[j]=aux;
+						else aux2[j]='\0';
+            		    j++;
+            		}while(j<16 && aux!='\0' && aux!='\n' && aux!=EOF);
+            		if(strcmp(aux2,"Abierta")==0) (*m_incidencias)[i].est_incidencia=0;
+            		else
+                	{
+                	    if(strcmp(aux2,"Validada")==0) (*m_incidencias)[i].est_incidencia=1;
+                	    else (*m_incidencias)[i].est_incidencia=2;
+                	}
+        		}
+    		}
+		}
 		else
-        {
-            for(i=0;i<*lon;i++)
-            {
-            	(*m_incidencias)[i].id_viaje=leer_int_fich(6,fich);
-				fseek(fich,1,SEEK_CUR); //Omision del guion
-
-				(*m_incidencias)[i].id_us_registra=leer_int_fich(4,fich);
-            	fseek(fich,1,SEEK_CUR); //Omision del guion
-
-            	(*m_incidencias)[i].id_us_incidencia=leer_int_fich(4,fich);
-            	fseek(fich,1,SEEK_CUR); //Omision del guion
-
-
-            	leer_string_fich((*m_incidencias)[i].desc_incidencia,101,fich);
-
-				j=0;
-            	do //Procedimiento para leer el perfil
-            	{
-            	    aux=fgetc(fich);
-            	    if(aux!='\n' && aux!=EOF && aux!='\0') aux2[j]=aux;
-            	    else aux2[j]='\0';
-            	    j++;
-            	}while(j<16 && aux!='\0' && aux!='\n' && aux!=EOF);
-            	if(strcmp(aux2,"Abierta")==0) (*m_incidencias)[i].est_incidencia=0;
-            	else
-                {
-                    if(strcmp(aux2,"Validada")==0) (*m_incidencias)[i].est_incidencia=1;
-                    else (*m_incidencias)[i].est_incidencia=2;
-                }
-        	}
-    	}
+		{
+			(*m_incidencias)=(incidencias *)malloc(1*sizeof(incidencias));
+		}
 	fclose (fich);
     }
 }

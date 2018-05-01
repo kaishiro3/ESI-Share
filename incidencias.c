@@ -127,7 +127,9 @@ void crear_inciden(incidencias **m_incidencias, viajes **m_viajes, int *lon, int
 				(*m_incidencias)[aux]=(*m_incidencias)[aux-1];
 				aux--;
 			}
-			modif_inciden((*m_incidencias),*lon,i,x);
+			(*m_incidencias)[i]=x);
 		}*/
 	}
 }
+void valid_inciden(incidencias **m_incidencias){
+	

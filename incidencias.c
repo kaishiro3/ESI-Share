@@ -155,5 +155,6 @@ void bloquear_usu(incidencias *m_incidencias, usuarios **m_usuarios, int id){
 		y.estado='Bloqueado';
 }
 
+
 		
 	

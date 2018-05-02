@@ -283,7 +283,6 @@ void cargar_fich_usuarios(usuarios **m_usuarios,int *lon)
 	{
 		*lon=0;
 		i=fgetc(fich);
-		printf("%c",i);
 		if(i!=EOF) //Sentencia If que chequea si el fichero esta vacio
 		{
 			do
@@ -330,11 +329,7 @@ void cargar_fich_usuarios(usuarios **m_usuarios,int *lon)
         		}
     		}
 		}
-		else
-		{
-			(*m_usuarios)=(usuarios *)malloc(1*sizeof(usuarios));
-			puts("No hay usuarios");
-		}
+		else puts("No se ha encontrado ningun usuario");
 		
 	fclose (fich);
     }
@@ -383,10 +378,6 @@ void cargar_fich_vehiculos(vehiculos **m_vehiculos,int *lon)
                 	}while(aux!='\0' && aux!='\n' && aux!=EOF && j<=50);
             	}
         	}
-		}
-		else
-		{
-			(*m_vehiculos)=(vehiculos *)malloc(1*sizeof(vehiculos));
 		}
 	fclose (fich);
     }
@@ -487,10 +478,6 @@ void cargar_fich_viajes(viajes **m_viajes,int *lon)
         		}
     		}
 		}
-		else
-		{
-			(*m_viajes)=(viajes *)malloc(1*sizeof(viajes));
-		}
 	fclose (fich);
     }
 }
@@ -533,10 +520,6 @@ void cargar_fich_pasos(pasos **m_pasos,int *lon)
                 	}while(aux!='\0' && aux!='\n' && aux!=EOF && j<21);
             	}
         	}
-		}
-		else
-		{
-			(*m_pasos)=(pasos *)malloc(1*sizeof(pasos));
 		}
 	fclose (fich);
     }
@@ -594,10 +577,6 @@ void cargar_fich_incidencias(incidencias **m_incidencias,int *lon)
                 	}
         		}
     		}
-		}
-		else
-		{
-			(*m_incidencias)=(incidencias *)malloc(1*sizeof(incidencias));
 		}
 	fclose (fich);
     }

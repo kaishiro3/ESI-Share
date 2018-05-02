@@ -19,7 +19,7 @@ void menu_usuario_vehiculos(int id_Usuario);
 void agregar_vehiculo(vehiculos **m_vehiculos,int *lon,int id);
 
 //Precondicion: m_vehiculos y matricula inicializados y en lon la longitud de m_vehiculos.
-//Descripcion: Elimina de m_vehiculos el elemento que le corresponde el valor de indice.
+//Postcondicion: Elimina de m_vehiculos el elemento que le corresponde el valor de indice.
 void borrar_vehiculo(vehiculos **m_vehiculos,int *lon,int indice);
 
 //Precondicion: matricula inicializada.

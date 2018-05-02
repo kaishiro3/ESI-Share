@@ -87,42 +87,42 @@ void cargar_ficheros();
 //Postcondicion: Sobrescribe todos los ficheros con los datos de los vectores globales
 void guardar_ficheros();
 
-//Descripcion: Lee el fichero "Vehiculos.txt" y devuelve en m_vehiculos
+//Postcondicion: Lee el fichero "Vehiculos.txt" y devuelve en m_vehiculos
 //cada uno de los elementos y en l_vehiculos la cantidad de elementos
 void cargar_fich_vehiculos(vehiculos **,int *);
 
 //Precondicion: m_vehiculos inicializado y en l_vehiculos la longitud
-//Descripcion: Sobrescribe "Vehiculos.txt" con los datos de m_vehiculos
+//Postcondicion: Sobrescribe "Vehiculos.txt" con los datos de m_vehiculos
 void guardar_fich_vehiculos();
 
-//Descripcion: Lee el fichero "Usuarios.txt" y devuelve en m_usuarios
+//Postcondicion: Lee el fichero "Usuarios.txt" y devuelve en m_usuarios
 //cada uno de los elementos y en l_usuarios la cantidad de elementos.
 void cargar_fich_usuarios(usuarios **,int *);
 
 //Precondicion: m_vehiculos inicializado y en l_usuarios la longitud
-//Descripcion: Sobrescribe "Usuarios.txt" con los datos de m_usuarios.
+//Postcondicion: Sobrescribe "Usuarios.txt" con los datos de m_usuarios.
 void guardar_fich_usuarios();
 
-//Descripcion: Lee el fichero "Incidencias.txt" y devuelve en m_incidencias
+//Postcondicion: Lee el fichero "Incidencias.txt" y devuelve en m_incidencias
 //cada uno de los elementos y en l_incidencias la cantidad de elementos.
 void cargar_fich_incidencias(incidencias **,int *);
 
 //Precondicion: m_incidencias inicializado y en l_incidencias la longitud.
-//Descripcion: Sobrescribe "Incidencias.txt" con los datos de m_incidencias.
+//Postcondicion: Sobrescribe "Incidencias.txt" con los datos de m_incidencias.
 void guardar_fich_incidencias();
 
-//Descripcion: Lee el fichero "Viajes.txt" y devuelve en m_viajes
+//Postcondicion: Lee el fichero "Viajes.txt" y devuelve en m_viajes
 //cada uno de los elementos y en l_viajes la cantidad de elementos.
 void cargar_fich_viajes(viajes **m_viajes, int *lon);
 
 //Precondicion: m_viajes inicializado y en l_viajes la longitud.
-//Descripcion: Sobrescribe "Viajes.txt" con los datos de m_viajes.
+//Postcondicion: Sobrescribe "Viajes.txt" con los datos de m_viajes.
 void guardar_fich_viajes();
 
-//Descripcion: Lee el fichero "Pasos.txt" y devuelve en m_pasos
+//Postcondicion: Lee el fichero "Pasos.txt" y devuelve en m_pasos
 //cada uno de los elementos y en l_pasos la cantidad de elementos.
 void cargar_fich_pasos(pasos **m_pasos,int *lon);
 
 //Precondicion: m_pasos inicializado y en l_viajes la longitud.
-//Descripcion: Sobrescribe "Pasos.txt" con los datos de m_pasos.
+//Postcondicion: Sobrescribe "Pasos.txt" con los datos de m_pasos.
 void guardar_fich_pasos();

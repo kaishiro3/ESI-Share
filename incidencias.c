@@ -131,5 +131,29 @@ void crear_inciden(incidencias **m_incidencias, viajes **m_viajes, int *lon, int
 		}*/
 	}
 }
-void valid_inciden(incidencias **m_incidencias){
+
+void valid_inciden(incidencias **m_incidencias, int lon){
+	
+	int i;
+	for(i=0;i<lon;i++)
+	{
+		if(strcmp(*m_incidencias[i].est_incidencia,'Abierta')==0)
+		        printf("Id del viaje: %d \n Id del usuario que registra: %d \n Id del usuario sobre el que recae: %d \n Descripcion: %s \n Estado: %s \n",m_incidencias[i].id_viaje,m_incidencias[i].id_us_registra,m_incidencias[i].id_us_incidencia,m_incidencias[i].desc_incidencia,m_incidencias[i].est_incidencia);
+}
+}
+
+void bloquear_usu(incidencias *m_incidencias, usuarios **m_usuarios, int id){
+	
+	incidencias x;
+	usuarios y;
+	int cont=0;
+	while(cont<3){
+		if(strcmp(x[i].est_incidencia,'Validada')==0)
+			cont++;
+	}
+	if(cont=3)
+		y.estado='Bloqueado';
+}
+
+		
 	

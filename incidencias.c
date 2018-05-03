@@ -64,7 +64,17 @@ case 6:
 
 void modif_inciden(incidencias *m_incidencias, int lon, int i, incidencias modif){
 
-    m_incidencias[i]=modif;
+	int i;
+	system("cls");
+	for(i=0;i<*lon;i++){
+        printf("Id del viaje: %d \n Id del usuario que registra: %d \n Id del usuario sobre el que recae: %d \n Descripcion: %s \n Estado: %s \n",m_incidencias[i].id_viaje,m_incidencias[i].id_us_registra,m_incidencias[i].id_us_incidencia,m_incidencias[i].desc_incidencia,m_incidencias[i].est_incidencia);
+}
+	do{
+		printf("Introduce el id del viaje: ");
+		scanf("%d", &a);
+		printf("Introduce el id del usuario que registra la incidencia: ");
+		scanf("%d", &b);
+	}while(a!=m_incidencias[i].id_viaje || b!=m_incidencias[i].id_us_registra);
 }
 
 void list_inciden(int *lon){
@@ -138,7 +148,7 @@ void valid_inciden(incidencias **m_incidencias, int lon){
 	for(i=0;i<lon;i++)
 	{
 		if(strcmp(*m_incidencias[i].est_incidencia,'Abierta')==0)
-		        printf("Id del viaje: %d \n Id del usuario que registra: %d \n Id del usuario sobre el que recae: %d \n Descripcion: %s \n Estado: %s \n",m_incidencias[i].id_viaje,m_incidencias[i].id_us_registra,m_incidencias[i].id_us_incidencia,m_incidencias[i].desc_incidencia,m_incidencias[i].est_incidencia);
+		        printf("%d.Id del viaje: %d \n Id del usuario que registra: %d \n Id del usuario sobre el que recae: %d \n Descripcion: %s \n Estado: %s \n",m_incidencias[i].id_viaje,m_incidencias[i].id_us_registra,m_incidencias[i].id_us_incidencia,m_incidencias[i].desc_incidencia,m_incidencias[i].est_incidencia);
 }
 }
 
